@@ -1,0 +1,14 @@
+If you don't already have mongodb, install it with:
+
+'brew install mongodb'
+
+Run mongodb with:
+
+mongod --dbpath /path/to/project/data
+
+Now start the server:
+
+npm install
+
+npm start
+
