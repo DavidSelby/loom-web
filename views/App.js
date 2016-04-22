@@ -1,0 +1,18 @@
+import React from 'react'
+import { render } from 'react-dom'
+import NavLink from './NavLink'
+
+export default React.createClass({
+  render() {
+    return (
+      <div>
+        <h1>Arachne</h1>
+        <ul role="nav">
+          <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
+          <li><NavLink to="/features"></NavLink></li>
+        </ul>
+        {this.props.children}
+      </div>
+    )
+  }
+})

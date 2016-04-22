@@ -47,4 +47,17 @@ module.exports = function(app){
 			});
 		});
 	});
+
+	// Delete all feature files
+	app.delete('/api/features', function(req, res) {
+		Feature.remove(function(err, features) {
+			if (err)
+				res.send(err);
+			Feature.find(function(err, features) {
+				if (err)
+					res.send(err);
+				res.json(features);
+			});
+		});
+	});
 }
