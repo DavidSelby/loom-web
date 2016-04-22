@@ -14,18 +14,22 @@ module.exports = function(app){
 	// Create new feature file
 	app.post('/api/features', function(req, res) {
 		Feature.create({
+			path : req.body.path,
 			feature : req.body.feature,
-			content : req.body.content,
+			scenarios : req.body.scenarios,
 			tags : req.body.tags
 		}, function(err, feature) {
-			if(err)
-				res.send(err)
-
-			Feature.find(function(err, features) {
-				if (err)
-					res.send(err)
-				res.json(features);
-			});
+			if(err) {
+				res.send(err);
+				// console.log('Error: ', err);
+			}
+			else {
+				Feature.find(function(err, features) {
+					if (err)
+						res.send(err)
+					res.json(features);
+				});
+			}
 		});
 	});
 

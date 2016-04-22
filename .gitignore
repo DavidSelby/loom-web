@@ -1,2 +1,7 @@
 node_modules/*
 npm-debug.log
+.DS_Store
+.babelrc
+index.js
+public/index.js
+views/
