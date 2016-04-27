@@ -47,4 +47,17 @@ module.exports = function(app){
 			});
 		});
 	});
+
+	// Delete all device
+	app.delete('/api/devices/', function(req, res) {
+		Device.remove(function(err, devices) {
+			if (err)
+				res.send(err);
+			Device.find(function(err, devices) {
+				if (err)
+					res.send(err);
+				res.json(devices);
+			});
+		});
+	});
 }
