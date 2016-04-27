@@ -4,7 +4,8 @@
   "description": "Web server for running tests and viewing results",
   "main": "server.js",
   "scripts": {
-    "start": "browserify -t babelify --standalone main public/index.js -o public/main.js && node server.js"
+    "postinstall": "browserify -t babelify --standalone main public/index.js -o public/main.js",
+    "start": "node server.js"
   },
   "author": "David Selby",
   "dependencies": {
