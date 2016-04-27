@@ -38,7 +38,7 @@ module.exports = function(app){
 		Device.findByIdAndUpdate(req.params.device_id, {
 			$set: {
 				status : req.params.status
-			};
+			}
 		}, function(err, devices) {
 			if (err)
 				res.send(err);
