@@ -33,6 +33,23 @@ module.exports = function(app){
 		});
 	});
 
+	// Update status of device
+	app.post('/api/devices/:device_id/:status', function(req, res) {
+		Device.findByIdAndUpdate(req.params.device_id, {
+			$set: {
+				status : req.params.status
+			};
+		}, function(err, devices) {
+			if (err)
+				res.send(err);
+			Device.find(function(err, devices) {
+				if (err)
+					res.send(err);
+				res.json(devices);
+			});
+		});
+	});
+
 	// Delete device
 	app.delete('/api/devices/:device_id', function(req, res) {
 		Device.remove({
