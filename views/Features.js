@@ -52,7 +52,7 @@ var FeatureList = React.createClass({
 
 export default React.createClass({
 	loadFeaturesFromServer: function() {
-		this.serverRequest = $.get('http://localhost:8080/api/features', function (result) {
+		this.serverRequest = $.get('/api/features', function (result) {
 	    	this.setState({
 	    		data: result
 	    	});
