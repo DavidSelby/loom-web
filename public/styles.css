@@ -1,0 +1,28 @@
+.panel-heading.device-header-ios {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #3867b7;
+}
+
+.device-type-ios {
+	display: inline;
+	color: #76a4ed;
+
+}
+
+.panel-heading.device-header-android {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #225e0e;
+}
+
+.device-type-android {
+	display: inline;
+	color: #74ba5d;
+}
+
+.device-name {
+	display:inline;
+	padding-left: 20px;
+	color: #FFF;
+}
