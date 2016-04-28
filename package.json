@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "postinstall": "browserify -t babelify --standalone main public/index.js -o public/main.js",
+    "build": "browserify -t babelify --standalone main public/index.js -o public/main.js",
     "start": "node server.js"
   },
   "author": "David Selby",
@@ -23,6 +24,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^6.3.0",
-    "browserify": "^8.0.3"
+    "browserify": "^8.0.3",
+    "bootstrap": "~3.3.6"
   }
 }

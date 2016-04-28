@@ -6,7 +6,7 @@ import Features from './Features'
 export default React.createClass({
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Arachne</h1>
         <ul role="nav">
           <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>

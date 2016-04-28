@@ -8,8 +8,8 @@ var Scenario = React.createClass({
 	render: function() {
 		return (
 			<tr>
-				<td>{this.props.scenario.scenario}</td>
-				<td><p>{this.props.scenario.lineNum}</p></td>
+				<td className="text-­success lead">{this.props.scenario.scenario}</td>
+				<td className="line-num text-­muted small">{this.props.scenario.lineNum}</td>
 			</tr>
 		)
 	}
@@ -19,16 +19,20 @@ var Feature = React.createClass({
   render: function() {
   	var scenarios = this.props.feature.scenarios.map(function(scenario) {
   		return (
-  			<Scenario scenario={scenario} />
+  			<Scenario scenario={scenario} key={scenario._id}/>
   		);
     });
     return (
       <div className="feature">
-        <h4>{this.props.feature.feature}</h4>
+        <h4>
+        	<a class="btn btn-info" href={"#feat-"+this.props.feature._id} data-toggle="collapse">{this.props.feature.feature}</a>
+        </h4>
         <p className="featureTitle">{this.props.feature.path}</p>
-        <ul>
-   			{scenarios}
-        </ul>
+        <table className="collapse" id={"feat-" + this.props.feature._id}>
+        	<tbody>
+   				{scenarios}
+   			</tbody>
+        </table>
       </div>
     );
   }

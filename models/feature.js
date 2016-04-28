@@ -5,7 +5,8 @@ module.exports = mongoose.model('Feature', {
 	feature : String,
 	scenarios : [{
 		scenario : String,
-		lineNum : Number
+		lineNum : Number,
+		steps : Array
 	}],
 	tags : [{
 		tag : String,
