@@ -7,11 +7,11 @@ export default React.createClass({
   render() {
     return (
       <div className="container">
-        <h1>Arachne</h1>
-        <ul role="nav">
+        <ul className="nav nav-tabs" role="nav">
           <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
           <li><NavLink to="/features">Features</NavLink></li>
         </ul>
+        <h1>Arachne</h1>
         {this.props.children}
       </div>
     )

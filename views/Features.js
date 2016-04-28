@@ -75,7 +75,7 @@ export default React.createClass({
 	render: function() {
 		return (
 			<div className="featureBlock">
-				<h1>Feature List</h1>
+				<h2>Feature List</h2>
 	            <FeatureList data={this.state.data}>
 	            </FeatureList>
       		</div>
