@@ -8,8 +8,8 @@ var Scenario = React.createClass({
 	render: function() {
 		return (
 			<tr>
-				<td className="text-­success lead">{this.props.scenario.scenario}</td>
-				<td className="line-num text-­muted small">{this.props.scenario.lineNum}</td>
+				<td className="text-success">{this.props.scenario.scenario}</td>
+				<td className="line-num text-muted">{this.props.scenario.lineNum}</td>
 			</tr>
 		)
 	}
