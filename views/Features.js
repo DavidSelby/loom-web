@@ -23,16 +23,20 @@ var Feature = React.createClass({
   		);
     });
     return (
-      <div className="feature">
-        <h4>
-        	<a class="btn btn-info" href={"#feat-"+this.props.feature._id} data-toggle="collapse">{this.props.feature.feature}</a>
-        </h4>
-        <p className="featureTitle">{this.props.feature.path}</p>
-        <table className="collapse" id={"feat-" + this.props.feature._id}>
-        	<tbody>
-   				{scenarios}
-   			</tbody>
-        </table>
+      <div className="feature panel panel-default">
+      	<div className="panel-heading">
+	        <h4>
+	        	<a class="btn btn-info" href={"#feat-"+this.props.feature._id} data-toggle="collapse">{this.props.feature.feature}</a>
+	        </h4>
+	        <p className="featureTitle">{this.props.feature.path}</p>
+        </div>
+        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
+	        <table>
+	        	<tbody>
+	   				{scenarios}
+	   			</tbody>
+	        </table>
+        </div>
       </div>
     );
   }
