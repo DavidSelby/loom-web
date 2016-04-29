@@ -5,10 +5,14 @@ var Device = React.createClass({
 	render: function() {
 		return (
 			<div className="panel panel-default device-list">
-				<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
-					<h1 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h1>
-					<h3 className="device-name">{this.props.device.deviceName}</h3></div>
-				<div className="panel-body">
+				<a href={"#feat-"+this.props.device.udid} data-toggle="collapse" className="expand-collapse">
+					<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
+						<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
+						<h3 className="device-name">{this.props.device.deviceName}</h3>
+						<span className="caret white large" />
+					</div>
+				</a>
+				<div className="panel-body collapse" id={"feat-"+this.props.device.udid}>
 					<p>{this.props.device.platformVersion}</p>
 					<p>{this.props.device.udid}</p>
 					<p>{this.props.device.status}</p>
