@@ -43,8 +43,10 @@ module.exports = function(app){
 			if (err)
 				res.send(err);
 			Device.find(function(err, devices) {
-				if (err)
+				if (err) {
 					res.send(err);
+					return;
+				}
 				res.json(devices);
 			});
 		});

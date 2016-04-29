@@ -7,7 +7,7 @@ var Device = React.createClass({
 			url: '/api/cukes',
 			dataType: "json",
 			type: 'POST',
-			data: {"runId" : "12334324", "command" : "cucumber", "status" : "pending", "device" : this.props.device.udid},
+			data: {"runId" : "12334324", "command" : "cucumber", "status" : "pending", "device" : this.props.device._id},
 			success: function() {
 				console.log("CUKE SENT");
 			}
