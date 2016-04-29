@@ -1,12 +1,13 @@
 .panel-heading.device-header-ios {
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 	background-color: #3867b7;
 }
 
 .device-type-ios {
 	display: inline;
 	color: #76a4ed;
+	vertical-align: middle;
 
 }
 
@@ -25,4 +26,5 @@
 	display:inline;
 	padding-left: 20px;
 	color: #FFF;
+	vertical-align: middle;
 }

@@ -5,6 +5,7 @@ import App from '../views/App'
 import Home from '../views/Home'
 import Feature from '../views/Features'
 import Device from '../views/Devices'
+import Run from '../views/Run'
 import 'bootstrap'
 
 render((
@@ -13,6 +14,7 @@ render((
       <IndexRoute component={Home}/>
       <Route path="/features" component={Feature} />
       <Route path="/devices" component={Device} />
+      <Route path="/run" component={Run} />
     </Route>
   </Router>
 ), document.getElementById('content'))

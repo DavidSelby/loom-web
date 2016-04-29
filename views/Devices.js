@@ -6,7 +6,7 @@ var Device = React.createClass({
 		return (
 			<div className="panel panel-default device-list">
 				<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
-					<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
+					<h1 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h1>
 					<h3 className="device-name">{this.props.device.deviceName}</h3></div>
 				<div className="panel-body">
 					<p>{this.props.device.platformVersion}</p>

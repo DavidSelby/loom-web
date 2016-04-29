@@ -25,7 +25,8 @@ module.exports = function(app){
 		Cuke.create({
 			runId : req.body.runId,
 			command : req.body.command,
-			status : req.body.status
+			status : req.body.status,
+			device : req.body.device
 		}, function(err, cuke) {
 			if(err)
 				res.send(err)
