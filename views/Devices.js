@@ -4,21 +4,24 @@ import ReactDom from 'react-dom'
 var Device = React.createClass({
 	render: function() {
 		return (
-			<div className="panel panel-default device-list">
-				<a href={"#feat-"+this.props.device.udid} data-toggle="collapse" className="expand-collapse">
-					<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
-						<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
-						<h3 className="device-name">{this.props.device.deviceName}</h3>
-						<span className="caret white large" />
+			<div>
+				<div className="panel panel-default device-list">
+					<a href={"#device-"+this.props.device.udid} className="device-title-info" data-toggle="collapse" className="expand-collapse">
+						<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
+							<h2 className={"device-status " + this.props.device.status}>&#8226;</h2>
+							<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
+							<h4 className="device-name">{this.props.device.deviceName}</h4>
+							<span className="caret white large" />
+						</div>
+					</a>
+					<div className="panel-body collapse" id={"device-"+this.props.device.udid}>
+						<p className="device-info"><b>Version:</b> {this.props.device.platformVersion}</p>
+						<p className="device-info"><b>UDID:</b> {this.props.device.udid}</p>
+						<p className="device-info"><b>Status:</b> {this.props.device.status}</p>
 					</div>
-				</a>
-				<div className="panel-body collapse" id={"feat-"+this.props.device.udid}>
-					<p>{this.props.device.platformVersion}</p>
-					<p>{this.props.device.udid}</p>
-					<p>{this.props.device.status}</p>
 				</div>
 			</div>
-			);
+		);
 	}
 });
 
