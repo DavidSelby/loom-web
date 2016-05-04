@@ -67,10 +67,22 @@
 	border-bottom: 0 dotted;
 	border-left: 5px solid transparent;
 	content: "";
-
 }
 
-.device-list .expand-collapse {
+.caret.black.xl {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-left: 20px;
+	vertical-align: middle;
+	border-top: 5px solid #000;
+	border-right: 5px solid transparent;
+	border-bottom: 0 dotted;
+	border-left: 5px solid transparent;
+	content: "";
+}
+
+a.expand-collapse {
 	text-decoration: none;
 }
 
@@ -80,4 +92,35 @@
 
 .run-tests {
 	float: right;
+}
+
+.select {
+	display: inline;
+	margin-right: 10px;
+}
+
+.panel.feature {
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
+
+.feature-name {
+	display: inline;
+}
+
+/*.scenario {
+	display: inline;
+}*/
+
+.feature-title {
+	display: inline;
+}
+
+.feature-path {
+	display: inline;
+}
+
+.branches-dropdown {
+	display: inline;
+	margin-left: 20px;
 }

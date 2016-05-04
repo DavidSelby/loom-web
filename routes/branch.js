@@ -16,6 +16,7 @@ module.exports = function(app){
 		Branch.create({
 			name : req.body.name,
 			lastCommit : req.body.lastCommit,
+			commitMessage : req.body.commitMessage,
 			author : req.body.author,
 			updated : req.body.updated
 		}, function(err, branch) {
@@ -25,6 +26,31 @@ module.exports = function(app){
 			Branch.find(function(err, branches) {
 				if (err)
 					res.send(err)
+				res.json(branches);
+			});
+		});
+	});
+
+	// Update branch
+	app.post('/api/branches/:branch_id', function(req, res) {
+		Branch.findByIdAndUpdate(req.params.branch_id, {
+			$set: {
+				name : req.body.name,
+				lastCommit : req.body.lastCommit,
+				commitMessage : req.body.commitMessage,
+				author : req.body.author,
+				updated : req.body.updated
+			}
+		}, function(err, branches) {
+			if (err){
+				res.send(err);
+				return;
+			}
+			Branch.find(function(err, branches) {
+				if (err) {
+					res.send(err);
+					return;
+				}
 				res.json(branches);
 			});
 		});

@@ -40,8 +40,10 @@ module.exports = function(app){
 				status : req.params.status
 			}
 		}, function(err, devices) {
-			if (err)
+			if (err){
 				res.send(err);
+				return;
+			}
 			Device.find(function(err, devices) {
 				if (err) {
 					res.send(err);

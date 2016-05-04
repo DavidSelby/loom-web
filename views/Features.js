@@ -27,26 +27,30 @@ var BranchSelect = React.createClass({
       		);
     	});
       	return (
-      		<span>
-			<div className="btn-group">
-	  			<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    			Branches <span className="caret"></span>
-	  			</button>
-	  			<ul className="dropdown-menu">
+			<div className="dropdown branches-dropdown">
+				<button className="dropdown-toggle" type="button" data-toggle="dropdown">
+					Branches
+					<span className="caret"></span>
+				</button>
+				<ul className="dropdown-menu">
 		    		{branches}
 		    		<li role="separator" className="divider"></li>
 		    		<li><a href="#">Refresh</a></li>
 	  			</ul>
 			</div>
-			</span>
 		);
 	}
 });
 
 var Scenario = React.createClass({
 	render: function() {
+		var selectScenario;
+		if (this.props.selectable) {
+			selectScenario = <input type="checkbox" className={"select sel-scen-" + this.props.scenario._id} />
+		}
 		return (
-			<tr>
+			<tr className="scenario">
+				<td>{selectScenario}</td>
 				<td className="text-success">{this.props.scenario.scenario}</td>
 				<td className="line-num text-muted">{this.props.scenario.lineNum}</td>
 			</tr>
@@ -56,76 +60,114 @@ var Scenario = React.createClass({
 
 var Feature = React.createClass({
   render: function() {
+  	var selectFeature;
+  	var selectable = this.props.selectable;
   	var scenarios = this.props.feature.scenarios.map(function(scenario) {
   		return (
-  			<Scenario scenario={scenario} key={scenario._id}/>
+  			<Scenario selectable={selectable} scenario={scenario} key={scenario._id}/>
   		);
     });
+    if (this.props.selectable) {
+    	selectFeature = <input type="checkbox" className={"select sel-feat-" + this.props.feature._id} />
+    }
     return (
-      <div className="feature panel panel-default">
-      	<div className="panel-heading">
-	        <h4>
-	        	<a href={"#feat-"+this.props.feature._id} data-toggle="collapse">
-	        		{this.props.feature.feature.toUpperCase()}
-	        		<span className="caret"></span>
-	        	</a>
-	        </h4>
-	        <p className="featureTitle small">{this.props.feature.path}</p>
-        </div>
-        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
-	        <table>
-	        	<tbody>
-	   				{scenarios}
-	   			</tbody>
-	        </table>
-        </div>
-      </div>
-    );
-  }
+	    <div className="feature panel panel-default">
+	      	<div className="feature-heading panel-heading">
+	      		{selectFeature}
+	      		<a href={"#feat-"+this.props.feature._id} className="expand-collapse" data-toggle="collapse">
+		        	<h4 className="feature-name">
+		        		{this.props.feature.feature.toUpperCase()}
+		        	</h4>
+		        	<p className="feature-path small">{this.props.feature.path}</p>
+		        	<span className="caret"></span>
+		        </a>
+	        </div>
+	        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
+		        <table>
+		        	<tbody>
+		   				{scenarios}
+		   			</tbody>
+		        </table>
+	        </div>
+	    </div>
+	    );
+  	}
 });
 
 var FeatureList = React.createClass({
-  render: function() {
-	var featureNodes = this.props.data.map(function(feature) {
-      return (
-        <Feature feature={feature} key={feature._id}>
-        </Feature>
-      );
-    });
-    return (
-      <div className="featureList">
-        {featureNodes}
-      </div>
-    );
-  }
+	render: function() {
+		var selectable = this.props.selectable;
+		var featureNodes = this.props.features.map(function(feature) {
+    		return (
+    			<Feature selectable={selectable} feature={feature} key={feature._id}>
+				</Feature>
+			);
+		});
+		if (this.props.selectable) {
+			return (
+				<div className="featureList">
+					<form>
+						{featureNodes}
+					</form>
+				</div>
+    		);
+    	} else {
+    		return (
+    			<div className="featureList">
+					{featureNodes}
+				</div>
+    		);
+    	};
+	}
 });
 
 export default React.createClass({
+	getDefaultProps : function() {
+		return {
+			"selectable" : false,
+			"collapsed" : false
+		};
+	},
 	loadFeaturesFromServer: function() {
 		this.serverRequest = $.get('/api/features', function (result) {
 	    	this.setState({
-	    		data: result
+	    		features: result
 	    	});
 	    }.bind(this));
 	},
 	getInitialState: function() {
-		return {data: []};
+		return {features: []};
 	},
 	componentDidMount: function() {
 		this.loadFeaturesFromServer();
-		this.interval = setInterval(this.loadFeaturesFromServer, 5000);
+		this.interval = setInterval(this.loadFeaturesFromServer, 3000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
 	},
 	render: function() {
-		return (
-			<div className="featureBlock">
-				<h2>Feature List</h2>
-				<BranchSelect />
-	            <FeatureList data={this.state.data}>
-	            </FeatureList>
-      		</div>
-		);
+		if (this.props.collapsed) {
+			return (
+				<div className="featureBlock">
+					<a href="#featureList" data-toggle="collapse">
+						<h2 className="page-title feature-title">Feature List</h2>
+						<span className="caret black xl" />
+					</a>
+					<BranchSelect />
+					<div className="collapse" id="featureList">
+		            	<FeatureList selectable={this.props.selectable} features={this.state.features}></FeatureList>
+		            </div>
+	      		</div>
+				)
+		} else {
+			return (
+				<div className="featureBlock">
+					<h2 className="page-title feature-title">Feature List</h2>
+					<BranchSelect />
+		            <FeatureList selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
+		            </FeatureList>
+	      		</div>
+			);
+		}
 	}
 });
