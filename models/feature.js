@@ -1,15 +1,17 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Feature', {
-	path : String,
-	feature : String,
-	scenarios : [{
-		scenario : String,
-		lineNum : Number,
-		steps : Array
-	}],
-	tags : [{
-		tag : String,
-		feature : Boolean
+	features : [{
+		path : String,
+		feature : String,
+		scenarios : [{
+			scenario : String,
+			lineNum : Number,
+			steps : Array
+		}],
+		tags : [{
+			tag : String,
+			feature : Boolean
+		}]
 	}]
 });
