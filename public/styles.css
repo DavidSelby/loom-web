@@ -6,6 +6,15 @@
 	padding-left: 8;
 }
 
+.app-title {
+	display: inline;
+	float: left;
+}
+
+.nav-tabs {
+	display: inline;
+	vertical-align: bottom;
+}
 .device-status.ready {
 	display: inline;
 	margin-top: 0px;
@@ -111,6 +120,11 @@ a.expand-collapse {
 /*.scenario {
 	display: inline;
 }*/
+
+.featureBlock {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
 
 .feature-title {
 	display: inline;

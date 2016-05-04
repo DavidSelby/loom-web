@@ -7,15 +7,18 @@ import Devices from './Devices'
 export default React.createClass({
   render() {
     return (
-      <div className="container">
-        <h1>Arachne</h1>
-        <ul className="nav nav-tabs" role="nav">
-          <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
-          <li><NavLink to="/features">Features</NavLink></li>
-          <li><NavLink to="/devices">Devices</NavLink></li>
-          <li><NavLink to="/run">Run Tests</NavLink></li>
-        </ul>
-        {this.props.children}
+      <div className="page">
+        <div className="app-header">
+          <ul className="nav nav-tabs" role="nav">
+            <li><NavLink to="/" onlyActiveOnIndex className="app-title">Arachne</NavLink></li>
+            <li><NavLink to="/features">Features</NavLink></li>
+            <li><NavLink to="/devices">Devices</NavLink></li>
+            <li><NavLink to="/run">Run Tests</NavLink></li>
+          </ul>
+        </div>
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     )
   }

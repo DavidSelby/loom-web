@@ -57,7 +57,7 @@ module.exports = function(app){
 	});
 
 	// Delete git branch
-	app.delete('/api/features/:branch_id', function(req, res) {
+	app.delete('/api/branches/:branch_id', function(req, res) {
 		Branch.remove({
 			_id : req.params.branch_id
 		}, function(err, branches) {
