@@ -12,7 +12,9 @@ export default React.createClass({
 					<ul className="nav nav-tabs" role="nav">
 						<li className="nav-top nav-home"><NavLink to="/" onlyActiveOnIndex className="app-title"><img className="logo" src={'assets/arachne.png'} width="50px" height="40px"/>Arachne</NavLink></li>
 						<li className="nav-top"><NavLink to="/features">Features</NavLink></li>
+						<span className="vert-sep" />
 						<li className="nav-top"><NavLink to="/devices">Devices</NavLink></li>
+						<span className="vert-sep" />
 						<li className="nav-top"><NavLink to="/run">Run Tests</NavLink></li>
 
 					</ul>

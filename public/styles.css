@@ -8,7 +8,7 @@
 }
 
 .app-header {
-	background-color: #144b6d;
+	background: linear-gradient(to bottom right , #0b3e5b , #276f99);
 }
 
 .logo {
@@ -31,16 +31,17 @@
 	padding-top: 13px;
 	padding-bottom: 13px;
 	margin-bottom: 1px;
+	margin-right: 0px;
 }
 
 .nav-tabs>.nav-top>a:hover {
-	background-color: #11405b;
-	border-color: #11405b;
+	background-color: #184f6d;
+	border-color: #184f6d;
 }
 
 .nav-tabs>.nav-top>a:focus {
-	background-color: #11405b;
-	border-color: #11405b;
+	background-color: #184f6d;
+	border-color: #184f6d;
 }
 
 .nav-tabs>.nav-top.nav-home {
@@ -55,18 +56,26 @@
 }
 
 .nav-tabs>.nav-top.nav-home>a:hover {
-	background-color: #144b6d;
-	border-color: #144b6d;
+	background-color: transparent;
+	border-color: transparent;
 }
 
 .nav-tabs>.nav-top.nav-home>a:focus {
-	background-color: #144b6d;
-	border-color: #144b6d;
+	background-color: transparent;
+	border-color: transparent;
 }
 
 .nav-tabs {
 	display: inline;
 	vertical-align: bottom;
+}
+
+.vert-sep {
+	height: 40px;
+	margin-top: 6px;
+	float: right;
+	border-right: 1px solid;
+	border-color: #8e8e8e;
 }
 
 .page-title {
