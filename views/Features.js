@@ -96,6 +96,8 @@ var Feature = React.createClass({
 
 var FeatureList = React.createClass({
 	render: function() {
+		console.log(this.props.features)
+		console.log(this.props.features.features)
 		var selectable = this.props.selectable;
 		var featureNodes = this.props.features.map(function(feature) {
     		return (
@@ -131,7 +133,7 @@ export default React.createClass({
 	loadFeaturesFromServer: function() {
 		this.serverRequest = $.get('/api/features', function (result) {
 	    	this.setState({
-	    		features: result
+	    		features: result[0].features
 	    	});
 	    }.bind(this));
 	},
@@ -140,7 +142,7 @@ export default React.createClass({
 	},
 	componentDidMount: function() {
 		this.loadFeaturesFromServer();
-		this.interval = setInterval(this.loadFeaturesFromServer, 3000);
+		this.interval = setInterval(this.loadFeaturesFromServer, 5000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
@@ -148,12 +150,14 @@ export default React.createClass({
 	render: function() {
 		if (this.props.collapsed) {
 			return (
-				<div className="featureBlock">
+				<div className="panel panel-default featureBlock">
+					<div clasName="panel-heading">
 					<a href="#featureList" data-toggle="collapse">
 						<h2 className="page-title feature-title">Feature List</h2>
 						<span className="caret black xl" />
 					</a>
 					<BranchSelect />
+					</div>
 					<div className="collapse" id="featureList">
 		            	<FeatureList selectable={this.props.selectable} features={this.state.features}></FeatureList>
 		            </div>
