@@ -7,9 +7,61 @@
 	display: inline;
 }
 
+.app-header {
+	background-color: #144b6d;
+}
+
+.logo {
+	float: left;
+	margin-right: 10px;
+}
 .app-title {
 	display: inline;
 	float: left;
+}
+
+.nav-tabs>.nav-top {
+	float: right;
+}
+
+.nav-tabs>.nav-top>a {
+	font-size: 18px;
+	color: #FFF;
+	border: 0px;
+	padding-top: 13px;
+	padding-bottom: 13px;
+	margin-bottom: 1px;
+}
+
+.nav-tabs>.nav-top>a:hover {
+	background-color: #11405b;
+	border-color: #11405b;
+}
+
+.nav-tabs>.nav-top>a:focus {
+	background-color: #11405b;
+	border-color: #11405b;
+}
+
+.nav-tabs>.nav-top.nav-home {
+	float: left;
+}
+
+.nav-tabs>.nav-top.nav-home>a {
+	font-weight: bold;
+	font-size: 28px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.nav-tabs>.nav-top.nav-home>a:hover {
+	background-color: #144b6d;
+	border-color: #144b6d;
+}
+
+.nav-tabs>.nav-top.nav-home>a:focus {
+	background-color: #144b6d;
+	border-color: #144b6d;
 }
 
 .nav-tabs {
