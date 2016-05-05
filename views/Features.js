@@ -46,7 +46,7 @@ var Scenario = React.createClass({
 	render: function() {
 		var selectScenario;
 		if (this.props.selectable) {
-			selectScenario = <input type="checkbox" className={"select sel-scen-" + this.props.scenario._id} />
+			selectScenario = <input type="checkbox" className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
 			<tr className="scenario">
@@ -68,7 +68,7 @@ var Feature = React.createClass({
   		);
     });
     if (this.props.selectable) {
-    	selectFeature = <input type="checkbox" className={"select sel-feat-" + this.props.feature._id} />
+    	selectFeature = <input type="checkbox" className={"select select-item sel-feat-" + this.props.feature._id} />
     }
     return (
 	    <div className="feature panel panel-default">
@@ -76,13 +76,13 @@ var Feature = React.createClass({
 	      		{selectFeature}
 	      		<a href={"#feat-"+this.props.feature._id} className="expand-collapse" data-toggle="collapse">
 		        	<h4 className="feature-name">
-		        		{this.props.feature.feature.toUpperCase()}
+		        		{this.props.feature.feature}
 		        	</h4>
-		        	<p className="feature-path small">{this.props.feature.path}</p>
 		        	<span className="caret"></span>
 		        </a>
 	        </div>
 	        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
+	        	<p className="feature-path small">{this.props.feature.path}</p>
 		        <table>
 		        	<tbody>
 		   				{scenarios}
@@ -142,7 +142,7 @@ export default React.createClass({
 	},
 	componentDidMount: function() {
 		this.loadFeaturesFromServer();
-		this.interval = setInterval(this.loadFeaturesFromServer, 5000);
+		// this.interval = setInterval(this.loadFeaturesFromServer, 5000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
@@ -150,15 +150,13 @@ export default React.createClass({
 	render: function() {
 		if (this.props.collapsed) {
 			return (
-				<div className="panel panel-default featureBlock">
-					<div clasName="panel-heading">
+				<div className="featureBlock">
 					<a href="#featureList" data-toggle="collapse">
 						<h2 className="page-title feature-title">Feature List</h2>
 						<span className="caret black xl" />
 					</a>
-					<BranchSelect />
-					</div>
 					<div className="collapse" id="featureList">
+						<BranchSelect />
 		            	<FeatureList selectable={this.props.selectable} features={this.state.features}></FeatureList>
 		            </div>
 	      		</div>

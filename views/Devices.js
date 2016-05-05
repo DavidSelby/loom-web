@@ -14,17 +14,22 @@ var Device = React.createClass({
 		});
 	},
 	render: function() {
+		var selectDevice;
+		if (this.props.selectable) {
+			selectDevice = <input type="checkbox" className={"select select-item sel-dev-" + this.props.device.udid} />
+		}
 		return (
 			<div>
 				<div className="panel panel-default device-list">
-					<a href={"#device-"+this.props.device.udid} className="device-title-info" data-toggle="collapse" className="expand-collapse">
-						<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
-							<h2 className={"device-status " + this.props.device.status}>&#8226;</h2>
+					<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
+						<h2 className={"device-status " + this.props.device.status}>&#8226;</h2>
+						{selectDevice}
+						<a href={"#device-"+this.props.device.udid} className="device-title-info" data-toggle="collapse" className="expand-collapse">
 							<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
 							<h4 className="device-name">{this.props.device.deviceName}</h4>
 							<span className="caret white large" />
-						</div>
-					</a>
+						</a>
+					</div>
 					<div className="panel-body collapse" id={"device-"+this.props.device.udid}>
 						<div className="run-tests"><button className="btn btn-default" onClick={this.handleClick}>Run tests</button></div>
 						<p className="device-info"><b>Version:</b> {this.props.device.platformVersion}</p>
@@ -39,9 +44,10 @@ var Device = React.createClass({
 
 var DeviceList = React.createClass({
 	render: function() {
+		var selectable = this.props.selectable;
 		var devices = this.props.devices.map(function(device) {
 			return (
-				<Device device={device} key={device._id}>
+				<Device selectable={selectable} device={device} key={device._id}>
 				</Device>
 			);
 		});
@@ -54,6 +60,12 @@ var DeviceList = React.createClass({
 });
 
 export default React.createClass({
+	getDefaultProps : function() {
+		return {
+			"selectable" : false,
+			"collapsed" : false
+		};
+	},
 	loadFeaturesFromServer: function() {
 		this.serverRequest = $.get('/api/devices', function (result) {
 			this.setState({
@@ -72,12 +84,27 @@ export default React.createClass({
 		clearInterval(this.interval);
 	},
 	render: function() {
-		return (
-			<div className="deviceBlock">
-				<h2>Device List</h2>
-	            <DeviceList devices={this.state.devices}>
-	            </DeviceList>
-      		</div>
-		);
+		if (this.props.collapsed) {
+			return (
+				<div className="deviceBlock">
+					<a href="#deviceList" data-toggle="collapse">
+						<h2 className="page-title device-title">Device List</h2>
+						<span className="caret black xl" />
+					</a>
+					<div className="collapse" id="deviceList">
+		            <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
+		            </DeviceList>
+		            </div>
+	      		</div>
+			);
+		} else {
+			return (
+				<div className="deviceBlock">
+					<h2>Device List</h2>
+		            <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
+		            </DeviceList>
+	      		</div>
+			);
+		}
 	}
 })
