@@ -88,4 +88,17 @@ module.exports = function(app){
 			});
 		});
 	});
+
+	// Delete all cuke commands
+	app.delete('/api/cukes', function(req, res) {
+		Cuke.remove(function(err, cukes) {
+			if (err)
+				res.send(err)
+			Cuke.find(function(err, cukes) {
+				if (err)
+					res.send(err)
+				res.json(cukes);
+			});
+		});
+	});
 }

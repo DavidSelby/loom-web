@@ -1,3 +1,31 @@
+html, body {
+    margin: 0;
+    background-color: #FFF;
+}
+
+#content, .page, body, html {
+	height: 100%;
+}
+
+
+.container {
+	background-color: #FFF;
+	padding: 0px;
+	min-height: 100%;
+	margin: auto;
+    width: 95%;
+}
+
+/*.content-bg {
+	background-color: #FFF;
+	border: 1px solid #000;
+}*/
+
+.content-box {
+	min-height: 100%;
+	padding: 30px;
+}
+
 .panel.device-list {
 	margin-bottom: 10px;
 }
@@ -8,7 +36,7 @@
 }
 
 .app-header {
-	background: linear-gradient(to bottom right , #0b3e5b , #276f99);
+	background: linear-gradient(to bottom right , #175977 , #568ab5);
 }
 
 .logo {
@@ -34,12 +62,12 @@
 	margin-right: 0px;
 }
 
-.nav-tabs>.nav-top>a:hover {
-	background-color: #184f6d;
-	border-color: #184f6d;
+.nav-tabs>.nav-top>a:focus {
+	background-color: transparent;
+	border-color: transparent;
 }
 
-.nav-tabs>.nav-top>a:focus {
+.nav-tabs>.nav-top>a:hover {
 	background-color: #184f6d;
 	border-color: #184f6d;
 }
@@ -104,7 +132,7 @@
 .panel-heading.device-header-ios {
 	padding-top: 1px;
 	padding-bottom: 1px;
-	background-color: #3867b7;
+	background: linear-gradient(to bottom right , #305d82 , #628daf);
 }
 
 .device-type-ios {
@@ -117,7 +145,7 @@
 .panel-heading.device-header-android {
 	padding-top: 1px;
 	padding-bottom: 1px;
-	background-color: #225e0e;
+	background: linear-gradient(to bottom right , #30601f , #649154);
 }
 
 .device-type-android {
