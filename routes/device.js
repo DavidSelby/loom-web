@@ -35,7 +35,7 @@ module.exports = function(app){
 
 	// Update status of device
 	app.post('/api/devices/:device_id/:status', function(req, res) {
-		Device.findByIdAndUpdate(req.params.device_id, {
+		Device.findOneAndUpdate({udid : req.params.device_id}, {
 			$set: {
 				status : req.params.status
 			}

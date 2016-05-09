@@ -78,7 +78,7 @@ export default React.createClass({
 	},
 	componentDidMount: function() {
 		this.loadFeaturesFromServer();
-		this.interval = setInterval(this.loadFeaturesFromServer, 5000);
+		this.interval = setInterval(this.loadFeaturesFromServer, 2000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);

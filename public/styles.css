@@ -53,7 +53,8 @@ html, body {
 }
 
 .nav-tabs>.nav-top>a {
-	font-size: 18px;
+	font-size: 14px;
+	text-transform: uppercase;
 	color: #FFF;
 	border: 0px;
 	padding-top: 13px;
@@ -68,8 +69,9 @@ html, body {
 }
 
 .nav-tabs>.nav-top>a:hover {
-	background-color: #184f6d;
-	border-color: #184f6d;
+	background-color: transparent;
+	border-color: transparent;
+	color: #000;
 }
 
 .nav-tabs>.nav-top.nav-home {
@@ -86,6 +88,7 @@ html, body {
 .nav-tabs>.nav-top.nav-home>a:hover {
 	background-color: transparent;
 	border-color: transparent;
+	color: #FFF;
 }
 
 .nav-tabs>.nav-top.nav-home>a:focus {
@@ -101,9 +104,8 @@ html, body {
 .vert-sep {
 	height: 40px;
 	margin-top: 6px;
+	margin-right: 20px;
 	float: right;
-	border-right: 1px solid;
-	border-color: #8e8e8e;
 }
 
 .page-title {
@@ -132,12 +134,12 @@ html, body {
 .panel-heading.device-header-ios {
 	padding-top: 1px;
 	padding-bottom: 1px;
-	background: linear-gradient(to bottom right , #305d82 , #628daf);
+	background: linear-gradient(to bottom right , #175977 , #568ab5);
 }
 
 .device-type-ios {
 	display: inline;
-	color: #76a4ed;
+	color: #86aae0;
 	vertical-align: middle;
 
 }
