@@ -16,7 +16,7 @@ var Device = React.createClass({
 	render: function() {
 		var selectDevice;
 		if (this.props.selectable) {
-			selectDevice = <input type="checkbox" className={"select select-item sel-dev-" + this.props.device.udid} />
+			selectDevice = <input type="checkbox" onClick={this.props.check} id={"sel-dev-" + this.props.device.udid} className={"select select-item sel-dev-" + this.props.device.udid} />
 		}
 		return (
 			<div>
@@ -44,13 +44,12 @@ var Device = React.createClass({
 
 var DeviceList = React.createClass({
 	render: function() {
-		var selectable = this.props.selectable;
 		var devices = this.props.devices.map(function(device) {
 			return (
-				<Device selectable={selectable} device={device} key={device._id}>
+				<Device check={this.props.handleCheck} selectable={this.props.selectable} device={device} key={device._id}>
 				</Device>
 			);
-		});
+		}.bind(this));
 		return (
 			<div className="deviceList">
 				{devices}
@@ -60,6 +59,26 @@ var DeviceList = React.createClass({
 });
 
 export default React.createClass({
+	handleCheck: function(event) {
+		var udid = event.target.id.replace("sel-dev-", "");
+		console.log(event.target.checked);
+		if (event.target.checked) {
+			console.log("UDID = " + udid);
+			this.setState({
+				selectedDevices: this.state.selectedDevices.concat([udid])
+			}, function() {
+				console.log(this.state.selectedDevices);
+			});
+		} else {
+			var index = this.state.selectedDevices.indexOf(udid);
+			console.log(index + " = " + this.state.selectedDevices[index])
+			this.setState({
+				selectedDevices: this.state.selectedDevices.splice(index, 1)
+			}, function() {
+				console.log(this.state.selectedDevices);
+			});
+		}
+	},
 	getDefaultProps : function() {
 		return {
 			"selectable" : false,
@@ -74,7 +93,9 @@ export default React.createClass({
 		}.bind(this));
 	},
 	getInitialState: function() {
-		return {devices: []};
+		return {
+			devices: [],
+			selectedDevices: []};
 	},
 	componentDidMount: function() {
 		this.loadFeaturesFromServer();
@@ -92,7 +113,7 @@ export default React.createClass({
 						<span className="caret black xl" />
 					</a>
 					<div className="collapse" id="deviceList">
-		            <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
+		            <DeviceList handleCheck={this.handleCheck} selectable={this.props.selectable} devices={this.state.devices}>
 		            </DeviceList>
 		            </div>
 	      		</div>

@@ -61,12 +61,11 @@ var Scenario = React.createClass({
 var Feature = React.createClass({
   render: function() {
   	var selectFeature;
-  	var selectable = this.props.selectable;
   	var scenarios = this.props.feature.scenarios.map(function(scenario) {
   		return (
-  			<Scenario selectable={selectable} scenario={scenario} key={scenario._id}/>
+  			<Scenario selectable={this.props.selectable} scenario={scenario} key={scenario._id}/>
   		);
-    });
+    }.bind(this));
     if (this.props.selectable) {
     	selectFeature = <input type="checkbox" className={"select select-item sel-feat-" + this.props.feature._id} />
     }
@@ -96,15 +95,12 @@ var Feature = React.createClass({
 
 var FeatureList = React.createClass({
 	render: function() {
-		console.log(this.props.features)
-		console.log(this.props.features.features)
-		var selectable = this.props.selectable;
 		var featureNodes = this.props.features.map(function(feature) {
     		return (
-    			<Feature selectable={selectable} feature={feature} key={feature._id}>
+    			<Feature selectable={this.props.selectable} feature={feature} key={feature._id}>
 				</Feature>
 			);
-		});
+		}.bind(this));
 		if (this.props.selectable) {
 			return (
 				<div className="featureList">
