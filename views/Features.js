@@ -43,10 +43,13 @@ var BranchSelect = React.createClass({
 });
 
 var Scenario = React.createClass({
+	handleCheck: function(event) {
+		this.props.handleScenarioCheck(this.props.scenario.lineNum);
+	},
 	render: function() {
 		var selectScenario;
 		if (this.props.selectable) {
-			selectScenario = <input type="checkbox" className={"select select-item sel-scen-" + this.props.scenario._id} />
+			selectScenario = <input type="checkbox" onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
 			<tr className="scenario">
@@ -59,37 +62,72 @@ var Scenario = React.createClass({
 });
 
 var Feature = React.createClass({
-  render: function() {
-  	var selectFeature;
-  	var scenarios = this.props.feature.scenarios.map(function(scenario) {
-  		return (
-  			<Scenario selectable={this.props.selectable} scenario={scenario} key={scenario._id}/>
-  		);
-    }.bind(this));
-    if (this.props.selectable) {
-    	selectFeature = <input type="checkbox" className={"select select-item sel-feat-" + this.props.feature._id} />
-    }
-    return (
-	    <div className="feature panel panel-default">
-	      	<div className="feature-heading panel-heading">
-	      		{selectFeature}
-	      		<a href={"#feat-"+this.props.feature._id} className="expand-collapse" data-toggle="collapse">
-		        	<h4 className="feature-name">
-		        		{this.props.feature.feature}
-		        	</h4>
-		        	<span className="caret"></span>
-		        </a>
-	        </div>
-	        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
-	        	<p className="feature-path small">{this.props.feature.path}</p>
-		        <table>
-		        	<tbody>
-		   				{scenarios}
-		   			</tbody>
-		        </table>
-	        </div>
-	    </div>
-	    );
+	handleScenarioCheck: function(num) {
+		var lineNumsArray = [];
+		var lineNums = '';
+		// If state already has value for lineNums string, put the line numbers into an array
+		if (this.state.lineNums.length > 0) {
+			lineNumsArray = this.state.lineNums.replace(this.props.feature.path + ':', '').split(':');
+		}
+		// Find index line number for scenario that was checked.
+		var index = lineNumsArray.indexOf(num.toString());
+		// If line number is already in lineNum string from state, remove it. If it isn't then add it.
+		if (index > -1) {
+			lineNumsArray.splice(index, 1);
+		} else {
+			lineNumsArray = lineNumsArray.concat([num]);
+		}
+		// If the array of line numbers is not empty, concat the feature path and line numbers, separated by ':'
+		if (lineNumsArray.length > 0) {
+			lineNums = this.props.feature.path + ':' + lineNumsArray.join(":");
+		}
+		this.setState({
+			lineNums: lineNums
+		}, function() {
+			console.log(this.state.lineNums);
+		});
+	},
+	handleFeatureCheck: function(event) {
+
+		this.props.sendScenario(this.props.feature.path);
+	},
+	getInitialState: function() {
+		return {
+			selected: false,
+			lineNums: ''
+		};
+	},
+  	render: function() {
+	  	var selectFeature;
+	  	var scenarios = this.props.feature.scenarios.map(function(scenario) {
+	  		return (
+	  			<Scenario handleScenarioCheck={this.handleScenarioCheck} selectable={this.props.selectable} scenario={scenario} key={scenario._id}/>
+	  		);
+	    }.bind(this));
+	    if (this.props.selectable) {
+	    	selectFeature = <input type="checkbox" onChange={this.handleCheck} className={"select select-item sel-feat-" + this.props.feature._id} />
+	    }
+	    return (
+		    <div className="feature panel panel-default">
+		      	<div className="feature-heading panel-heading">
+		      		{selectFeature}
+		      		<a href={"#feat-"+this.props.feature._id} className="expand-collapse" data-toggle="collapse">
+			        	<h4 className="feature-name">
+			        		{this.props.feature.feature}
+			        	</h4>
+			        	<span className="caret"></span>
+			        </a>
+		        </div>
+		        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
+		        	<p className="feature-path small">{this.props.feature.path}</p>
+			        <table>
+			        	<tbody>
+			   				{scenarios}
+			   			</tbody>
+			        </table>
+		        </div>
+		    </div>
+		);
   	}
 });
 
@@ -97,7 +135,7 @@ var FeatureList = React.createClass({
 	render: function() {
 		var featureNodes = this.props.features.map(function(feature) {
     		return (
-    			<Feature selectable={this.props.selectable} feature={feature} key={feature._id}>
+    			<Feature sendScenario={this.props.sendScenario} selectable={this.props.selectable} feature={feature} key={feature._id}>
 				</Feature>
 			);
 		}.bind(this));
@@ -153,7 +191,7 @@ export default React.createClass({
 					</a>
 					<div className="collapse" id="featureList">
 						<BranchSelect />
-		            	<FeatureList selectable={this.props.selectable} features={this.state.features}></FeatureList>
+		            	<FeatureList sendScenario={this.props.sendScenario} selectable={this.props.selectable} features={this.state.features}></FeatureList>
 		            </div>
 	      		</div>
 				)
@@ -162,7 +200,7 @@ export default React.createClass({
 				<div className="featureBlock">
 					<h2 className="page-title feature-title">Feature List</h2>
 					<BranchSelect />
-		            <FeatureList selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
+		            <FeatureList sendScenario={this.props.sendScenario} selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
 		            </FeatureList>
 	      		</div>
 			);
