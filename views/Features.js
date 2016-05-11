@@ -185,7 +185,6 @@ export default React.createClass({
 	getDefaultProps : function() {
 		return {
 			"selectable" : false,
-			"collapsed" : false
 		};
 	},
 	loadFeaturesFromServer: function() {
@@ -206,28 +205,13 @@ export default React.createClass({
 		clearInterval(this.interval);
 	},
 	render: function() {
-		if (this.props.collapsed) {
-			return (
-				<div className="featureBlock">
-					<a href="#featureList" data-toggle="collapse">
-						<h2 className="page-title feature-title">Feature List</h2>
-						<span className="caret black xl" />
-					</a>
-					<div className="collapse" id="featureList">
-						<BranchSelect />
-		            	<FeatureList collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} features={this.state.features}></FeatureList>
-		            </div>
-	      		</div>
-				)
-		} else {
-			return (
-				<div className="featureBlock">
-					<h2 className="page-title feature-title">Feature List</h2>
-					<BranchSelect />
-		            <FeatureList collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
-		            </FeatureList>
-	      		</div>
-			);
-		}
+		return (
+			<div className="featureBlock">
+				<h2 className="page-title feature-title">Feature List</h2>
+				<BranchSelect />
+		        <FeatureList collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
+		        </FeatureList>
+	      	</div>
+		);
 	}
 });

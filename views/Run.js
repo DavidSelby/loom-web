@@ -39,19 +39,47 @@ export default React.createClass ({
 			selectedScenarios: selectedScenarios
 		});
 	},
+	nextStep: function() {
+		this.setState({
+			step: this.state.step+1
+		}, function() {
+			console.log(step);
+			window.scrollTo(0,0);
+		});
+	},
+	previousStep: function() {
+		this.setState({
+			step: this.state.step-1
+		}, function() {
+			console.log(step);
+			window.scrollTo(0,0);
+		});
+	},
 	getInitialState: function() {
 		return {
 			selectedDevices: [],
-			selectedScenarios: []
+			selectedScenarios: [],
+			step: 1
 		}
 	},
 	render: function() {
-		return (
-			<div>
-			<FeatureBlock collectScenarios={this.collectScenarios} selectable={true} collapsed={true}></FeatureBlock>
-			<DeviceBlock sendDevice={this.collectDevices} selectable={true} collapsed={true}></DeviceBlock>
-			<div className="run-tests"><button className="btn btn-default" onClick={this.handleClick}>Run tests</button></div>
-			</div>
-		);
+		switch (this.state.step) {
+			case 1:
+			return (
+				<div>
+				<FeatureBlock collectScenarios={this.collectScenarios} selectable={true}></FeatureBlock>
+				<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+				</div>
+			);
+			case 2:
+			return (
+				<div>
+				<DeviceBlock sendDevice={this.collectDevices} selectable={true}></DeviceBlock>
+				<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
+				<div className="run-tests"><button className="btn btn-default" onClick={this.handleClick}>Run tests</button></div>
+				</div>
+			);
+
+		}
 	}
 });

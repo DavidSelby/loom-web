@@ -54,7 +54,6 @@ export default React.createClass({
 	getDefaultProps: function() {
 		return {
 			"selectable" : false,
-			"collapsed" : false
 		};
 	},
 	loadFeaturesFromServer: function() {
@@ -77,27 +76,12 @@ export default React.createClass({
 		clearInterval(this.interval);
 	},
 	render: function() {
-		if (this.props.collapsed) {
-			return (
-				<div className="deviceBlock">
-					<a href="#deviceList" data-toggle="collapse">
-						<h2 className="page-title device-title">Device List</h2>
-						<span className="caret black xl" />
-					</a>
-					<div className="collapse" id="deviceList">
-		            <DeviceList handleCheck={this.handleCheck} selectable={this.props.selectable} devices={this.state.devices}>
-		            </DeviceList>
-		            </div>
-	      		</div>
-			);
-		} else {
-			return (
-				<div className="deviceBlock">
-					<h2>Device List</h2>
-		            <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
-		            </DeviceList>
-	      		</div>
-			);
-		}
+		return (
+			<div className="deviceBlock">
+				<h2>Device List</h2>
+		        <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
+		        </DeviceList>
+	      	</div>
+		);
 	}
 })
