@@ -2,17 +2,6 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Device = React.createClass({
-	handleClick: function() {
-		$.ajax({
-			url: '/api/cukes',
-			dataType: "json",
-			type: 'POST',
-			data: {"runId" : "12334324", "command" : "cucumber", "status" : "pending", "device" : this.props.device._id},
-			success: function() {
-				console.log("CUKE SENT");
-			}
-		});
-	},
 	render: function() {
 		var selectDevice;
 		if (this.props.selectable) {
@@ -31,7 +20,6 @@ var Device = React.createClass({
 						</a>
 					</div>
 					<div className="panel-body collapse" id={"device-"+this.props.device.udid}>
-						<div className="run-tests"><button className="btn btn-default" onClick={this.handleClick}>Run tests</button></div>
 						<p className="device-info"><b>Version:</b> {this.props.device.platformVersion}</p>
 						<p className="device-info"><b>UDID:</b> {this.props.device.udid}</p>
 						<p className="device-info"><b>Status:</b> {this.props.device.status}</p>

@@ -44,12 +44,12 @@ var BranchSelect = React.createClass({
 
 var Scenario = React.createClass({
 	handleCheck: function(event) {
-		this.props.handleScenarioCheck(this.props.scenario.lineNum);
+		this.props.handleScenarioCheck(this.props.index);
 	},
 	render: function() {
 		var selectScenario;
 		if (this.props.selectable) {
-			selectScenario = <input type="checkbox" onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
+			selectScenario = <input type="checkbox" checked={this.props.selected} onClick={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
 			<tr className="scenario">
@@ -62,50 +62,74 @@ var Scenario = React.createClass({
 });
 
 var Feature = React.createClass({
-	handleScenarioCheck: function(num) {
+	handleScenarioCheck: function(index) {
+		// If a scenario is clicked, the feature is not selected (exception below)
+		var featureSelected = false;
 		var lineNumsArray = [];
 		var lineNums = '';
-		// If state already has value for lineNums string, put the line numbers into an array
-		if (this.state.lineNums.length > 0) {
-			lineNumsArray = this.state.lineNums.replace(this.props.feature.path + ':', '').split(':');
-		}
-		// Find index line number for scenario that was checked.
-		var index = lineNumsArray.indexOf(num.toString());
-		// If line number is already in lineNum string from state, remove it. If it isn't then add it.
-		if (index > -1) {
-			lineNumsArray.splice(index, 1);
-		} else {
-			lineNumsArray = lineNumsArray.concat([num]);
-		}
-		// If the array of line numbers is not empty, concat the feature path and line numbers, separated by ':'
-		if (lineNumsArray.length > 0) {
+		var selectedScenarios = this.state.selectedScenarios;
+		selectedScenarios[index] = !selectedScenarios[index];
+  		for (var i = 0; i < this.props.feature.scenarios.length; i++) {
+  			if (selectedScenarios[i]) {
+  				lineNumsArray = lineNumsArray.concat([this.props.feature.scenarios[i].lineNum.toString()]);
+  			}
+  		};
+		// If all scenarios are selected, lineNums is set to the feature path and selected is true
+		if (selectedScenarios.length == lineNumsArray.length) {
+			lineNums = this.props.feature.path;
+			featureSelected = true;
+		// If some scenarios are selected, their line numbers are concatonated to the feature path, separated by ':'
+		} else if (lineNumsArray.length > 0) {
 			lineNums = this.props.feature.path + ':' + lineNumsArray.join(":");
 		}
-		this.setState({
+		// Update array of scenarios with which ones are selected
+  		this.setState({
+  			selected: featureSelected,
+  			selectedScenarios: selectedScenarios,
 			lineNums: lineNums
 		}, function() {
-			console.log(this.state.lineNums);
+			this.props.collectScenarios(this.state.lineNums, this.props.index);
 		});
 	},
-	handleFeatureCheck: function(event) {
+	handleFeatureCheck: function() {
+		var lineNums = '';
+		var selected = !this.state.selected;
+		var selectedScenarios = [];
+  		for (var i = 0; i < this.props.feature.scenarios.length; i++) {
+  			selectedScenarios[i] = selected;
+  		}
+  		if (selected) {
+  			lineNums = this.props.feature.path;
+  		}
+		this.setState({
+			selectedScenarios: selectedScenarios,
+			selected: selected,
+			lineNums: lineNums
+		}, function() {
+			this.props.collectScenarios(this.state.lineNums, this.props.index);
+		});
 
-		this.props.sendScenario(this.props.feature.path);
 	},
 	getInitialState: function() {
+		var selectedScenarios = [];
+  		for (var i = 0; i < this.props.feature.scenarios.length; i++) {
+  			selectedScenarios[i] = false;
+  		};
 		return {
+			selectedScenarios: selectedScenarios,
 			selected: false,
 			lineNums: ''
 		};
 	},
   	render: function() {
 	  	var selectFeature;
-	  	var scenarios = this.props.feature.scenarios.map(function(scenario) {
+	  	var scenarios = this.props.feature.scenarios.map(function(scenario, index) {
 	  		return (
-	  			<Scenario handleScenarioCheck={this.handleScenarioCheck} selectable={this.props.selectable} scenario={scenario} key={scenario._id}/>
+	  			<Scenario index={index} handleScenarioCheck={this.handleScenarioCheck} selectable={this.props.selectable} selected={this.state.selectedScenarios[index]} scenario={scenario} key={scenario._id}/>
 	  		);
 	    }.bind(this));
 	    if (this.props.selectable) {
-	    	selectFeature = <input type="checkbox" onChange={this.handleCheck} className={"select select-item sel-feat-" + this.props.feature._id} />
+	    	selectFeature = <input type="checkbox" checked={this.state.selected} onChange={this.handleFeatureCheck} className={"select select-item sel-feat-" + this.props.feature._id} />
 	    }
 	    return (
 		    <div className="feature panel panel-default">
@@ -133,9 +157,9 @@ var Feature = React.createClass({
 
 var FeatureList = React.createClass({
 	render: function() {
-		var featureNodes = this.props.features.map(function(feature) {
+		var featureNodes = this.props.features.map(function(feature, index) {
     		return (
-    			<Feature sendScenario={this.props.sendScenario} selectable={this.props.selectable} feature={feature} key={feature._id}>
+    			<Feature index={index} collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} feature={feature} key={feature._id}>
 				</Feature>
 			);
 		}.bind(this));
@@ -191,7 +215,7 @@ export default React.createClass({
 					</a>
 					<div className="collapse" id="featureList">
 						<BranchSelect />
-		            	<FeatureList sendScenario={this.props.sendScenario} selectable={this.props.selectable} features={this.state.features}></FeatureList>
+		            	<FeatureList collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} features={this.state.features}></FeatureList>
 		            </div>
 	      		</div>
 				)
@@ -200,7 +224,7 @@ export default React.createClass({
 				<div className="featureBlock">
 					<h2 className="page-title feature-title">Feature List</h2>
 					<BranchSelect />
-		            <FeatureList sendScenario={this.props.sendScenario} selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
+		            <FeatureList collectScenarios={this.props.collectScenarios} selectable={this.props.selectable} collapsed={this.props.collapsed} features={this.state.features}>
 		            </FeatureList>
 	      		</div>
 			);
