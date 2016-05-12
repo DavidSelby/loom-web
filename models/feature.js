@@ -9,7 +9,7 @@ module.exports = mongoose.model('Feature', {
 			lineNum : Number,
 			steps : Array
 		}],
-	}]
+	}],
 	tags : [{
 		tag : String,
 		feature : Boolean
