@@ -30,6 +30,8 @@ export default React.createClass ({
 		}
 		this.setState({
 			selectedDevices: devices
+		}, function() {
+			console.log(this.state.selectedDevices)
 		});
 	},
 	collectScenarios: function(scenarios, index) {
@@ -37,13 +39,15 @@ export default React.createClass ({
 		selectedScenarios[index] = scenarios;
 		this.setState({
 			selectedScenarios: selectedScenarios
+		}, function() {
+			console.log(this.state.selectedScenarios)
 		});
 	},
 	nextStep: function() {
 		this.setState({
 			step: this.state.step+1
 		}, function() {
-			console.log(step);
+			console.log(this.state.step);
 			window.scrollTo(0,0);
 		});
 	},
@@ -51,7 +55,7 @@ export default React.createClass ({
 		this.setState({
 			step: this.state.step-1
 		}, function() {
-			console.log(step);
+			console.log(this.state.step);
 			window.scrollTo(0,0);
 		});
 	},

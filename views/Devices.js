@@ -79,7 +79,7 @@ export default React.createClass({
 		return (
 			<div className="deviceBlock">
 				<h2>Device List</h2>
-		        <DeviceList selectable={this.props.selectable} devices={this.state.devices}>
+		        <DeviceList handleCheck={this.handleCheck} selectable={this.props.selectable} devices={this.state.devices}>
 		        </DeviceList>
 	      	</div>
 		);

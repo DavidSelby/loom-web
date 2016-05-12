@@ -14,7 +14,8 @@ module.exports = function(app){
 	// Create new feature file
 	app.post('/api/features', function(req, res) {
 		Feature.create({
-			features : req.body.features
+			features : req.body.features,
+			tags: req.body.tags
 		}, function(err, feature) {
 			if(err) {
 				res.send(err);
