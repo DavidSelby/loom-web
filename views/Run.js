@@ -43,7 +43,7 @@ export default React.createClass ({
 	    }.bind(this));
 	},
 	handleCheckAllFeatures: function() {
-
+		this.state.forEach
 	},
 	handleScenarioCheck: function(feature, index) {
 		// If a scenario is clicked, the feature is not selected (exception below)
@@ -149,6 +149,8 @@ export default React.createClass ({
 			return (
 				<div>
 					<FeatureBlock
+						allChecked={false}
+						handleCheckAllFeatures={this.handleCheckAllFeatures}
 						handleScenarioCheck={this.handleScenarioCheck} 
 						handleFeatureCheck={this.handleFeatureCheck}
 						getFeatures={this.getFeatures}

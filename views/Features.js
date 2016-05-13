@@ -25,7 +25,7 @@ var BranchSelect = React.createClass({
         			<a href="#" onClick={this.props.handleBranch}>{branch.name}</a>
         		</li>
       		);
-    	});
+    	}.bind(this));
       	return (
 			<div className="dropdown branches-dropdown">
 				<button className="dropdown-toggle" type="button" data-toggle="dropdown">
@@ -124,6 +124,7 @@ var FeatureList = React.createClass({
 			if (this.props.selectable) {
 				return (
 					<div className="featureList">
+						<div className="select-all"><button className="btn btn-default" onClick={this.props.handle}>Next</button></div>
 						<form>
 							{featureNodes}
 						</form>
