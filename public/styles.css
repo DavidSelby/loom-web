@@ -209,18 +209,23 @@ a.expand-collapse {
 
 .panel.feature {
 	margin-bottom: 0px;
-	margin-top: 10px;
+	margin-top: 5px;
+}
+.feature-heading.panel-heading {
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 .feature-name {
 	display: inline;
+	padding-right: 10px;
 }
 
 /*.scenario {
 	display: inline;
 }*/
 
-.featureBlock {
+.feature-block {
 	margin-top: 20px;
 	margin-bottom: 10px;
 }

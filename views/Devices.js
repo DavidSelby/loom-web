@@ -5,7 +5,9 @@ var Device = React.createClass({
 	render: function() {
 		var selectDevice;
 		if (this.props.selectable) {
-			selectDevice = <input type="checkbox" onChange={this.props.handleCheck} id={"sel-dev-" + this.props.device.udid} className={"select select-item sel-dev-" + this.props.device.udid} />
+			var index = this.props.selectedDevices.indexOf(this.props.device.udid);
+			var selected = index > -1;
+			selectDevice = <input type="checkbox" checked={selected} onChange={this.props.handleDeviceCheck} id={"sel-dev-" + this.props.device.udid} className={"select select-item sel-dev-" + this.props.device.udid} />
 		}
 		return (
 			<div>
@@ -34,15 +36,21 @@ var DeviceList = React.createClass({
 	render: function() {
 		var devices = this.props.devices.map(function(device) {
 			return (
-				<Device handleCheck={this.props.handleCheck} selectable={this.props.selectable} device={device} key={device._id}>
+				<Device {...this.props} device={device} key={device._id}>
 				</Device>
 			);
 		}.bind(this));
-		return (
-			<div className="deviceList">
-				{devices}
-			</div>
-		);
+		if (devices.length < 1) {
+			return (
+				<p className="spinner">Loading...</p>
+			)
+		} else {
+			return (
+				<div className="deviceList">
+					{devices}
+				</div>
+			);
+		}
 	}
 });
 
@@ -56,30 +64,18 @@ export default React.createClass({
 			"selectable" : false,
 		};
 	},
-	loadFeaturesFromServer: function() {
-		this.serverRequest = $.get('/api/devices', function (result) {
-			this.setState({
-				devices : result
-			});
-		}.bind(this));
-	},
-	getInitialState: function() {
-		return {
-			devices: []
-		};
-	},
 	componentDidMount: function() {
-		this.loadFeaturesFromServer();
-		this.interval = setInterval(this.loadFeaturesFromServer, 2000);
+		this.props.getDevices();
+		this.interval = setInterval(this.props.getDevices, 2000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
 	},
 	render: function() {
 		return (
-			<div className="deviceBlock">
+			<div className="device-block">
 				<h2>Device List</h2>
-		        <DeviceList handleCheck={this.handleCheck} selectable={this.props.selectable} devices={this.state.devices}>
+		        <DeviceList {...this.props}>
 		        </DeviceList>
 	      	</div>
 		);
