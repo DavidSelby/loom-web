@@ -159,13 +159,25 @@ export default React.createClass({
 		}
 	},
 	render: function() {
-		return (
-			<div className="feature-block">
-				<h2 className="page-title feature-title">Feature List</h2>
-				<BranchSelect handleBranch={this.props.handleBranch} refresh={this.props.refresh} />
-		        <FeatureList {...this.props} >
-		        </FeatureList>
-	      	</div>
-		);
+		if (this.props.features == "notFound") {
+			return (
+				<div className="feature-block">
+					<h2 className="page-title feature-title">Feature List</h2>
+					<BranchSelect handleBranch={this.props.handleBranch} />
+					<div className="refresh"><button className="btn btn-default" onClick={this.props.getFeatures}>Refresh</button></div>
+					<p>Features not found, please check that a controller is running</p>
+		      	</div>
+		    );
+		} else {
+			return (
+				<div className="feature-block">
+					<h2 className="page-title feature-title">Feature List</h2>
+					<BranchSelect handleBranch={this.props.handleBranch} />
+					<div className="refresh"><button className="btn btn-default" onClick={this.props.getFeatures}>Refresh</button></div>
+			        <FeatureList {...this.props} >
+			        </FeatureList>
+		      	</div>
+			);
+		}
 	}
 });

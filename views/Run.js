@@ -22,24 +22,31 @@ export default React.createClass ({
 	},
 	// Gets features from the server and creates selectedScenarios, selectedFeatures and lineNums arrays with the correct number of values
 	getFeatures: function() {
+		var features = {};
 		var selectedScenarios = [];
 		var selectedFeatures = [];
 		var lineNums = [];
 		this.serverRequest = $.get('/api/features', function (result) {
-			for (var i = 0; i < result[0].features.length; i++) {
-				lineNums[i] = '';
-	    		selectedFeatures[i] = false;
-	    		selectedScenarios[i] = [];
-	    		for (var j = 0; j < result[0].features[i].scenarios.length; j++) {
-	    			selectedScenarios[i][j] = false;
-	    		}
-	    	}
+			features = result[0];
+			if ("features" in features) {
+				features = result[0];
+				for (var i = 0; i < features.features.length; i++) {
+					lineNums[i] = '';
+		    		selectedFeatures[i] = false;
+		    		selectedScenarios[i] = [];
+		    		for (var j = 0; j < features.features[i].scenarios.length; j++) {
+		    			selectedScenarios[i][j] = false;
+		    		}
+		    	}
+		    } else {
+		    	features["features"] = "notFound";
+		    }
 			this.setState({
 				selectedFeatures: selectedFeatures,
-	    		selectedScenarios: selectedScenarios,
-	    		features: result[0].features,
-	    		lineNums: lineNums
-	    	});
+		   		selectedScenarios: selectedScenarios,
+		   		features: features.features,
+		   		lineNums: lineNums
+		    });
 	    }.bind(this));
 	},
 	handleCheckAllFeatures: function() {
@@ -164,44 +171,51 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
-		switch (this.state.step) {
-			case 1:
-			return (
-				<div>
-					<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
-						<FeatureBlock
-							allChecked={this.state.allChecked}
-							handleCheckAllFeatures={this.handleCheckAllFeatures}
-							handleScenarioCheck={this.handleScenarioCheck} 
-							handleFeatureCheck={this.handleFeatureCheck}
-							getFeatures={this.getFeatures}
-							features={this.state.features}
-							selectedScenarios={this.state.selectedScenarios}
-							selectedFeatures={this.state.selectedFeatures}
-							selectable={true}
-							handleBranch={this.handleBranch}
-							refresh={this.refresh}>
-						</FeatureBlock>
-					<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
-				</div>
-			);
-			case 2:
-			return (
-				<div>
-					<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
-					<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
-					<DeviceBlock
-						getDevices={this.getDevices}
-						devices={this.state.devices}
-						selectedDevices={this.state.selectedDevices}
-						handleDeviceCheck={this.handleDeviceCheck}
-						selectable={true}>
-					</DeviceBlock>
-					<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
-					<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
-				</div>
-			);
+		var getPage = function() {
+			switch (this.state.step) {
+				case 1:
+				return (
+					<div>
+						<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+							<FeatureBlock
+								allChecked={this.state.allChecked}
+								handleCheckAllFeatures={this.handleCheckAllFeatures}
+								handleScenarioCheck={this.handleScenarioCheck} 
+								handleFeatureCheck={this.handleFeatureCheck}
+								getFeatures={this.getFeatures}
+								features={this.state.features}
+								selectedScenarios={this.state.selectedScenarios}
+								selectedFeatures={this.state.selectedFeatures}
+								selectable={true}
+								handleBranch={this.handleBranch}
+								refresh={this.refresh}>
+							</FeatureBlock>
+						<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+					</div>
+				);
+				case 2:
+				return (
+					<div>
+						<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
+						<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
+						<DeviceBlock
+							getDevices={this.getDevices}
+							devices={this.state.devices}
+							selectedDevices={this.state.selectedDevices}
+							handleDeviceCheck={this.handleDeviceCheck}
+							selectable={true}>
+						</DeviceBlock>
+						<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
+						<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
+					</div>
+				);
 
-		}
+			}
+		}.bind(this);
+		return (
+			<div>
+			<h1>Run Tests</h1>
+			{getPage()}</div>
+		)
 	}
 });

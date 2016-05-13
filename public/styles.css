@@ -198,6 +198,10 @@ a.expand-collapse {
 	margin-bottom: 4px
 }
 
+.next {
+	float: right;
+}
+
 .run-tests {
 	float: right;
 }
