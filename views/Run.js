@@ -43,7 +43,26 @@ export default React.createClass ({
 	    }.bind(this));
 	},
 	handleCheckAllFeatures: function() {
-		this.state.forEach
+		var allChecked = !this.state.allChecked;
+		this.state.features.forEach(function(feature, index) {
+			var lineNums = this.state.lineNums;
+			lineNums[index] = '';
+			var selectedFeatures = this.state.selectedFeatures;
+			selectedFeatures[index] = allChecked;
+			var selectedScenarios = this.state.selectedScenarios;
+	  		for (var i = 0; i < feature.scenarios.length; i++) {
+	  			selectedScenarios[index][i] = allChecked;
+	  		}
+	  		if (allChecked) {
+	  			lineNums[index] = feature.path;
+	  		}
+			this.setState({
+				allChecked: allChecked,
+				selectedScenarios: selectedScenarios,
+				selectedFeatures: selectedFeatures,
+				lineNums: lineNums
+			});
+		}.bind(this));
 	},
 	handleScenarioCheck: function(feature, index) {
 		// If a scenario is clicked, the feature is not selected (exception below)
@@ -139,6 +158,7 @@ export default React.createClass ({
 			scenarios: [],
 			selectedFeatures: [],
 			selectedScenarios: [],
+			allChecked: false,
 			lineNums: [],
 			step: 1
 		}
@@ -148,25 +168,28 @@ export default React.createClass ({
 			case 1:
 			return (
 				<div>
-					<FeatureBlock
-						allChecked={false}
-						handleCheckAllFeatures={this.handleCheckAllFeatures}
-						handleScenarioCheck={this.handleScenarioCheck} 
-						handleFeatureCheck={this.handleFeatureCheck}
-						getFeatures={this.getFeatures}
-						features={this.state.features}
-						selectedScenarios={this.state.selectedScenarios}
-						selectedFeatures={this.state.selectedFeatures}
-						selectable={true}
-						handleBranch={this.handleBranch}
-						refresh={this.refresh}>
-					</FeatureBlock>
-				<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+					<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+						<FeatureBlock
+							allChecked={this.state.allChecked}
+							handleCheckAllFeatures={this.handleCheckAllFeatures}
+							handleScenarioCheck={this.handleScenarioCheck} 
+							handleFeatureCheck={this.handleFeatureCheck}
+							getFeatures={this.getFeatures}
+							features={this.state.features}
+							selectedScenarios={this.state.selectedScenarios}
+							selectedFeatures={this.state.selectedFeatures}
+							selectable={true}
+							handleBranch={this.handleBranch}
+							refresh={this.refresh}>
+						</FeatureBlock>
+					<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
 				</div>
 			);
 			case 2:
 			return (
 				<div>
+					<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
+					<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
 					<DeviceBlock
 						getDevices={this.getDevices}
 						devices={this.state.devices}

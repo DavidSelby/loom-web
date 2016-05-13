@@ -122,9 +122,13 @@ var FeatureList = React.createClass({
 			)
 		} else {
 			if (this.props.selectable) {
+				var label = 'Select All';
+				if (this.props.allChecked) {
+					label = 'Select None';
+				}
 				return (
 					<div className="featureList">
-						<div className="select-all"><button className="btn btn-default" onClick={this.props.handle}>Next</button></div>
+						<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
 						<form>
 							{featureNodes}
 						</form>
