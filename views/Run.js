@@ -42,6 +42,9 @@ export default React.createClass ({
 	    	});
 	    }.bind(this));
 	},
+	handleCheckAllFeatures: function() {
+
+	},
 	handleScenarioCheck: function(feature, index) {
 		// If a scenario is clicked, the feature is not selected (exception below)
 		var selectedFeatures = this.state.selectedFeatures;
@@ -152,7 +155,9 @@ export default React.createClass ({
 						features={this.state.features}
 						selectedScenarios={this.state.selectedScenarios}
 						selectedFeatures={this.state.selectedFeatures}
-						selectable={true}>
+						selectable={true}
+						handleBranch={this.handleBranch}
+						refresh={this.refresh}>
 					</FeatureBlock>
 				<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
 				</div>
@@ -160,15 +165,15 @@ export default React.createClass ({
 			case 2:
 			return (
 				<div>
-				<DeviceBlock
-					getDevices={this.getDevices}
-					devices={this.state.devices}
-					selectedDevices={this.state.selectedDevices}
-					handleDeviceCheck={this.handleDeviceCheck}
-					selectable={true}>
-				</DeviceBlock>
-				<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
-				<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
+					<DeviceBlock
+						getDevices={this.getDevices}
+						devices={this.state.devices}
+						selectedDevices={this.state.selectedDevices}
+						handleDeviceCheck={this.handleDeviceCheck}
+						selectable={true}>
+					</DeviceBlock>
+					<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
+					<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
 				</div>
 			);
 

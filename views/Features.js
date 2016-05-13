@@ -5,7 +5,7 @@ import ReactDom from 'react-dom'
 // tutorial5.js
 
 var BranchSelect = React.createClass({
-	loadFeaturesFromServer: function() {
+	loadBranchesFromServer: function() {
 		this.serverRequest = $.get('/api/branches', function (result) {
 			this.setState({
 				branches : result
@@ -16,13 +16,13 @@ var BranchSelect = React.createClass({
 		return {branches: []};
 	},
 	componentDidMount: function() {
-		this.loadFeaturesFromServer();
+		this.loadBranchesFromServer();
 	},
 	render: function() {
 		var branches = this.state.branches.map(function(branch) {
     		return (
         		<li key={branch._id}>
-        			<a href="#">{branch.name}</a>
+        			<a href="#" onClick={this.props.handleBranch}>{branch.name}</a>
         		</li>
       		);
     	});
@@ -157,7 +157,7 @@ export default React.createClass({
 		return (
 			<div className="feature-block">
 				<h2 className="page-title feature-title">Feature List</h2>
-				<BranchSelect />
+				<BranchSelect handleBranch={this.props.handleBranch} refresh={this.props.refresh} />
 		        <FeatureList {...this.props} >
 		        </FeatureList>
 	      	</div>

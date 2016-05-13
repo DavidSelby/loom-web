@@ -21,6 +21,7 @@ require('./routes/feature')(app);
 require('./routes/report')(app);
 require('./routes/device')(app);
 require('./routes/branch')(app);
+require('./routes/fetch')(app);
 
 // Application
 app.get('*', function(req, res) {

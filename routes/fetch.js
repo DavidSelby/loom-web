@@ -5,8 +5,9 @@ module.exports = function(app){
 	// Get all fetch objects
 	app.get('/api/fetch', function(req, res) {
 		Fetch.find(function(err, fetches) {
-			if err {
+			if (err) {
 				res.send(err);
+			}
 			res.json(fetches);
 		});
 	});
@@ -16,15 +17,16 @@ module.exports = function(app){
 		Fetch.create({
 			branch : req.body.branch,
 			status : req.body.status
-		}
+		},
 		function(err, fetches) {
-			if err {
+			if (err) {
 				res.send(err);
 				console.log(err);
 			} else {
 				Fetch.find(function(err, fetches) {
-					if err {
+					if (err) {
 						res.send(err);
+					}
 					res.json(fetches);
 				});
 			}
@@ -38,12 +40,12 @@ module.exports = function(app){
 				status : req.params.status
 			}
 		}, function(err, fetches) {
-			if err {
+			if (err) {
 				res.send(err);
 				console.log(err);
 			} else {
 				Fetch.find(function(err, fetches) {
-					if err
+					if (err)
 						res.send(err);
 					res.json(fetches);
 				});
