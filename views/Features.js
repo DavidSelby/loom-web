@@ -47,21 +47,15 @@ var Scenario = React.createClass({
 		this.props.handleScenarioCheck(this.props.feature, this.props.index);
 	},
 	render: function() {
-	    if (this.props.index % 2 == 0) {
-	    	var oddEven = "even";
-	    } else {
-	    	var oddEven = "odd";
-	    }
 		var selectScenario;
 		if (this.props.selectable) {
 			var selected = this.props.selectedScenarios[this.props.feature][this.props.index];
 			var selectScenario = <input type="checkbox" checked={selected} onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
-			<tr className={"scenario " + oddEven}>
+			<tr className="scenario">
 				<td>{selectScenario}</td>
-				<td className="scenario-name">{this.props.scenario.scenario}</td>
-				<td className="line-num">{this.props.scenario.lineNum}</td>
+				<td className="scenario-name">{this.props.scenario.scenario.replace(/Scenario: |Scenario Outline: /, "")}</td>
 			</tr>
 		);
 	}
@@ -87,19 +81,21 @@ var Feature = React.createClass({
 	    	selectFeature = <input type="checkbox" checked={this.props.selectedFeatures[this.props.index]} onChange={this.handleCheck} className={"select select-item sel-feat-" + this.props.feature._id} />
 	    }
 	    return (
-		    <div className="feature panel panel-default">
-		      	<div className="feature-heading panel-heading">
+		    <div className="feature">
+		      	<div className="feature-heading">
 		      		{selectFeature}
 		      		<a href={"#feat-"+this.props.feature._id} className="expand-collapse" data-toggle="collapse">
+		      			<div>
 			        	<h4 className="feature-name">
 			        		{this.props.feature.feature}
 			        	</h4>
-			        	<span className="caret orange"></span>
+			        	<p className="orange">+</p>
+			        	</div>
 			        </a>
 		        </div>
-		        <div className="collapse panel-body scenarios" id={"feat-" + this.props.feature._id}>
+		        <div className="collapse scenarios" id={"feat-" + this.props.feature._id}>
 		        	<p className="feature-path small">{this.props.feature.path}</p>
-			        <table>
+			        <table className="scenario-table">
 			        	<tbody>
 			   				{scenarios}
 			   			</tbody>

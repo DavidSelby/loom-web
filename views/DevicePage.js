@@ -23,11 +23,13 @@ export default React.createClass ({
 					<h1>Devices</h1>
 					<p>View all of the devices currently connected to arachne host machines.</p>
 				</div>
+				<div className="container">
 				<DeviceBlock
 					getDevices={this.getDevices}
 					devices={this.state.devices}
 					selectable={false}>
 				</DeviceBlock>
+				</div>
 			</div>
 		);
 	}

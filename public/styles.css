@@ -204,12 +204,15 @@ html, body {
 	content: "";
 }
 
-.caret.orange {
+.orange {
 	color: #f7c56f;
+	display: inline;
 }
 
-a.expand-collapse {
+a.expand-collapse, a.expand-collapse div {
+	width: 100%;
 	text-decoration: none;
+	display: inline;
 }
 
 .device-info {
@@ -227,8 +230,6 @@ a.expand-collapse {
 	padding-top: 3px;
 	padding-bottom: 0px;
     margin-bottom: 0px;
-	padding-left: 20px;
-	padding-right: 20px;
 }
 
 .nav-buttons a, .nav-buttons a.hover {
@@ -247,7 +248,7 @@ a.expand-collapse {
 	margin-top: 10px;
 }
 
-.nav-centre{
+.nav-centre {
 	text-align: center;
 	display: inline;
 }
@@ -319,17 +320,19 @@ a.expand-collapse {
 	margin-right: 15px;
 }
 
-.panel.feature {
+.feature {
 	margin-bottom: 0px;
 	margin-top: 5px;
 }
 
-.panel-body.scenarios {
-	padding-left: 0px;
+.scenarios {
+	width: 100%;
+	padding-left: 15px;
 	padding-right: 0px;
 }
 
-.feature-heading.panel-heading {
+.feature-heading {
+	border-top: 1px solid #d3d3d3;
 	background: #fff;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -341,7 +344,12 @@ a.expand-collapse {
 	padding-right: 10px;
 }
 
+.scenario-table {
+	width: 100%;
+}
+
 .scenario .select.select-item {
+	display: inline;
 	padding-left: 15px;
 }
 
@@ -350,6 +358,7 @@ a.expand-collapse {
 }
 
 .scenario {
+	border-top: 1px solid #d3d3d3;
 	padding-top: 2px;
 	padding-bottom: 2px;
 	padding-left: 15px;
@@ -375,4 +384,34 @@ a.expand-collapse {
 
 h2 {
 	margin-top: 10px;
+}
+
+a.tag, a.tag.hover, a.tag.focus {
+	border: 1px solid #ededed;
+	border-radius: 3px;
+	text-decoration: none;
+	color: #000;
+	padding: 5px;
+	margin: 3px;
+	font-size: 16px;
+}
+
+.tags-list {
+	margin-bottom: 30px;
+}
+.tag.included {
+	color: #FFF;
+	background: #3B759A;
+}
+
+.tag.excluded {
+	color: #000;
+	background: #f7c56f;
+}
+
+.selected-tags {
+	margin-top: 20px;
+	display: block;
+	width: 100%;
+	margin: auto;
 }

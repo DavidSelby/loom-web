@@ -2,13 +2,15 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import FeatureBlock from './Features'
 import DeviceBlock from './Devices'
+import TagBlock from './Tags'
 
 export default React.createClass ({
 	runTests: function() {
 		var scenarios = this.state.lineNums.join(' ');
 		scenarios = scenarios.trim().replace(/\s+/g, ' ');
 		for (var i = 0; i < this.state.selectedDevices.length; i++) {
-			var command = "cucumber " + scenarios + " BROWSER=" + this.state.selectedDevices[i];
+			var command = "cucumber " + this.state.tagsString + " " + scenarios + " BROWSER=" + this.state.selectedDevices[i];
+			command = command.replace(/\s+/, " ");
 			$.ajax({
 				url: '/api/cukes',
 				dataType: "json",
@@ -120,6 +122,95 @@ export default React.createClass ({
 
 	},
 
+	// Tags
+	getTags: function() {
+		var tags = [{"_id": "1", "tag": "@bag"},
+			{"_id": "2", "tag": "@checkout"},
+			{"_id": "3", "tag": "@country"},
+			{"_id": "4", "tag": "@language"},
+			{"_id": "5", "tag": "@pdp"}, 
+			{"_id": "6", "tag": "@plp"}, 
+			{"_id": "7", "tag": "@fail"}, 
+			{"_id": "8", "tag": "@mobile"}, 
+			{"_id": "9", "tag": "@touch"}];
+		this.setState({
+			tags: tags
+		});
+	},
+
+	setTagsString: function(event) {
+		var tags = event.target.value;
+		this.setState({
+			tagsString: tags
+		});
+	},
+
+	includeTag: function(tag) {
+		var tags = this.state.includedTags;
+		var index = tags.indexOf(tag)
+		if (index > -1) {
+			tags.splice(index, 1);
+		} else {
+			tags = tags.concat([tag]);
+		}
+		this.setState({
+			includedTags: tags
+		}, function() {
+			this.stringifyTags();
+		});
+	},
+
+	excludeTag: function(tag) {
+		var tags = this.state.excludedTags;
+		var index = tags.indexOf(tag)
+		if (index > -1) {
+			tags.splice(index, 1);
+		} else {
+			tags = tags.concat([tag]);
+		}
+		this.setState({
+			excludedTags: tags
+		}, function() {
+			this.stringifyTags();
+		});
+	},
+
+	stringifyTags: function() {
+		var tags = "";
+		if (this.state.includedTags.length > 0) {
+			tags = "-t " + this.state.includedTags.join(",");
+		}
+		if (this.state.excludedTags.length > 0) {
+			tags = tags + " -t " + this.state.excludedTags.join(" -t ");
+		}
+		tags = tags.trim();
+		this.setState({
+			tagsString: tags
+		});
+	},
+
+	unstringTags: function() {
+		var includedTags = [];
+		var excludedTags = [];
+		var tagsSects = this.state.tagsString.split("-t");
+		tagsSects.forEach(function(tags) {
+			tags = tags.split(",")
+			tags.forEach(function(tag) {
+				tag = tag.trim();
+				if (tag.startsWith("@")) {
+					includedTags = includedTags.concat([tag]);
+				}
+				if (tag.startsWith("~@")) {
+					excludedTags = excludedTags.concat([tag]);
+				}
+			});
+		});
+		this.setState({
+			includedTags: includedTags,
+			excludedTags: excludedTags
+		});
+	},
+
 	// Devices
 	getDevices: function() {
 		this.serverRequest = $.get('/api/devices', function (result) {
@@ -159,6 +250,10 @@ export default React.createClass ({
 	},
 	getInitialState: function() {
 		return {
+			tags: [],
+			includedTags: [],
+			excludedTags: [],
+			tagsString: '',
 			devices: [],
 			selectedDevices: [],
 			features: [],
@@ -171,7 +266,7 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
-		var steps = 2;
+		var steps = 3;
 		console.log(this.state.step);
 		var progressArray = []
 		for (var i=1; i<=steps; i++) {
@@ -232,6 +327,27 @@ export default React.createClass ({
 						<div className="run-nav top">
 							{nav}
 						</div>
+						<TagBlock
+							setTagsString={this.setTagsString}
+							getTags={this.getTags}
+							tags={this.state.tags}
+							includedTags={this.state.includedTags}
+							excludedTags={this.state.excludedTags}
+							tagsString={this.state.tagsString}
+							includeTag={this.includeTag}
+							excludeTag={this.excludeTag}>
+						</TagBlock>
+						<div className="run-nav bottom">
+							{nav}
+						</div>
+					</div>
+				)
+				case 3:
+				return (
+					<div className="paginated">
+						<div className="run-nav top">
+							{nav}
+						</div>
 						<DeviceBlock
 							getDevices={this.getDevices}
 							devices={this.state.devices}
@@ -250,10 +366,12 @@ export default React.createClass ({
 		return (
 			<div>
 				<div className="page-header">
-					<h1 className="page-title">Run Tests</h1>
+					<h1>Run Tests</h1>
 					<p>Select the tests that you want to run and the devices that you want to run them on.</p>
 				</div>
+				<div className="container">
 				{getPage()}
+				</div>
 			</div>
 		)
 	}

@@ -73,7 +73,7 @@ export default React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="container device-block">
+			<div className="device-block">
 				<h2 className="page-subtitle">Device List</h2>
 		        <DeviceList {...this.props}>
 		        </DeviceList>
