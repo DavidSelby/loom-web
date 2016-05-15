@@ -18,11 +18,17 @@ export default React.createClass ({
 	},
 	render: function() {
 		return (
-			<FeatureBlock
-				getFeatures={this.getFeatures}
-				features={this.state.features}
-				selectable={false}>
-			</FeatureBlock>
+			<div>
+				<div className="page-header">
+					<h1>Features</h1>
+					<p>View all of the features and scenarios from the selected project.</p>
+				</div>
+				<FeatureBlock
+					getFeatures={this.getFeatures}
+					features={this.state.features}
+					selectable={false}>
+				</FeatureBlock>
+			</div>
 		);
 	}
 });

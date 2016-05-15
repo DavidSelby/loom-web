@@ -13,18 +13,6 @@ html, body {
 	padding: 0px;
 	min-height: 100%;
 	margin: auto;
-    width: 95%;
-    margin-bottom: 100px;
-}
-
-/*.content-bg {
-	background-color: #FFF;
-	border: 1px solid #000;
-}*/
-
-.content-box {
-	min-height: 100%;
-	padding: 30px;
 }
 
 .panel.device-list {
@@ -37,7 +25,7 @@ html, body {
 }
 
 .app-header {
-	background: linear-gradient(to bottom right , #175977 , #568ab5);
+	background: #1a465b;
 }
 
 .logo {
@@ -67,12 +55,13 @@ html, body {
 .nav-tabs>.nav-top>a:focus {
 	background-color: transparent;
 	border-color: transparent;
+	color: #f7c56f;
 }
 
 .nav-tabs>.nav-top>a:hover {
 	background-color: transparent;
 	border-color: transparent;
-	color: #000;
+	color: #f7c56f;
 }
 
 .nav-tabs>.nav-top.nav-home {
@@ -95,6 +84,12 @@ html, body {
 .nav-tabs>.nav-top.nav-home>a:focus {
 	background-color: transparent;
 	border-color: transparent;
+	color: #FFF;
+}
+
+.nav-tabs>.nav-top.nav-home>a:focus {
+	background-color: transparent;
+	border-color: transparent;
 }
 
 .nav-tabs {
@@ -109,7 +104,26 @@ html, body {
 	float: right;
 }
 
+.page-header {
+	color: #FFF;
+	border: 0px;
+	margin: 0px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	background: linear-gradient(to bottom right , #175977 , #568ab5);
+}
+
+.page-header h1 {
+	margin-top: 0px;
+}
+
 .page-title {
+	text-decoration: none;
+	display: inline;
+}
+
+.page-subtitle {
 	text-decoration: none;
 	display: inline;
 }
@@ -190,6 +204,10 @@ html, body {
 	content: "";
 }
 
+.caret.orange {
+	color: #f7c56f;
+}
+
 a.expand-collapse {
 	text-decoration: none;
 }
@@ -198,12 +216,102 @@ a.expand-collapse {
 	margin-bottom: 4px
 }
 
+.paginated {
+	background: #FFF;
+}
+
+.run-nav {
+	background: #fff;
+	display: block;
+	height: 41px;
+	padding-top: 3px;
+	padding-bottom: 0px;
+    margin-bottom: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.nav-buttons a, .nav-buttons a.hover {
+	font-size: 20px;
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+	cursor: pointer; cursor: hand;
+}
+
+.run-nav.top {
+	margin-bottom: 10px;
+}
+
+.run-nav.bottom {
+	margin-top: 10px;
+}
+
+.nav-centre{
+	text-align: center;
+	display: inline;
+}
+
+.nav-buttons ul.nav-progress {
+	margin-top: 3px;
+	margin-bottom: 0px;
+	text-align:center;
+}
+
+.nav-progress-node {
+	margin: 2px;
+	font-size: 30px;
+	color: #cccccc;
+	display: inline-block;
+}
+
+.nav-progress-node.active {
+	color: #f7c56f;
+}
+
+.run-nav-table {
+	width: 100%;
+}
+
+.run-nav-element {
+	width: 100px;
+	margin: auto;
+}
+
+.run-nav-element.inactive a {
+	color: #c9c9c9;
+	cursor: auto; cursor: auto;
+}
+
+.menu-icon {
+	margin-bottom: 2px;
+}
+
 .next {
 	float: right;
+	display: inline;
+}
+
+.previous {
+	display: inline;
+}
+
+.blank {
+	color: transparent;
 }
 
 .run-tests {
+	display: inline;
 	float: right;
+}
+
+.select-all {
+	display: inline;
+}
+
+.refresh {
+	display: inline;
+	margin: 8px;
 }
 
 .select.select-item {
@@ -215,23 +323,41 @@ a.expand-collapse {
 	margin-bottom: 0px;
 	margin-top: 5px;
 }
+
+.panel-body.scenarios {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
 .feature-heading.panel-heading {
+	background: #fff;
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
 
-.feature-name {
+.feature-name, .feature-name.hover {
+	color: #000;
 	display: inline;
 	padding-right: 10px;
 }
 
-/*.scenario {
-	display: inline;
-}*/
+.scenario .select.select-item {
+	padding-left: 15px;
+}
 
-.feature-block {
-	margin-top: 20px;
-	margin-bottom: 10px;
+.line-num {
+	padding-right: 15px;
+}
+
+.scenario {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.scenario.even {
+	background: #ededed;
 }
 
 .feature-title {
@@ -245,4 +371,8 @@ a.expand-collapse {
 .branches-dropdown {
 	display: inline;
 	margin-left: 20px;
+}
+
+h2 {
+	margin-top: 10px;
 }

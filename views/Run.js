@@ -171,33 +171,67 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
+		var steps = 2;
+		console.log(this.state.step);
+		var progressArray = []
+		for (var i=1; i<=steps; i++) {
+			if (i == this.state.step) {
+				progressArray[i] = <li className="nav-progress-node active" key={i}>&#8226;</li>;
+			} else {
+				progressArray[i] = <li className="nav-progress-node" key={i}>&#8226;</li>;
+			}
+		}
+		var progress = <td className="run-nav-element"><ul className="nav-progress">{progressArray}</ul></td>;
+		if (this.state.step == 1) {
+			var previous = <td className="run-nav-element inactive"><a className="previous"><img className="menu-icon" src={'assets/previous-inactive.png'} width="24px" height="24px" />Back</a></td>;
+		} else {
+			var previous = <td className="run-nav-element"><a className="previous" onClick={this.previousStep}><img className="menu-icon" src={'assets/previous.png'} width="24px" height="24px" />Back</a></td>;
+		}
+		if (this.state.step < steps) {
+			var next = <td className="run-nav-element"><a className="next" onClick={this.nextStep}>Next<img className="menu-icon" src={'assets/next.png'} width="24px" height="24px" /></a></td>;
+		} else {
+			var next = <td className="run-nav-element"><a className="run-tests" onClick={this.runTests}>Run tests</a></td>;
+		}
+		var nav =
+			<div className="nav-buttons">
+				<table className="run-nav-table"><tbody><tr>
+					{previous}
+					{progress}
+					{next}
+				</tr></tbody></table>
+			</div>;
 		var getPage = function() {
 			switch (this.state.step) {
 				case 1:
 				return (
-					<div>
-						<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
-							<FeatureBlock
-								allChecked={this.state.allChecked}
-								handleCheckAllFeatures={this.handleCheckAllFeatures}
-								handleScenarioCheck={this.handleScenarioCheck} 
-								handleFeatureCheck={this.handleFeatureCheck}
-								getFeatures={this.getFeatures}
-								features={this.state.features}
-								selectedScenarios={this.state.selectedScenarios}
-								selectedFeatures={this.state.selectedFeatures}
-								selectable={true}
-								handleBranch={this.handleBranch}
-								refresh={this.refresh}>
-							</FeatureBlock>
-						<div className="next"><button className="btn btn-default" onClick={this.nextStep}>Next</button></div>
+					<div className="paginated">
+						<div className="run-nav top">
+							{nav}
+						</div>
+						<FeatureBlock
+							allChecked={this.state.allChecked}
+							handleCheckAllFeatures={this.handleCheckAllFeatures}
+							handleScenarioCheck={this.handleScenarioCheck} 
+							handleFeatureCheck={this.handleFeatureCheck}
+							getFeatures={this.getFeatures}
+							features={this.state.features}
+							selectedScenarios={this.state.selectedScenarios}
+							selectedFeatures={this.state.selectedFeatures}
+							selectable={true}
+							handleBranch={this.handleBranch}
+							refresh={this.refresh}>
+						</FeatureBlock>
+						<div className="run-nav bottom">
+							{nav}
+						</div>
 					</div>
 				);
 				case 2:
 				return (
-					<div>
-						<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
-						<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
+					<div className="paginated">
+						<div className="run-nav top">
+							{nav}
+						</div>
 						<DeviceBlock
 							getDevices={this.getDevices}
 							devices={this.state.devices}
@@ -205,8 +239,9 @@ export default React.createClass ({
 							handleDeviceCheck={this.handleDeviceCheck}
 							selectable={true}>
 						</DeviceBlock>
-						<div className="previous"><button className="btn btn-default" onClick={this.previousStep}>Back</button></div>
-						<div className="run-tests"><button className="btn btn-default" onClick={this.runTests}>Run tests</button></div>
+						<div className="run-nav bottom">
+							{nav}
+						</div>
 					</div>
 				);
 
@@ -214,8 +249,12 @@ export default React.createClass ({
 		}.bind(this);
 		return (
 			<div>
-			<h1>Run Tests</h1>
-			{getPage()}</div>
+				<div className="page-header">
+					<h1 className="page-title">Run Tests</h1>
+					<p>Select the tests that you want to run and the devices that you want to run them on.</p>
+				</div>
+				{getPage()}
+			</div>
 		)
 	}
 });

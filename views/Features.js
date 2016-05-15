@@ -28,10 +28,10 @@ var BranchSelect = React.createClass({
     	}.bind(this));
       	return (
 			<div className="dropdown branches-dropdown">
-				<button className="dropdown-toggle" type="button" data-toggle="dropdown">
+				<a className="dropdown-toggle" type="button" data-toggle="dropdown">
 					Branches
 					<span className="caret"></span>
-				</button>
+				</a>
 				<ul className="dropdown-menu">
 		    		{branches}
 		    		<li role="separator" className="divider"></li>
@@ -47,16 +47,21 @@ var Scenario = React.createClass({
 		this.props.handleScenarioCheck(this.props.feature, this.props.index);
 	},
 	render: function() {
+	    if (this.props.index % 2 == 0) {
+	    	var oddEven = "even";
+	    } else {
+	    	var oddEven = "odd";
+	    }
 		var selectScenario;
 		if (this.props.selectable) {
 			var selected = this.props.selectedScenarios[this.props.feature][this.props.index];
 			var selectScenario = <input type="checkbox" checked={selected} onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
-			<tr className="scenario">
+			<tr className={"scenario " + oddEven}>
 				<td>{selectScenario}</td>
-				<td className="text-success">{this.props.scenario.scenario}</td>
-				<td className="line-num text-muted">{this.props.scenario.lineNum}</td>
+				<td className="scenario-name">{this.props.scenario.scenario}</td>
+				<td className="line-num">{this.props.scenario.lineNum}</td>
 			</tr>
 		);
 	}
@@ -89,10 +94,10 @@ var Feature = React.createClass({
 			        	<h4 className="feature-name">
 			        		{this.props.feature.feature}
 			        	</h4>
-			        	<span className="caret"></span>
+			        	<span className="caret orange"></span>
 			        </a>
 		        </div>
-		        <div className="collapse panel-body" id={"feat-" + this.props.feature._id}>
+		        <div className="collapse panel-body scenarios" id={"feat-" + this.props.feature._id}>
 		        	<p className="feature-path small">{this.props.feature.path}</p>
 			        <table>
 			        	<tbody>
@@ -129,6 +134,8 @@ var FeatureList = React.createClass({
 				return (
 					<div className="featureList">
 						<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
+						<BranchSelect handleBranch={this.props.handleBranch} />
+						<div className="refresh"><a onClick={this.props.getFeatures}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
 						<form>
 							{featureNodes}
 						</form>
@@ -137,6 +144,8 @@ var FeatureList = React.createClass({
 	    	} else {
 	    		return (
 	    			<div className="featureList">
+						<BranchSelect handleBranch={this.props.handleBranch} />
+						<div className="refresh"><button onClick={this.props.getFeatures}><img src={'assets/refresh.png'} width="18px" height="18px" /></button></div>
 						{featureNodes}
 					</div>
 	    		);
@@ -161,20 +170,16 @@ export default React.createClass({
 	render: function() {
 		if (this.props.features == "notFound") {
 			return (
-				<div className="feature-block">
-					<h2 className="page-title feature-title">Feature List</h2>
-					<BranchSelect handleBranch={this.props.handleBranch} />
-					<div className="refresh"><button className="btn btn-default" onClick={this.props.getFeatures}>Refresh</button></div>
+				<div className="container feature-block">
+					<h2 className="page-subtitle feature-title">Feature List</h2>
 					<p>Features not found, please check that a controller is running</p>
 		      	</div>
 		    );
 		} else {
 			return (
-				<div className="feature-block">
-					<h2 className="page-title feature-title">Feature List</h2>
-					<BranchSelect handleBranch={this.props.handleBranch} />
-					<div className="refresh"><button className="btn btn-default" onClick={this.props.getFeatures}>Refresh</button></div>
-			        <FeatureList {...this.props} >
+				<div className="container feature-block">
+					<h2 className="page-subtitle feature-title">Feature List</h2>
+					<FeatureList {...this.props} >
 			        </FeatureList>
 		      	</div>
 			);

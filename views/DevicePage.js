@@ -18,11 +18,17 @@ export default React.createClass ({
 	},
 	render: function() {
 		return (
-			<DeviceBlock
-				getDevices={this.getDevices}
-				devices={this.state.devices}
-				selectable={false}>
-			</DeviceBlock>
+			<div>
+				<div className="page-header">
+					<h1>Devices</h1>
+					<p>View all of the devices currently connected to arachne host machines.</p>
+				</div>
+				<DeviceBlock
+					getDevices={this.getDevices}
+					devices={this.state.devices}
+					selectable={false}>
+				</DeviceBlock>
+			</div>
 		);
 	}
 });
