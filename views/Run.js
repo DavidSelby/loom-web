@@ -142,6 +142,8 @@ export default React.createClass ({
 		var tags = event.target.value;
 		this.setState({
 			tagsString: tags
+		}, function() {
+			this.unstringTags();
 		});
 	},
 
@@ -267,7 +269,6 @@ export default React.createClass ({
 	},
 	render: function() {
 		var steps = 3;
-		console.log(this.state.step);
 		var progressArray = []
 		for (var i=1; i<=steps; i++) {
 			if (i == this.state.step) {
