@@ -18,7 +18,7 @@ var ExcludeTags = React.createClass({
 			var included = "";
 			if (this.props.excludedTags.indexOf("~" + tag.tag) > -1) {
 				included=" excluded";
-			} else if (this.props.includedTags.indexOf("~" + tag.tag) > -1) {
+			} else if (this.props.includedTags.indexOf(tag.tag) > -1) {
 				included=" disabled";
 			}
     		return (
@@ -51,7 +51,7 @@ var IncludeTags = React.createClass({
 			var included = "";
 			if (this.props.includedTags.indexOf(tag.tag) > -1) {
 				included=" included";
-			} else if (this.props.excludedTags.indexOf(tag.tag) > -1) {
+			} else if (this.props.excludedTags.indexOf("~" + tag.tag) > -1) {
 				included=" disabled";
 			}
     		return (
