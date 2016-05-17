@@ -409,6 +409,12 @@ a.tag, a.tag.hover, a.tag.focus {
 	background: #f7c56f;
 }
 
+.tag.disabled {
+	color: #cccccc;
+	pointer-events: none;
+	cursor: default;
+}
+
 .selected-tags {
 	margin-top: 20px;
 	display: block;
