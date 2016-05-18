@@ -421,3 +421,52 @@ a.tag, a.tag.hover, a.tag.focus {
 	width: 100%;
 	margin: auto;
 }
+
+.featureList {
+	height: 100%;
+}
+
+.overlay.refreshing {
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	background-color: #fff;
+	opacity: 0.5;
+}
+
+.overlay {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	opacity: 0.5;
+}
+
+.refreshing {
+  position: relative;
+}
+
+.refreshing:after {
+  content: " ";
+  z-index: 10;
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  opacity: 0.5;
+}
+
+.refresh.refreshing img {
+	animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}

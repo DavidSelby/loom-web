@@ -122,16 +122,15 @@ var FeatureList = React.createClass({
 				<p className="spinner">Loading...</p>
 			)
 		} else {
+			var refreshing = this.props.refreshing? ' refreshing' : '';
 			if (this.props.selectable) {
-				var label = 'Select All';
-				if (this.props.allChecked) {
-					label = 'Select None';
-				}
+				var label = this.props.allChecked ? 'Select None' : 'Select All';
+				var refreshing = this.props.refreshing? ' refreshing' : '';
 				return (
-					<div className="featureList">
+					<div className={"featureList" + refreshing}>
 						<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
 						<BranchSelect handleBranch={this.props.handleBranch} />
-						<div className="refresh"><a onClick={this.props.getFeatures}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
+						<div className={"refresh" + refreshing}><a onClick={this.props.refresh}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
 						<form>
 							{featureNodes}
 						</form>
@@ -139,9 +138,9 @@ var FeatureList = React.createClass({
 	    		);
 	    	} else {
 	    		return (
-	    			<div className="featureList">
+	    			<div className={"featureList" + refreshing}>
 						<BranchSelect handleBranch={this.props.handleBranch} />
-						<div className="refresh"><button onClick={this.props.getFeatures}><img src={'assets/refresh.png'} width="18px" height="18px" /></button></div>
+						<div className={"refresh" + refreshing}><a onClick={this.props.refresh}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
 						{featureNodes}
 					</div>
 	    		);
@@ -165,20 +164,15 @@ export default React.createClass({
 	},
 	render: function() {
 		if (this.props.features == "notFound") {
-			return (
-				<div className="container feature-block">
-					<h2 className="page-subtitle feature-title">Feature List</h2>
-					<p>Features not found, please check that a controller is running</p>
-		      	</div>
-		    );
+			var features = <p>Features not found, please check that a controller is running</p>
 		} else {
-			return (
-				<div className="container feature-block">
-					<h2 className="page-subtitle feature-title">Feature List</h2>
-					<FeatureList {...this.props} >
-			        </FeatureList>
-		      	</div>
-			);
+			var features = <FeatureList {...this.props} ></FeatureList>
 		}
+		return (
+			<div className="container feature-block">
+				<h2 className="page-subtitle feature-title">Feature List</h2>
+				{features}
+		    </div>
+		);
 	}
 });

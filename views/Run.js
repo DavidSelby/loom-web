@@ -47,9 +47,15 @@ export default React.createClass ({
 				selectedFeatures: selectedFeatures,
 		   		selectedScenarios: selectedScenarios,
 		   		features: features.features,
-		   		lineNums: lineNums
+		   		lineNums: lineNums,
+		   		refreshing: false
 		    });
 	    }.bind(this));
+	},
+	refresh: function() {
+		this.setState({
+			refreshing: true
+		}, this.getFeatures());
 	},
 	handleCheckAllFeatures: function() {
 		var allChecked = !this.state.allChecked;
@@ -264,6 +270,7 @@ export default React.createClass ({
 			selectedScenarios: [],
 			allChecked: false,
 			lineNums: [],
+			refreshing: false,
 			step: 1
 		}
 	},
@@ -315,7 +322,8 @@ export default React.createClass ({
 							selectedFeatures={this.state.selectedFeatures}
 							selectable={true}
 							handleBranch={this.handleBranch}
-							refresh={this.refresh}>
+							refresh={this.refresh}
+							refreshing={this.state.refreshing}>
 						</FeatureBlock>
 						<div className="run-nav bottom">
 							{nav}
