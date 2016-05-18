@@ -125,7 +125,6 @@ var FeatureList = React.createClass({
 			var refreshing = this.props.refreshing? ' refreshing' : '';
 			if (this.props.selectable) {
 				var label = this.props.allChecked ? 'Select None' : 'Select All';
-				var refreshing = this.props.refreshing? ' refreshing' : '';
 				return (
 					<div className={"featureList" + refreshing}>
 						<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
@@ -150,6 +149,21 @@ var FeatureList = React.createClass({
 });
 
 export default React.createClass({
+	refresh: function() {
+		this.setState({
+			refreshing: true
+		}, this.props.getFeatures(this.refreshFinished));
+	},
+	getInitialState: function() {
+		return {
+			refreshing: false
+		}
+	},
+	refreshFinished: function() {
+		this.setState({
+			refreshing: false
+		});
+	},
 	getDefaultProps : function() {
 		return {
 			"selectable" : false,
@@ -159,14 +173,14 @@ export default React.createClass({
 	},
 	componentDidMount: function() {
 		if (this.props.features.length < 1) {
-			this.props.getFeatures();
+			this.props.getFeatures(this.refreshFinished);
 		}
 	},
 	render: function() {
 		if (this.props.features == "notFound") {
 			var features = <p>Features not found, please check that a controller is running</p>
 		} else {
-			var features = <FeatureList {...this.props} ></FeatureList>
+			var features = <FeatureList {...this.props} refresh={this.refresh} refreshing={this.state.refreshing}></FeatureList>
 		}
 		return (
 			<div className="container feature-block">

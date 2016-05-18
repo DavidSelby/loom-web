@@ -23,7 +23,7 @@ export default React.createClass ({
 		}
 	},
 	// Gets features from the server and creates selectedScenarios, selectedFeatures and lineNums arrays with the correct number of values
-	getFeatures: function() {
+	getFeatures: function(finished) {
 		var features = {};
 		var selectedScenarios = [];
 		var selectedFeatures = [];
@@ -47,15 +47,9 @@ export default React.createClass ({
 				selectedFeatures: selectedFeatures,
 		   		selectedScenarios: selectedScenarios,
 		   		features: features.features,
-		   		lineNums: lineNums,
-		   		refreshing: false
-		    });
+		   		lineNums: lineNums
+		    }, finished());
 	    }.bind(this));
-	},
-	refresh: function() {
-		this.setState({
-			refreshing: true
-		}, this.getFeatures());
 	},
 	handleCheckAllFeatures: function() {
 		var allChecked = !this.state.allChecked;
@@ -270,7 +264,6 @@ export default React.createClass ({
 			selectedScenarios: [],
 			allChecked: false,
 			lineNums: [],
-			refreshing: false,
 			step: 1
 		}
 	},
@@ -321,9 +314,7 @@ export default React.createClass ({
 							selectedScenarios={this.state.selectedScenarios}
 							selectedFeatures={this.state.selectedFeatures}
 							selectable={true}
-							handleBranch={this.handleBranch}
-							refresh={this.refresh}
-							refreshing={this.state.refreshing}>
+							handleBranch={this.handleBranch}>
 						</FeatureBlock>
 						<div className="run-nav bottom">
 							{nav}

@@ -4,11 +4,11 @@ import FeatureBlock from './Features'
 import DeviceBlock from './Devices'
 
 export default React.createClass ({
-	getFeatures: function() {
+	getFeatures: function(finished) {
 		this.serverRequest = $.get('/api/features', function (result) {
 			this.setState({
 	    		features: result[0].features
-	    	});
+	    	}, finished());
 	    }.bind(this));
 	},
 	getInitialState: function() {
