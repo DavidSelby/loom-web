@@ -83,7 +83,7 @@ export default React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="container tag-block">
+			<div className="tag-block">
 				<h2 className="page-subtitle tag-title">Tag List</h2>
 				<IncludeTags {...this.props} ></IncludeTags>
 				<ExcludeTags {...this.props} ></ExcludeTags>

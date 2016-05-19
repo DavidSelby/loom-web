@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import BranchBlock from './Branches'
 import FeatureBlock from './Features'
 import DeviceBlock from './Devices'
 import TagBlock from './Tags'
@@ -238,14 +239,16 @@ export default React.createClass ({
 	// Steps
 	nextStep: function() {
 		this.setState({
-			step: this.state.step+1
+			step: this.state.step+1,
+			transition: 'left'
 		}, function() {
 			window.scrollTo(0,0);
 		});
 	},
 	previousStep: function() {
 		this.setState({
-			step: this.state.step-1
+			step: this.state.step-1,
+			transition: 'right'
 		}, function() {
 			window.scrollTo(0,0);
 		});
@@ -268,7 +271,7 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
-		var steps = 3;
+		var steps = 4;
 		var progressArray = []
 		for (var i=1; i<=steps; i++) {
 			if (i == this.state.step) {
@@ -304,6 +307,18 @@ export default React.createClass ({
 						<div className="run-nav top">
 							{nav}
 						</div>
+						<BranchBlock handleBranch={this.handleBranch} />
+						<div className="run-nav bottom">
+							{nav}
+						</div>
+					</div>
+				);
+				case 2:
+				return (
+					<div className="paginated">
+						<div className="run-nav top">
+							{nav}
+						</div>
 						<FeatureBlock
 							allChecked={this.state.allChecked}
 							handleCheckAllFeatures={this.handleCheckAllFeatures}
@@ -321,7 +336,7 @@ export default React.createClass ({
 						</div>
 					</div>
 				);
-				case 2:
+				case 3:
 				return (
 					<div className="paginated">
 						<div className="run-nav top">
@@ -342,7 +357,7 @@ export default React.createClass ({
 						</div>
 					</div>
 				)
-				case 3:
+				case 4:
 				return (
 					<div className="paginated">
 						<div className="run-nav top">
@@ -369,7 +384,7 @@ export default React.createClass ({
 					<h1>Run Tests</h1>
 					<p>Select the tests that you want to run and the devices that you want to run them on.</p>
 				</div>
-				<div className="container">
+				<div className="container paginated">
 				{getPage()}
 				</div>
 			</div>

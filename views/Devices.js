@@ -2,6 +2,12 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Device = React.createClass({
+	stop: function(udid) {
+		this.serverRequest = $.post("/api/devices/" + udid + "/stop");
+	},
+	restart: function(udid) {
+		this.serverRequest = $.post("/api/devices/" + udid + "/restart");
+	},
 	render: function() {
 		var selectDevice;
 		if (this.props.selectable) {
@@ -9,23 +15,28 @@ var Device = React.createClass({
 			var selected = index > -1;
 			selectDevice = <input type="checkbox" checked={selected} onChange={this.props.handleDeviceCheck} id={"sel-dev-" + this.props.device.udid} className={"select select-item sel-dev-" + this.props.device.udid} />
 		}
+		if (['busy','stop'].indexOf(this.props.device.status) > -1) {
+			var stopButton = <button className="stop-device btn btn-default" onClick={() => this.stop(this.props.device.udid)}>Stop</button>
+		}
 		return (
 			<div>
-				<div className="panel panel-default device-list">
-					<div className={"panel-heading device-header-" + this.props.device.platformName.toLowerCase()}>
-						<h2 className={"device-status " + this.props.device.status}>&#8226;</h2>
-						{selectDevice}
-						<a href={"#device-"+this.props.device.udid} className="device-title-info" data-toggle="collapse" className="expand-collapse">
-							<h2 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName}</h2>
-							<h4 className="device-name">{this.props.device.deviceName}</h4>
-							<span className="caret white large" />
-						</a>
-					</div>
-					<div className="panel-body collapse" id={"device-"+this.props.device.udid}>
-						<p className="device-info"><b>Version:</b> {this.props.device.platformVersion}</p>
-						<p className="device-info"><b>UDID:</b> {this.props.device.udid}</p>
-						<p className="device-info"><b>Status:</b> {this.props.device.status}</p>
-					</div>
+				<div className={"overlay " + this.props.device.status}>
+				<div className={"device-header " + this.props.device.platformName.toLowerCase() + " " + this.props.device.status}>
+					<h2 className={"device-status " + this.props.device.status}>&#8226;</h2>
+					{selectDevice}
+					<a href={"#device-"+this.props.device.udid} className="device-title-info" data-toggle="collapse" className="expand-collapse">
+						<h3 className={"device-type-" + this.props.device.platformName.toLowerCase()}>{this.props.device.platformName.trim()}</h3>
+						<h4 className="device-name">{this.props.device.deviceName.trim()}</h4>
+						<p span className="orange">+</p>
+					</a>
+					{stopButton}
+				</div>
+				<div className="collapse" id={"device-"+this.props.device.udid}>
+					<button className="restart btn btn-default" onClick={() => this.restart(this.props.device.udid)}>Restart Device</button>
+					<p className="device-info"><b>Version:</b> {this.props.device.platformVersion}</p>
+					<p className="device-info"><b>UDID:</b> {this.props.device.udid}</p>
+					<p className="device-info"><b>Status:</b> {this.props.device.status}</p>
+				</div>
 				</div>
 			</div>
 		);
@@ -46,7 +57,7 @@ var DeviceList = React.createClass({
 			)
 		} else {
 			return (
-				<div className="deviceList">
+				<div className="device-list">
 					{devices}
 				</div>
 			);

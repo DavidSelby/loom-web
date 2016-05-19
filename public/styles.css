@@ -13,9 +13,15 @@ html, body {
 	padding: 0px;
 	min-height: 100%;
 	margin: auto;
+	padding-top: 20px;
 }
 
-.panel.device-list {
+.container.paginated {
+	padding-top: 5px;
+}
+
+.device-list {
+	border-bottom: 1px solid #d3d3d3;
 	margin-bottom: 10px;
 }
 
@@ -124,6 +130,8 @@ html, body {
 }
 
 .page-subtitle {
+	margin-top: 20px;
+	margin-bottom: 10px;
 	text-decoration: none;
 	display: inline;
 }
@@ -134,48 +142,58 @@ html, body {
 	margin-bottom: 0px;
 	margin-right: 15px;
 	color: #2dd300;
-	vertical-align: middle;
 }
 
-.device-status.busy {
+.device-status.busy, .device-status.stop, .device-status.restart {
 	display: inline;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-right: 15px;
-	vertical-align: middle;
 	color: #ffaa00;
 }
 
-.panel-heading.device-header-ios {
+.device-header.ios {
+	background: white;
 	padding-top: 1px;
 	padding-bottom: 1px;
-	background: linear-gradient(to bottom right , #175977 , #568ab5);
+	border-top: 1px solid #d3d3d3;
+	/*border: 1px solid #568ab5;*/
 }
 
 .device-type-ios {
 	display: inline;
 	color: #86aae0;
-	vertical-align: middle;
+	margin-right: 15px;
 
 }
 
-.panel-heading.device-header-android {
+.device-header.android {
+	background: white;
 	padding-top: 1px;
 	padding-bottom: 1px;
-	background: linear-gradient(to bottom right , #30601f , #649154);
+	border-top: 1px solid #d3d3d3;
+	/*border: 1px solid #30601f;*/
 }
 
 .device-type-android {
 	display: inline;
 	color: #74ba5d;
-	vertical-align: middle;
+	margin-right: 15px;
 }
 
-.device-name {
-	display:inline;
-	padding-left: 15px;
-	color: #FFFFFF;
-	vertical-align: middle;
+.overlay
+
+.overlay.stop, .overlay.restart {
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	background-color: #fff;
+	opacity: 0.5;
+}
+
+.stop-device, .stop-device {
+	display: inline;
+	margin-left: 20px;
 }
 
 .caret.white.large {
@@ -207,6 +225,7 @@ html, body {
 .orange {
 	color: #f7c56f;
 	display: inline;
+
 }
 
 a.expand-collapse, a.expand-collapse div {
@@ -217,6 +236,10 @@ a.expand-collapse, a.expand-collapse div {
 
 .device-info {
 	margin-bottom: 4px
+}
+
+.restart.btn {
+	float: right;
 }
 
 .paginated {
@@ -232,7 +255,7 @@ a.expand-collapse, a.expand-collapse div {
     margin-bottom: 0px;
 }
 
-.nav-buttons a, .nav-buttons a.hover {
+.nav-buttons a, .nav-buttons a:hover {
 	font-size: 20px;
 	color: #000;
 	text-decoration: none;
@@ -254,13 +277,13 @@ a.expand-collapse, a.expand-collapse div {
 }
 
 .nav-buttons ul.nav-progress {
-	margin-top: 3px;
 	margin-bottom: 0px;
 	text-align:center;
 }
 
 .nav-progress-node {
-	margin: 2px;
+	margin-right: 2px;
+	margin-left: 2px;
 	font-size: 30px;
 	color: #cccccc;
 	display: inline-block;
@@ -306,13 +329,18 @@ a.expand-collapse, a.expand-collapse div {
 	float: right;
 }
 
+.list-options {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .select-all {
 	display: inline;
+	margin-right: 5px;
 }
 
 .refresh {
 	display: inline;
-	margin: 8px;
 }
 
 .select.select-item {
@@ -338,7 +366,7 @@ a.expand-collapse, a.expand-collapse div {
 	padding-bottom: 2px;
 }
 
-.feature-name, .feature-name.hover {
+.feature-name, .feature-name:hover, .device-name, .device-name:hover {
 	color: #000;
 	display: inline;
 	padding-right: 10px;
@@ -378,15 +406,13 @@ a.expand-collapse, a.expand-collapse div {
 }
 
 .branches-dropdown {
-	display: inline;
-	margin-left: 20px;
 }
 
 h2 {
 	margin-top: 10px;
 }
 
-a.tag, a.tag.hover, a.tag.focus {
+a.tag, a.tag:hover, a.tag:focus {
 	border: 1px solid #ededed;
 	border-radius: 3px;
 	text-decoration: none;
@@ -394,6 +420,7 @@ a.tag, a.tag.hover, a.tag.focus {
 	padding: 5px;
 	margin: 3px;
 	font-size: 16px;
+	cursor: pointer; cursor: hand;
 }
 
 .tags-list {
@@ -424,20 +451,14 @@ a.tag, a.tag.hover, a.tag.focus {
 
 .featureList {
 	height: 100%;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #d3d3d3;
 }
 
 .overlay.refreshing {
 	width: 100%;
 	height: 100%;
 	z-index: 0;
-	background-color: #fff;
-	opacity: 0.5;
-}
-
-.overlay {
-	position: relative;
-	width: 100%;
-	height: 100%;
 	background-color: #fff;
 	opacity: 0.5;
 }
@@ -469,4 +490,27 @@ a.tag, a.tag.hover, a.tag.focus {
 @keyframes spin {
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
+}
+
+@keyframes slideInLeft {
+	from {transform:translateX(-100%);}
+	to {transform:translateX(0%);}
+}
+
+.slide-enter {
+  opacity: 0.01;
+}
+
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.slide-leave {
+  opacity: 1;
+}
+
+.slide-leave.slide-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

@@ -2,46 +2,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
-// tutorial5.js
-
-var BranchSelect = React.createClass({
-	loadBranchesFromServer: function() {
-		this.serverRequest = $.get('/api/branches', function (result) {
-			this.setState({
-				branches : result
-			});
-		}.bind(this));
-	},
-	getInitialState: function() {
-		return {branches: []};
-	},
-	componentDidMount: function() {
-		this.loadBranchesFromServer();
-	},
-	render: function() {
-		var branches = this.state.branches.map(function(branch) {
-    		return (
-        		<li key={branch._id}>
-        			<a href="#" onClick={this.props.handleBranch}>{branch.name}</a>
-        		</li>
-      		);
-    	}.bind(this));
-      	return (
-			<div className="dropdown branches-dropdown">
-				<a className="dropdown-toggle" type="button" data-toggle="dropdown">
-					Branches
-					<span className="caret"></span>
-				</a>
-				<ul className="dropdown-menu">
-		    		{branches}
-		    		<li role="separator" className="divider"></li>
-		    		<li><a href="#">Refresh</a></li>
-	  			</ul>
-			</div>
-		);
-	}
-});
-
 var Scenario = React.createClass({
 	handleCheck: function() {
 		this.props.handleScenarioCheck(this.props.feature, this.props.index);
@@ -127,9 +87,10 @@ var FeatureList = React.createClass({
 				var label = this.props.allChecked ? 'Select None' : 'Select All';
 				return (
 					<div className={"featureList" + refreshing}>
-						<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
-						<BranchSelect handleBranch={this.props.handleBranch} />
-						<div className={"refresh" + refreshing}><a onClick={this.props.refresh}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
+						<div className="list-options">
+							<div className="select-all"><button className="btn btn-default" onClick={this.props.handleCheckAllFeatures}>{label}</button></div>
+							<button className={"btn btn-default refresh" + refreshing} onClick={this.props.refresh}>Refresh <img src={'assets/refresh.png'} width="18px" height="18px" /></button>
+						</div>
 						<form>
 							{featureNodes}
 						</form>
@@ -138,8 +99,7 @@ var FeatureList = React.createClass({
 	    	} else {
 	    		return (
 	    			<div className={"featureList" + refreshing}>
-						<BranchSelect handleBranch={this.props.handleBranch} />
-						<div className={"refresh" + refreshing}><a onClick={this.props.refresh}><img src={'assets/refresh.png'} width="18px" height="18px" /></a></div>
+						<button className={"btn btn-default refresh" + refreshing} onClick={this.props.refresh}>Refresh <img src={'assets/refresh.png'} width="18px" height="18px" /></button>
 						{featureNodes}
 					</div>
 	    		);
@@ -183,7 +143,7 @@ export default React.createClass({
 			var features = <FeatureList {...this.props} refresh={this.refresh} refreshing={this.state.refreshing}></FeatureList>
 		}
 		return (
-			<div className="container feature-block">
+			<div className="feature-block">
 				<h2 className="page-subtitle feature-title">Feature List</h2>
 				{features}
 		    </div>
