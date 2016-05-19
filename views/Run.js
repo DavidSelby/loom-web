@@ -297,7 +297,7 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
-		var tabs = ['Branches', 'Features', 'Tabs', 'Devices'];
+		var tabs = ['Branches', 'Features', 'Tags', 'Devices'];
 		var getPage = function() {
 			switch (this.state.step) {
 				case 1:
@@ -362,6 +362,7 @@ export default React.createClass ({
 				<li className={"tab" + active}><a onClick={() => this.switchTab(index+1)}>{tab}</a></li>
 			);
 		}.bind(this));
+		var runActive = (this.state.selectedDevices.length > 0) ? ' ready' : '';
 		return (
 			<div>
 				<div className="page-header">
@@ -370,6 +371,7 @@ export default React.createClass ({
 				</div>
 				<ul className="tabbed-nav">
 					{navTabs}
+					<li className={"tab run-tests" + runActive}><a onClick={this.runTests}>Run Tests</a></li>
 				</ul>
 				<div className="container paginated">
 					{getPage()}
