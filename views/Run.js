@@ -1,27 +1,46 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import BranchBlock from './Branches'
 import FeatureBlock from './Features'
 import DeviceBlock from './Devices'
 import TagBlock from './Tags'
 
 export default React.createClass ({
+	contextTypes: {
+    	router: React.PropTypes.object.isRequired
+  	},
 	runTests: function() {
 		var scenarios = this.state.lineNums.join(' ');
 		scenarios = scenarios.trim().replace(/\s+/g, ' ');
-		for (var i = 0; i < this.state.selectedDevices.length; i++) {
-			var command = "cucumber " + this.state.tagsString + " " + scenarios + " BROWSER=" + this.state.selectedDevices[i];
-			command = command.replace(/\s+/, " ");
-			$.ajax({
-				url: '/api/cukes',
-				dataType: "json",
-				type: 'POST',
-				data: {"runId" : "12334324", "command" : command, "status" : "pending", "device" : this.state.selectedDevices[i]},
-				success: function() {
-					console.log("CUKE SENT: " + command);
-				}
-			});
+		// IE8 support
+		if (!Date.now) {
+			Date.now = function() { return new Date().getTime(); }
 		}
+		var runId = Date.now();
+		$.ajax({
+			url: '/api/runs',
+			dataType: "json",
+			type: 'POST',
+			data: {"runId" : runId},
+			success: function() {
+				for (var i = 0; i < this.state.selectedDevices.length; i++) {
+					var command = "cucumber " + this.state.tagsString + " " + scenarios + " BROWSER=" + this.state.selectedDevices[i];
+					command = command.replace(/\s+/, " ");
+					$.ajax({
+						url: '/api/cukes',
+						dataType: "json",
+						type: 'POST',
+						data: {"runId" : runId, "command" : command, "status" : "pending", "device" : this.state.selectedDevices[i]},
+						success: function() {
+							console.log("CUKE SENT: " + command);
+							this.context.router.push('/');
+						}.bind(this)
+					});
+				}
+			}.bind(this)
+		});
+		
 	},
 	// Gets features from the server and creates selectedScenarios, selectedFeatures and lineNums arrays with the correct number of values
 	getFeatures: function(finished) {
@@ -237,6 +256,13 @@ export default React.createClass ({
 	},
 
 	// Steps
+	switchTab: function(index) {
+		this.setState({
+			step: index
+		}, function() {
+			console.log(this.state.step);
+		});
+	},
 	nextStep: function() {
 		this.setState({
 			step: this.state.step+1,
@@ -271,54 +297,18 @@ export default React.createClass ({
 		}
 	},
 	render: function() {
-		var steps = 4;
-		var progressArray = []
-		for (var i=1; i<=steps; i++) {
-			if (i == this.state.step) {
-				progressArray[i] = <li className="nav-progress-node active" key={i}>&#8226;</li>;
-			} else {
-				progressArray[i] = <li className="nav-progress-node" key={i}>&#8226;</li>;
-			}
-		}
-		var progress = <td className="run-nav-element"><ul className="nav-progress">{progressArray}</ul></td>;
-		if (this.state.step == 1) {
-			var previous = <td className="run-nav-element inactive"><a className="previous"><img className="menu-icon" src={'assets/previous-inactive.png'} width="24px" height="24px" />Back</a></td>;
-		} else {
-			var previous = <td className="run-nav-element"><a className="previous" onClick={this.previousStep}><img className="menu-icon" src={'assets/previous.png'} width="24px" height="24px" />Back</a></td>;
-		}
-		if (this.state.step < steps) {
-			var next = <td className="run-nav-element"><a className="next" onClick={this.nextStep}>Next<img className="menu-icon" src={'assets/next.png'} width="24px" height="24px" /></a></td>;
-		} else {
-			var next = <td className="run-nav-element"><a className="run-tests" onClick={this.runTests}>Run tests</a></td>;
-		}
-		var nav =
-			<div className="nav-buttons">
-				<table className="run-nav-table"><tbody><tr>
-					{previous}
-					{progress}
-					{next}
-				</tr></tbody></table>
-			</div>;
+		var tabs = ['Branches', 'Features', 'Tabs', 'Devices'];
 		var getPage = function() {
 			switch (this.state.step) {
 				case 1:
 				return (
 					<div className="paginated">
-						<div className="run-nav top">
-							{nav}
-						</div>
 						<BranchBlock handleBranch={this.handleBranch} />
-						<div className="run-nav bottom">
-							{nav}
-						</div>
 					</div>
 				);
 				case 2:
 				return (
 					<div className="paginated">
-						<div className="run-nav top">
-							{nav}
-						</div>
 						<FeatureBlock
 							allChecked={this.state.allChecked}
 							handleCheckAllFeatures={this.handleCheckAllFeatures}
@@ -331,17 +321,11 @@ export default React.createClass ({
 							selectable={true}
 							handleBranch={this.handleBranch}>
 						</FeatureBlock>
-						<div className="run-nav bottom">
-							{nav}
-						</div>
 					</div>
 				);
 				case 3:
 				return (
 					<div className="paginated">
-						<div className="run-nav top">
-							{nav}
-						</div>
 						<TagBlock
 							setTagsString={this.setTagsString}
 							getTags={this.getTags}
@@ -352,17 +336,11 @@ export default React.createClass ({
 							includeTag={this.includeTag}
 							excludeTag={this.excludeTag}>
 						</TagBlock>
-						<div className="run-nav bottom">
-							{nav}
-						</div>
 					</div>
 				)
 				case 4:
 				return (
 					<div className="paginated">
-						<div className="run-nav top">
-							{nav}
-						</div>
 						<DeviceBlock
 							getDevices={this.getDevices}
 							devices={this.state.devices}
@@ -370,24 +348,33 @@ export default React.createClass ({
 							handleDeviceCheck={this.handleDeviceCheck}
 							selectable={true}>
 						</DeviceBlock>
-						<div className="run-nav bottom">
-							{nav}
-						</div>
 					</div>
 				);
 
 			}
 		}.bind(this);
+		var navTabs = tabs.map(function(tab, index) {
+			var active = '';
+			if (index + 1 == this.state.step) {
+				active = ' active'
+			}
+			return(
+				<li className={"tab" + active}><a onClick={() => this.switchTab(index+1)}>{tab}</a></li>
+			);
+		}.bind(this));
 		return (
 			<div>
 				<div className="page-header">
 					<h1>Run Tests</h1>
 					<p>Select the tests that you want to run and the devices that you want to run them on.</p>
 				</div>
+				<ul className="tabbed-nav">
+					{navTabs}
+				</ul>
 				<div className="container paginated">
-				{getPage()}
+					{getPage()}
 				</div>
 			</div>
-		)
+		);
 	}
 });

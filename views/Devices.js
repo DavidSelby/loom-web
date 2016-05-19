@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Device = React.createClass({
-	stop: function(udid) {
-		this.serverRequest = $.post("/api/devices/" + udid + "/stop");
+	stop: function(cuke) {
+		this.serverRequest = $.post("/api/cukes/" + cuke + "/stop");
 	},
 	restart: function(udid) {
 		this.serverRequest = $.post("/api/devices/" + udid + "/restart");
@@ -16,7 +16,7 @@ var Device = React.createClass({
 			selectDevice = <input type="checkbox" checked={selected} onChange={this.props.handleDeviceCheck} id={"sel-dev-" + this.props.device.udid} className={"select select-item sel-dev-" + this.props.device.udid} />
 		}
 		if (['busy','stop'].indexOf(this.props.device.status) > -1) {
-			var stopButton = <button className="stop-device btn btn-default" onClick={() => this.stop(this.props.device.udid)}>Stop</button>
+			var stopButton = <button className="stop-device btn btn-default" onClick={() => this.stop(this.props.device.cuke)}>Stop</button>
 		}
 		return (
 			<div>

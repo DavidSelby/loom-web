@@ -17,6 +17,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
 require('./routes/cuke')(app);
+require('./routes/run')(app);
 require('./routes/feature')(app);
 require('./routes/report')(app);
 require('./routes/device')(app);

@@ -5,5 +5,6 @@ module.exports = mongoose.model('Device', {
 	deviceName : {type : String, required : true},
 	udid : String,
 	platformVersion : {type : String, required : true},
-	status : String
+	status : String,
+	cuke : String
 });

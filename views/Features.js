@@ -13,10 +13,10 @@ var Scenario = React.createClass({
 			var selectScenario = <input type="checkbox" checked={selected} onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
-			<tr className="scenario">
-				<td>{selectScenario}</td>
-				<td className="scenario-name">{this.props.scenario.scenario.replace(/Scenario: |Scenario Outline: /, "")}</td>
-			</tr>
+			<div className="scenario">
+				{selectScenario}
+				{this.props.scenario.scenario.replace(/Scenario: |Scenario Outline: /, "")}
+			</div>
 		);
 	}
 });
@@ -55,11 +55,9 @@ var Feature = React.createClass({
 		        </div>
 		        <div className="collapse scenarios" id={"feat-" + this.props.feature._id}>
 		        	<p className="feature-path small">{this.props.feature.path}</p>
-			        <table className="scenario-table">
-			        	<tbody>
-			   				{scenarios}
-			   			</tbody>
-			        </table>
+			        <div className="scenario-table">
+			   			{scenarios}
+			        </div>
 		        </div>
 		    </div>
 		);

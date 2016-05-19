@@ -18,7 +18,8 @@ module.exports = function(app){
 			deviceName : req.body.deviceName,
 			udid : req.body.udid,
 			platformVersion : req.body.platformVersion,
-			status : req.body.status
+			status : req.body.status,
+			cuke : ''
 		}, function(err, device) {
 			if(err) {
 				res.send(err);

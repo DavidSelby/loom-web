@@ -1,4 +1,5 @@
 var Cuke = require('./../models/cuke');
+var Device = require('./../models/device');
 
 module.exports = function(app){
 
@@ -22,18 +23,36 @@ module.exports = function(app){
 
 	// Create new cuke command
 	app.post('/api/cukes', function(req, res) {
+		var id = req.body.runId + req.body.device;
 		Cuke.create({
+			_id : id,
 			runId : req.body.runId,
 			command : req.body.command,
 			status : req.body.status,
 			device : req.body.device
 		}, function(err, cuke) {
-			if(err)
-				res.send(err)
-
+			if(err) {
+				console.log(err);
+				res.send(err);
+				return;
+			}
+			Device.findOneAndUpdate({udid : cuke.device}, {
+				$set: {
+					cuke : cuke._id
+				}
+			}, function(err, device) {
+				if(err) {
+					res.send(err);
+					console.log(err);
+					return;
+				}
+			});
 			Cuke.find(function(err, cukes) {
-				if (err)
-					res.send(err)
+				if (err) {
+					res.send(err);
+					console.log(err);
+					return;
+				}
 				res.json(cukes);
 			});
 		});
