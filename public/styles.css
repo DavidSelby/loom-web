@@ -344,6 +344,24 @@ a.expand-collapse, a.expand-collapse div {
 	background: #266d17;
 }
 
+.tab.save-tests a {
+	font-size: 18px;
+	padding-left: 11px;
+	padding-right: 11px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	margin-left: 1px;
+	margin-right: 1px;
+	margin-left: 10px;
+	color: #fff;
+	background: #2e9118;
+	border: 1px solid #276619;
+}
+
+.tab.save-tests a:hover {
+	background: #266d17;
+}
+
 .list-options {
 	margin-top: 5px;
 	margin-bottom: 5px;

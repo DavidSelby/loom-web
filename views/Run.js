@@ -46,12 +46,12 @@ export default React.createClass ({
 	selectFavourite: function(name, features, scenarios, lineNums, tags) {
 		this.setState({
 			runName: name,
-			selectedScenarios: features,
+			selectedFeatures: features,
 			selectedScenarios: scenarios,
 			lineNums: lineNums,
 			tagsString: tags
 		}, function() {
-			console.log(this.state.tagsString);
+			console.log(this.state.selectedFeatures);
 			this.unstringTags();
 			this.setState({
 				step: 5
@@ -93,14 +93,19 @@ export default React.createClass ({
 		this.serverRequest = $.get('/api/features', function (result) {
 			features = result[0];
 			if ("features" in features) {
-				features = result[0];
-				for (var i = 0; i < features.features.length; i++) {
-					lineNums[i] = '';
-		    		selectedFeatures[i] = false;
-		    		selectedScenarios[i] = [];
-		    		for (var j = 0; j < features.features[i].scenarios.length; j++) {
-		    			selectedScenarios[i][j] = false;
-		    		}
+				if (this.state.lineNums.length < 1) {
+					for (var i = 0; i < features.features.length; i++) {
+						lineNums[i] = '';
+			    		selectedFeatures[i] = false;
+			    		selectedScenarios[i] = [];
+			    		for (var j = 0; j < features.features[i].scenarios.length; j++) {
+			    			selectedScenarios[i][j] = false;
+			    		}
+			    	}
+		    	} else {
+		    		selectedScenarios = this.state.selectedScenarios;
+		    		selectedFeatures = this.state.selectedFeatures;
+		    		lineNums = this.state.lineNums;
 		    	}
 		    } else {
 		    	features["features"] = "notFound";
@@ -110,6 +115,8 @@ export default React.createClass ({
 		   		selectedScenarios: selectedScenarios,
 		   		features: features.features,
 		   		lineNums: lineNums
+		    }, function() {
+		    	console.log(this.state.selectedFeatures)
 		    }, finished());
 	    }.bind(this));
 	},
@@ -415,7 +422,7 @@ export default React.createClass ({
 				<ul className="tabbed-nav">
 					{navTabs}
 					<li className={"tab run-tests" + runActive}><a onClick={this.runTests}>Run Tests</a></li>
-					<li className={"tab run-tests save" + runActive}><a onClick={this.saveRun}>Save & Run</a></li>
+					<li className={"tab save-tests" + runActive}><a onClick={this.saveRun}>Save & Run</a></li>
 				</ul>
 				{favModal}
 				<div className="container paginated">
