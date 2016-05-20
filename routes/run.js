@@ -1,4 +1,5 @@
 var Run = require('./../models/run');
+var Cuke = require('./../models/cuke');
 
 module.exports = function(app){
 
@@ -14,7 +15,8 @@ module.exports = function(app){
 	// Create new run
 	app.post('/api/runs', function(req, res) {
 		Run.create({
-			_id : req.body.runId
+			_id : req.body.runId,
+			name : req.body.name
 		}, function(err, run) {
 			if(err) {
 				res.send(err);
@@ -36,6 +38,12 @@ module.exports = function(app){
 		}, function(err, runs) {
 			if (err)
 				res.send(err);
+			Cuke.remove({
+				runId : req.params.run_id
+			}, function(err, cukes) {
+				if (err)
+					res.send(err)
+			});
 			Run.find(function(err, runs) {
 				if (err)
 					res.send(err);

@@ -15,7 +15,7 @@ var Cuke = React.createClass({
 
 var Run = React.createClass({
 	getCukes: function() {
-		var runId = this.props.run;
+		var runId = this.props.run._id;
 		$.get('/api/' + runId + '/cukes/', function(result) {
 			this.setState({
 				cukes: result
@@ -38,15 +38,15 @@ var Run = React.createClass({
 		if (this.state.cukes.length > 0) {
 			var cukes = this.state.cukes.map(function(cuke, index) {
 				return(
-					<Cuke {...this.props} cuke={cuke} run={this.props.run} index={index} key={cuke._id}></Cuke>
+					<Cuke {...this.props} cuke={cuke} run={this.props.run._id} index={index} key={cuke._id}></Cuke>
 				);
 			}.bind(this));
 		} else {
-			var cukes = <p>Loading...</p>;
+			var cukes = <td>Loading...</td>;
 		}
 		return(
 			<tr className="run">
-				<td className="run-name">{this.props.run}: </td>
+				<td className="run-name">{this.props.run.name}: </td>
 				{cukes}
 			</tr>
 		);
@@ -58,11 +58,11 @@ var RunList = React.createClass({
 		if (this.props.runs.length > 0) {
 			var runs = this.props.runs.map(function(run, index) {
 				return (
-					<Run {...this.props} run={run._id} index={index} key={run._id}></Run>
+					<Run {...this.props} run={run} index={index} key={run._id}></Run>
 				);
 			}.bind(this));
 		} else {
-			var runs = <p>Loading...</p>;
+			var runs = <tr><td>Loading...</td></tr>;
 		}
 		return(
 			<div className="run-list">

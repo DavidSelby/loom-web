@@ -23,6 +23,7 @@ require('./routes/report')(app);
 require('./routes/device')(app);
 require('./routes/branch')(app);
 require('./routes/fetch')(app);
+require('./routes/favourite')(app);
 
 // Application
 app.get('*', function(req, res) {

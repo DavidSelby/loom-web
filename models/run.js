@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Run', {
-	_id : String
+	_id : String,
+	name : String
 });
