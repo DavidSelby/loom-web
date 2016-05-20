@@ -99,8 +99,14 @@ export default React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="run-page">
-				<RunList {...this.props} runs={this.state.runs}></RunList>
+			<div>
+				<div className="page-header">
+					<h1>Dashboard</h1>
+					<p>View past reports and stuff</p>
+				</div>
+				<div className="container run-page">
+					<RunList {...this.props} runs={this.state.runs}></RunList>
+				</div>
 			</div>
 		);
 	}

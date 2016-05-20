@@ -24,11 +24,11 @@ export default React.createClass ({
 					<p>View all of the features and scenarios from the selected project.</p>
 				</div>
 				<div className="container">
-				<FeatureBlock
-					getFeatures={this.getFeatures}
-					features={this.state.features}
-					selectable={false}>
-				</FeatureBlock>
+					<FeatureBlock
+						getFeatures={this.getFeatures}
+						features={this.state.features}
+						selectable={false}>
+					</FeatureBlock>
 				</div>
 			</div>
 		);

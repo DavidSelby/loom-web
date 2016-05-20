@@ -259,24 +259,6 @@ export default React.createClass ({
 	switchTab: function(index) {
 		this.setState({
 			step: index
-		}, function() {
-			console.log(this.state.step);
-		});
-	},
-	nextStep: function() {
-		this.setState({
-			step: this.state.step+1,
-			transition: 'left'
-		}, function() {
-			window.scrollTo(0,0);
-		});
-	},
-	previousStep: function() {
-		this.setState({
-			step: this.state.step-1,
-			transition: 'right'
-		}, function() {
-			window.scrollTo(0,0);
 		});
 	},
 	getInitialState: function() {
@@ -359,7 +341,7 @@ export default React.createClass ({
 				active = ' active'
 			}
 			return(
-				<li className={"tab" + active}><a onClick={() => this.switchTab(index+1)}>{tab}</a></li>
+				<li className={"tab" + active} key={index}><a onClick={() => this.switchTab(index+1)}>{tab}</a></li>
 			);
 		}.bind(this));
 		var runActive = (this.state.selectedDevices.length > 0) ? ' ready' : '';
