@@ -1,5 +1,4 @@
 var Report = require('./../models/report');
-var mongoose = require('mongoose');
 
 module.exports = function(app){
 
@@ -30,7 +29,7 @@ module.exports = function(app){
 			report : req.body.report,
 			device : req.body.device,
 			environment : req.body.environment,
-			cuke : mongoose.Types.ObjectId(req.params.cuke_id)
+			cuke : req.params.cuke_id
 		}, function(err, report) {
 			if(err) {
 				res.send(err);
