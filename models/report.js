@@ -5,5 +5,5 @@ module.exports = mongoose.model('Report', {
 	report : String,
 	device : String,
 	environment : String,
-	cuke : mongoose.Schema.Types.ObjectId
+	cuke : String
 })
