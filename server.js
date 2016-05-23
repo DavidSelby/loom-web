@@ -9,6 +9,8 @@ var methodOverride = require('method-override');
 var database = require('./config/database');
 mongoose.connect(database.url);
 
+app.use(express.bodyParser({limit: '50mb'}));
+
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
