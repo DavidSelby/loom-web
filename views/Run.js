@@ -13,7 +13,7 @@ export default React.createClass ({
     	router: React.PropTypes.object.isRequired
   	},
 	runTests: function() {
-		var command = this.buildCommand();
+		var command = this.state.command;
 		// IE8 support
 		if (!Date.now) {
 			Date.now = function() { return new Date().getTime(); }
@@ -59,7 +59,7 @@ export default React.createClass ({
 		});
 	},
 	saveRun: function() {
-		var command = this.buildCommand();
+		var command = this.state.command;
 		this.setState({
 			favModalShown: true
 		});
@@ -87,7 +87,7 @@ export default React.createClass ({
 	// Gets features from the server and creates selectedScenarios, selectedFeatures and lineNums arrays with the correct number of values
 	getFeatures: function(finished) {
 		var features = {};
-		var selectedScenarios = [];
+		var selectedScenarios = {};
 		var selectedFeatures = [];
 		var lineNums = [];
 		this.serverRequest = $.get('/api/features', function (result) {
@@ -97,9 +97,9 @@ export default React.createClass ({
 					for (var i = 0; i < features.features.length; i++) {
 						lineNums[i] = '';
 			    		selectedFeatures[i] = false;
-			    		selectedScenarios[i] = [];
+			    		selectedScenarios[i] = {'scenarios' : []};
 			    		for (var j = 0; j < features.features[i].scenarios.length; j++) {
-			    			selectedScenarios[i][j] = false;
+			    			selectedScenarios[i].scenarios[j] = false;
 			    		}
 			    	}
 		    	} else {
@@ -129,7 +129,7 @@ export default React.createClass ({
 			selectedFeatures[index] = allChecked;
 			var selectedScenarios = this.state.selectedScenarios;
 	  		for (var i = 0; i < feature.scenarios.length; i++) {
-	  			selectedScenarios[index][i] = allChecked;
+	  			selectedScenarios[index].scenarios[i] = allChecked;
 	  		}
 	  		if (allChecked) {
 	  			lineNums[index] = feature.path;
@@ -139,6 +139,8 @@ export default React.createClass ({
 				selectedScenarios: selectedScenarios,
 				selectedFeatures: selectedFeatures,
 				lineNums: lineNums
+			}, function() {
+				this.buildCommand();
 			});
 		}.bind(this));
 	},
@@ -150,14 +152,14 @@ export default React.createClass ({
 		var lineNums = this.state.lineNums;
 		lineNums[feature] = '';
 		var lineNumsArray = [];
-		selectedScenarios[feature][index] = !selectedScenarios[feature][index];
+		selectedScenarios[feature].scenarios[index] = !selectedScenarios[feature].scenarios[index];
   		for (var i = 0; i < this.state.features[feature].scenarios.length; i++) {
-  			if (selectedScenarios[feature][i]) {
+  			if (selectedScenarios[feature].scenarios[i]) {
   				lineNumsArray = lineNumsArray.concat([this.state.features[feature].scenarios[i].lineNum.toString()]);
   			}
   		};
 		// If all scenarios are selected, lineNums is set to the feature path and selected is true
-		if (selectedScenarios[feature].length == lineNumsArray.length) {
+		if (selectedScenarios[feature].scenarios.length == lineNumsArray.length) {
 			lineNums[feature] = this.state.features[feature].path;
 			selectedFeatures[feature] = true;
 		// If some scenarios are selected, their line numbers are concatonated to the feature path, separated by ':'
@@ -169,6 +171,8 @@ export default React.createClass ({
   			selectedFeatures: selectedFeatures,
   			selectedScenarios: selectedScenarios,
 			lineNums: lineNums
+		}, function() {
+			this.buildCommand();
 		});
 	},
 	handleFeatureCheck: function(index) {
@@ -178,7 +182,7 @@ export default React.createClass ({
 		selectedFeatures[index] = !selectedFeatures[index];
 		var selectedScenarios = this.state.selectedScenarios;
   		for (var i = 0; i < this.state.features[index].scenarios.length; i++) {
-  			selectedScenarios[index][i] = selectedFeatures[index];
+  			selectedScenarios[index].scenarios[i] = selectedFeatures[index];
   		}
   		if (selectedFeatures[index]) {
   			lineNums[index] = this.state.features[index].path;
@@ -187,6 +191,8 @@ export default React.createClass ({
 			selectedScenarios: selectedScenarios,
 			selectedFeatures: selectedFeatures,
 			lineNums: lineNums
+		}, function() {
+			this.buildCommand();
 		});
 
 	},
@@ -256,6 +262,8 @@ export default React.createClass ({
 		tags = tags.trim();
 		this.setState({
 			tagsString: tags
+		}, function() {
+			this.buildCommand();
 		});
 	},
 
@@ -322,7 +330,7 @@ export default React.createClass ({
 			features: [],
 			scenarios: [],
 			selectedFeatures: [],
-			selectedScenarios: [],
+			selectedScenarios: {},
 			allChecked: false,
 			lineNums: [],
 			step: 1

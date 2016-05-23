@@ -9,7 +9,7 @@ var Scenario = React.createClass({
 	render: function() {
 		var selectScenario;
 		if (this.props.selectable) {
-			var selected = this.props.selectedScenarios[this.props.feature][this.props.index];
+			var selected = this.props.selectedScenarios[this.props.feature].scenarios[this.props.index];
 			var selectScenario = <input type="checkbox" checked={selected} onChange={this.handleCheck} className={"select select-item sel-scen-" + this.props.scenario._id} />
 		}
 		return (
@@ -126,7 +126,7 @@ export default React.createClass({
 		return {
 			"selectable" : false,
 			"handleScenarioCheck" : '',
-			"selectedScenarios" : []
+			"selectedScenarios" : {}
 		};
 	},
 	componentDidMount: function() {

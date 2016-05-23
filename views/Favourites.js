@@ -3,7 +3,6 @@ import ReactDom from 'react-dom'
 
 var Favourite = React.createClass({
 	selectFavourite: function() {
-		console.log(this.props.tags);
 		this.props.selectFavourite(this.props.fav.name, this.props.fav.features, this.props.fav.scenarios, this.props.fav.lineNums, this.props.fav.tags)
 	},
 	render: function() {
