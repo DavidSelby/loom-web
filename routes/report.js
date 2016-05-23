@@ -14,8 +14,10 @@ module.exports = function(app){
 	// Get reports for one cuke command
 	app.get('/api/:cuke_id/reports', function(req, res) {
 		Report.find({cuke : req.params.cuke_id}, function(err, reports) {
-			if (err)
-				res.send(err)
+			if (err) {
+				res.send(err);
+				return;
+			}
 			res.json(reports);
 		});
 	});
