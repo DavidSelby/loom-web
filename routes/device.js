@@ -19,7 +19,9 @@ module.exports = function(app){
 			udid : req.body.udid,
 			platformVersion : req.body.platformVersion,
 			status : req.body.status,
-			cuke : ''
+			cuke : '',
+			port : req.body.port,
+			chromePort : req.body.chromePort
 		}, function(err, device) {
 			if(err) {
 				res.send(err);

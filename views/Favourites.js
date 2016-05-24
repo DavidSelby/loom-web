@@ -9,7 +9,7 @@ var Favourite = React.createClass({
 		return (
 			<tr className="favourite">
 				<td className="favourite-name">{this.props.fav.name}</td>
-				<td className="favourite-command">{this.props.fav.command}</td>
+				<td className="favourite-command">{this.props.fav.command.replace(/\/\S*\//g, '')}</td>
 				<td className="run-favourite"><button onClick={this.selectFavourite}>Select</button></td>
 			</tr>
 		);

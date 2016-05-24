@@ -6,5 +6,7 @@ module.exports = mongoose.model('Device', {
 	udid : String,
 	platformVersion : {type : String, required : true},
 	status : String,
-	cuke : String
+	cuke : String,
+	port : Number,
+	chromePort : Number
 });
