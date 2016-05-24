@@ -54,7 +54,7 @@ export default React.createClass({
 			<div className="favourite-overlay">
 				<div className="fav-modal">
 					<a className="close-modal" onClick={this.props.closeModal}>Close X</a>
-					<p>Command: {this.props.command}</p>
+					<p>Command: {this.props.command.replace(/\/\S*\//g, '')}</p>
 					<h3>Please name your run:</h3>
 					<input type="text" onChange={this.getName} />
 					<a className="save-fav" onClick={this.save}>Save</a>

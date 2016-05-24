@@ -51,16 +51,21 @@ var DeviceList = React.createClass({
 				</Device>
 			);
 		}.bind(this));
-		if (devices.length < 1) {
-			return (
-				<p className="spinner">Loading...</p>
-			)
-		} else {
-			return (
-				<div className="device-list">
-					{devices}
-				</div>
-			);
+		switch(this.props.loaded) {
+			case 'loading':
+				return (
+					<p className="spinner">Loading...</p>
+				);
+			case 'not-found':
+				return (
+					<p>No devices found. Make sure they are plugged in and any android devices have developer mode enabled.</p>
+				);
+			default:
+				return (
+					<div className="device-list">
+						{devices}
+					</div>
+				);
 		}
 	}
 });
@@ -75,18 +80,33 @@ export default React.createClass({
 			"selectable" : false,
 		};
 	},
+	isLoaded: function() {
+		if (this.props.devices.length > 0) {
+			var loaded = 'loaded';
+		} else {
+			var loaded = 'not-found';
+		}
+		this.setState({
+			loaded: loaded
+		});
+	},
 	componentDidMount: function() {
-		this.props.getDevices();
-		this.interval = setInterval(this.props.getDevices, 2000);
+		this.props.getDevices(this.isLoaded);
+		this.interval = setInterval(() => this.props.getDevices(this.isLoaded), 2000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
+	},
+	getInitialState: function() {
+		return {
+			loaded: 'loading'
+		}
 	},
 	render: function() {
 		return (
 			<div className="device-block">
 				<h2 className="page-subtitle">Device List</h2>
-		        <DeviceList {...this.props}>
+		        <DeviceList {...this.props} loaded={this.state.loaded}>
 		        </DeviceList>
 	      	</div>
 		);

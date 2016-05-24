@@ -252,7 +252,6 @@ html, body {
 .orange {
 	color: #f7c56f;
 	display: inline;
-
 }
 
 a.expand-collapse, a.expand-collapse div {
@@ -482,6 +481,55 @@ a.tag, a.tag:hover, a.tag:focus {
 	height: 100%;
 	padding-bottom: 3px;
 	border-bottom: 1px solid #d3d3d3;
+}
+
+.favourites-table {
+	display: table;
+	height: 100px;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.selectFavourite {
+	vertical-align: text-top;
+	display: inline;
+}
+
+.favourites-table tr {
+	border-bottom: 1px solid #d3d3d3;
+}
+
+.favourite td div {
+	vertical-align: text-top;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.favourite .selectFavourite {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.favourite .expandCollapse, .favourite .expandCollapse:hover {
+	color: #f7c56f;
+	margin-right: 20px;
+	text-decoration: none;
+	vertical-align: text-top;
+	display: inline;
+}
+
+.favourite-name {
+	font-weight: bold;
+}
+
+.favourite.expanded td div {
+	text-overflow: initial;
+}
+
+.favourite.collapsed td div {
+	overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .favourite-overlay {

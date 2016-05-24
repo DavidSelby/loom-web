@@ -77,10 +77,12 @@ export default React.createClass ({
 			command: command
 		});
 	},
-	getFavourites: function() {
+	getFavourites: function(isLoaded) {
 		this.serverRequest = $.get('/api/favourites', function (result) {
 			this.setState({
 				favourites : result
+			}, function(){
+				isLoaded();
 			});
 		}.bind(this));
 	},
@@ -288,10 +290,12 @@ export default React.createClass ({
 	},
 
 	// Devices
-	getDevices: function() {
+	getDevices: function(isLoaded) {
 		this.serverRequest = $.get('/api/devices', function (result) {
 			this.setState({
 				devices : result
+			}, function() {
+				isLoaded();
 			});
 		}.bind(this));
 	},
