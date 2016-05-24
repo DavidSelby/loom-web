@@ -51,7 +51,7 @@ export default React.createClass ({
 			lineNums: lineNums,
 			tagsString: tags
 		}, function() {
-			console.log(this.state.selectedFeatures);
+			this.buildCommand();
 			this.unstringTags();
 			this.setState({
 				step: 5
@@ -115,8 +115,6 @@ export default React.createClass ({
 		   		selectedScenarios: selectedScenarios,
 		   		features: features.features,
 		   		lineNums: lineNums
-		    }, function() {
-		    	console.log(this.state.selectedFeatures)
 		    }, finished());
 	    }.bind(this));
 	},
