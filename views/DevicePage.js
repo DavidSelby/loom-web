@@ -4,10 +4,12 @@ import FeatureBlock from './Features'
 import DeviceBlock from './Devices'
 
 export default React.createClass ({
-	getDevices: function() {
+	getDevices: function(isLoaded) {
 		this.serverRequest = $.get('/api/devices', function (result) {
 			this.setState({
 				devices : result
+			}, function() {
+				isLoaded();
 			});
 		}.bind(this));
 	},

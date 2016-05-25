@@ -73,6 +73,7 @@ export default React.createClass ({
 		var scenarios = this.state.lineNums.join(' ');
 		scenarios = scenarios.trim().replace(/\s+/g, ' ');
 		var command = "cucumber " + this.state.tagsString + " " + scenarios;
+		command = command.trim();
 		this.setState({
 			command: command
 		});
@@ -321,6 +322,7 @@ export default React.createClass ({
 	},
 	getInitialState: function() {
 		return {
+			command: 'cucumber',
 			runName: '',
 			favourites: [],
 			tags: [],
@@ -414,6 +416,7 @@ export default React.createClass ({
 			);
 		}.bind(this));
 		var runActive = (this.state.selectedDevices.length > 0) ? ' ready' : '';
+		var saveActive = (this.state.command == "cucumber") ? '' : ' ready'
 
 		var favModal = this.state.favModalShown ? <AddFavourite
 			command={this.state.command}
@@ -422,7 +425,8 @@ export default React.createClass ({
 			scenarios={this.state.selectedScenarios}
 			lineNums={this.state.lineNums}
 			tags={this.state.tagsString}
-			closeModal={this.closeModal}/> : <div />;
+			closeModal={this.closeModal}
+			runAfterSave={this.runAfterSave}/> : <div />;
 		return (
 			<div>
 				<div className="page-header">
@@ -432,7 +436,7 @@ export default React.createClass ({
 				<ul className="tabbed-nav">
 					{navTabs}
 					<li className={"tab run-tests" + runActive}><a onClick={this.runTests}>Run Tests</a></li>
-					<li className={"tab save-tests" + runActive}><a onClick={this.saveRun}>Save & Run</a></li>
+					<li className={"tab save-tests" + saveActive}><a onClick={this.saveRun}>Save & Run</a></li>
 				</ul>
 				{favModal}
 				<div className="container paginated">

@@ -352,9 +352,17 @@ a.expand-collapse, a.expand-collapse div {
 	margin-left: 1px;
 	margin-right: 1px;
 	margin-left: 10px;
+	color: #a8a8a8;
+	background: #ededed;
+	border: 1px solid #a8a8a8;
+	pointer-events: none;
+}
+
+.tab.save-tests.ready a {
 	color: #fff;
 	background: #2e9118;
 	border: 1px solid #276619;
+	pointer-events: auto;
 }
 
 .tab.save-tests a:hover {
