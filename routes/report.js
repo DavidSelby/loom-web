@@ -11,9 +11,9 @@ module.exports = function(app){
 		});
 	});
 
-	// Get reports for one cuke command
-	app.get('/api/:cuke_id/reports', function(req, res) {
-		Report.find({cuke : req.params.cuke_id}, function(err, reports) {
+	// Get reports for one run
+	app.get('/api/:run_id/reports', function(req, res) {
+		Report.find({run : req.params.run_id}, function(err, reports) {
 			if (err) {
 				res.send(err);
 				return;
@@ -22,14 +22,14 @@ module.exports = function(app){
 		});
 	});
 
-	// Create new report for cuke command
-	app.post('/api/:cuke_id/reports', function(req, res) {
+	// Create new report for run
+	app.post('/api/:run_id/reports', function(req, res) {
 		Report.create({
 			date : Date.now(),
 			report : req.body.report,
 			device : req.body.device,
 			environment : req.body.environment,
-			cuke : req.params.cuke_id
+			run : req.params.run_id
 		}, function(err, report) {
 			if(err) {
 				res.send(err);
@@ -60,10 +60,10 @@ module.exports = function(app){
 		});
 	});
 
-	// Delete all reports for cuke command cuke_id
-	app.delete('/api/:cuke_id/reports', function(req, res) {
+	// Delete all reports for run run_id
+	app.delete('/api/:run_id/reports', function(req, res) {
 		Report.remove({
-			cuke : req.params.cuke_id
+			run : req.params.run_id
 		}, function(err, reports) {
 			if (err)
 				res.send(err)
