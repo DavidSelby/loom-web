@@ -78,6 +78,7 @@ export default React.createClass({
 	getDefaultProps: function() {
 		return {
 			"selectable" : false,
+			"deviceWarning" : false
 		};
 	},
 	isLoaded: function() {
@@ -103,9 +104,11 @@ export default React.createClass({
 		}
 	},
 	render: function() {
+		var warning = this.props.deviceWarning ? <div className="device warning"><p>Please select one or more devices before running tests</p></div> : <div />
 		return (
 			<div className="device-block">
 				<h2 className="page-subtitle">Device List</h2>
+				{warning}
 		        <DeviceList {...this.props} loaded={this.state.loaded}>
 		        </DeviceList>
 	      	</div>

@@ -17,7 +17,7 @@ export default React.createClass({
 			},
 			success: function() {
 				this.props.closeModal();
-				this.props.runTests(this.state.name);
+				this.props.runAfterSave();
 			}.bind(this)
 		});
 	},
@@ -36,6 +36,7 @@ export default React.createClass({
 			},
 			success: function() {
 				this.props.closeModal();
+				this.props.switchTab(1);
 			}.bind(this)
 		});
 	},
@@ -50,6 +51,7 @@ export default React.createClass({
 		}
 	},
 	render: function() {
+		var active = (this.state.name.length > 0) ? '' : ' disabled'
 		return (
 			<div className="favourite-overlay">
 				<div className="fav-modal">
@@ -57,8 +59,8 @@ export default React.createClass({
 					<p>Command: {this.props.command.replace(/\/\S*\//g, '')}</p>
 					<h3>Please name your run:</h3>
 					<input type="text" onChange={this.getName} />
-					<a className="save-fav" onClick={this.save}>Save</a>
-					<a className="save-fav save-run-fav" onClick={this.saveAndRun}>Save and Run</a>
+					<button className={"btn btn-default save-fav" + active} onClick={this.save}>Save</button>
+					<button className={"btn btn-default save-fav save-run-fav" + active} onClick={this.saveAndRun}>Save and Run</button>
 				</div>
 			</div>
 		);

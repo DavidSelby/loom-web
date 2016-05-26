@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import DeleteModal from './DeleteModal'
 
 var Favourite = React.createClass({
 	selectFavourite: function() {
@@ -34,7 +35,11 @@ var Favourite = React.createClass({
 				<td className="favourite-name"><div>{this.props.fav.name}</div></td>
 				<td className="favourite-features"><div>{this.state.features || '-'}</div></td>
 				<td className="favourite-tags"><div>{this.state.tags || '-'}</div></td>
-				<td className="favourite-buttons"><a className="expandCollapse" onClick={this.expandCollapse}>+</a><button className="btn btn-default selectFavourite" onClick={this.selectFavourite}>Select</button></td>
+				<td className="favourite-buttons">
+					<a className="expandCollapse" onClick={this.expandCollapse}>+</a>
+					<button className="btn btn-default favourite-button" onClick={this.selectFavourite}>Select</button>
+					<button className="btn btn-default favourite-button" id={"del-" + this.props.fav._id} onClick={this.props.deleteFavourite}>Remove</button>
+				</td>
 			</tr>
 		);
 	}
@@ -44,6 +49,30 @@ export default React.createClass({
 	selectFavourite: function() {
 		console.log(this.props.tags);
 		this.props.selectFavourite(this.props.name, this.props.features, this.props.scenarios, this.props.lineNums, this.props.tags)
+	},
+	deleteFavourite: function(event) {
+		this.setState({
+			deleteFav: event.target.id
+		}, function() {
+			console.log("DISPLAYED: " + this.state.deleteFav);
+		});
+	},
+	confirmDelete: function(favId) {
+		$.ajax({
+			url: '/api/favourites/' + favId,
+			type: 'DELETE',
+			success: function() {
+				this.props.getFavourites();
+				this.setState({
+					deleteFav: ''
+				});
+			}.bind(this)
+		});
+	},
+	closeDeleteModal: function() {
+		this.setState({
+			deleteFav: ''
+		});
 	},
 	getFavourites: function() {
 		this.props.getFavourites(this.isLoaded);
@@ -63,15 +92,17 @@ export default React.createClass({
 	},
 	getInitialState: function() {
 		return {
-			loaded: 'loading'
+			loaded: 'loading',
+			deleteFav: ''
 		}
 	},
 	render: function() {
 		var favs = this.props.favourites.map(function(fav, index) {
 			return (
-				<Favourite {...this.props} fav={fav} key={index}></Favourite>
+				<Favourite {...this.props} deleteFavourite={this.deleteFavourite} getFavourites={this.getFavourites} fav={fav} key={index}></Favourite>
 			);
 		}.bind(this));
+		var modal = (this.state.deleteFav.length > 0) ? <DeleteModal favourite={this.state.deleteFav} confirmDelete={this.confirmDelete} closeModal={this.closeDeleteModal}></DeleteModal> : <div />;
 		switch(this.state.loaded) {
 			case 'loading':
 				return (
@@ -83,17 +114,20 @@ export default React.createClass({
 				);
 			default:
 				return (
-					<table className="favourites-table">
-						<tbody>
-							<tr className="table-header">
-								<th className="col-md-2">Name</th>
-								<th className="col-md-6">Scenarios</th>
-								<th className="col-md-3">Tags</th>
-								<th className="col-md-2"> </th>
-							</tr>
-							{favs}
-						</tbody>
-					</table>
+					<div>
+						{modal}
+						<table className="favourites-table">
+							<tbody>
+								<tr className="table-header">
+									<th className="col-md-2">Name</th>
+									<th className="col-md-7">Scenarios</th>
+									<th className="col-md-4">Tags</th>
+									<th className="col-md-3"> </th>
+								</tr>
+								{favs}
+							</tbody>
+						</table>
+					</div>
 				);
 		}
 	}

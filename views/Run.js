@@ -43,6 +43,18 @@ export default React.createClass ({
 			}.bind(this)
 		});
 	},
+	runAfterSave: function(name) {
+		this.setState({
+			runName: name
+		}, function() {
+			if (this.state.selectedDevices.length < 1) {
+				this.switchTab(5);
+				this.warnDevice();
+			} else {
+				this.runTests();
+			}
+		});
+	},
 	selectFavourite: function(name, features, scenarios, lineNums, tags) {
 		this.setState({
 			runName: name,
@@ -313,6 +325,11 @@ export default React.createClass ({
 			selectedDevices: devices
 		});
 	},
+	warnDevice: function() {
+		this.setState({
+			deviceWarning: true
+		});
+	},
 
 	// Steps
 	switchTab: function(index) {
@@ -399,7 +416,9 @@ export default React.createClass ({
 							devices={this.state.devices}
 							selectedDevices={this.state.selectedDevices}
 							handleDeviceCheck={this.handleDeviceCheck}
-							selectable={true}>
+							selectable={true}
+							warnDevice={this.warnDevice}
+							deviceWarning={this.state.deviceWarning}>
 						</DeviceBlock>
 					</div>
 				);
@@ -426,7 +445,8 @@ export default React.createClass ({
 			lineNums={this.state.lineNums}
 			tags={this.state.tagsString}
 			closeModal={this.closeModal}
-			runAfterSave={this.runAfterSave}/> : <div />;
+			runAfterSave={this.runAfterSave}
+			switchTab={this.switchTab}/> : <div />;
 		return (
 			<div>
 				<div className="page-header">
@@ -439,7 +459,7 @@ export default React.createClass ({
 					<li className={"tab save-tests" + saveActive}><a onClick={this.saveRun}>Save & Run</a></li>
 				</ul>
 				{favModal}
-				<div className="container paginated">
+				<div className="paginated">
 					{getPage()}
 				</div>
 			</div>
