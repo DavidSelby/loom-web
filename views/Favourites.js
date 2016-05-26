@@ -120,8 +120,8 @@ export default React.createClass({
 							<tbody>
 								<tr className="table-header">
 									<th className="col-md-2">Name</th>
-									<th className="col-md-7">Scenarios</th>
-									<th className="col-md-4">Tags</th>
+									<th className="col-md-6">Scenarios</th>
+									<th className="col-md-6">Tags</th>
 									<th className="col-md-3"> </th>
 								</tr>
 								{favs}

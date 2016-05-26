@@ -289,11 +289,10 @@ a.expand-collapse, a.expand-collapse div {
 }
 
 .tabbed-nav {
-	margin-top: 20px;
+	padding-top: 20px;
 	margin-left: 0px;
 	border-bottom: 1px solid #a8a8a8;
 	padding-bottom: 3px;
-
 }
 
 .tab a {
@@ -640,7 +639,7 @@ a.tag, a.tag:hover, a.tag:focus {
 	height: 100%;
 	z-index: 0;
 	background-color: #fff;
-	opacity: 0.5;
+	opacity: 0.7;
 }
 
 .refreshing {

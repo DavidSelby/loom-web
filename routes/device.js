@@ -11,6 +11,17 @@ module.exports = function(app){
 		});
 	});
 
+	// Get single device
+	app.get('/api/devices/:device_id', function(req, res) {
+		Device.find({udid : req.params.device_id}, function(err, device) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.json(device);
+		});
+	});
+
 	// Create new device
 	app.post('/api/devices', function(req, res) {
 		Device.create({

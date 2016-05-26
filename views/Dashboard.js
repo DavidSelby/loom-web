@@ -3,10 +3,14 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Cuke = React.createClass({
+	componentDidMount: function() {
+		console.log("WUT");
+		this.props.addDeviceName(this.props.cuke.device);
+	},
 	render: function() {
 		return (
 			<td className="cuke-info">
-				<p className="cuke-device">{this.props.cuke.device}</p>
+				<p className="cuke-device">{this.props.deviceNames[this.props.cuke.device]}</p>
 				<p className="cuke-status">{this.props.cuke.status}</p>
 			</td>
 		);
@@ -85,6 +89,17 @@ export default React.createClass({
 			});
 		}.bind(this));
 	},
+	addDeviceName: function(udid) {
+		var deviceNames = this.state.deviceNames;
+		if (!(udid in deviceNames)) {
+			$.get('/api/devices/' + udid, function(result) {
+				deviceNames[udid] = result[0].deviceName;
+				this.setState({
+					deviceNames: deviceNames
+				});
+			}.bind(this));
+		}
+	},
 	componentDidMount: function() {
 		this.getRuns();
 		this.interval = setInterval(this.getRuns, 5000);
@@ -94,6 +109,7 @@ export default React.createClass({
 	},
 	getInitialState: function() {
 		return {
+			deviceNames: {},
 			runs: []
 		}
 	},
@@ -105,7 +121,7 @@ export default React.createClass({
 					<p>View past reports and stuff</p>
 				</div>
 				<div className="container run-page">
-					<RunList {...this.props} runs={this.state.runs}></RunList>
+					<RunList {...this.props} addDeviceName={this.addDeviceName} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
 				</div>
 			</div>
 		);
