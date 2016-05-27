@@ -62,12 +62,12 @@ export default React.createClass({
 			url: '/api/favourites/' + favId,
 			type: 'DELETE',
 			success: function() {
-				this.props.getFavourites();
+				this.props.getFavourites(this.isLoaded);
 				this.setState({
 					deleteFav: ''
 				});
 			}.bind(this)
-		});
+		}.bind(this));
 	},
 	closeDeleteModal: function() {
 		this.setState({
