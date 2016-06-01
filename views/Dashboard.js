@@ -117,10 +117,10 @@ export default React.createClass({
 		return (
 			<div>
 				<div className="page-header">
-					<h1>Dashboard</h1>
+					<h2>Dashboard</h2>
 					<p>View past reports and stuff</p>
 				</div>
-				<div className="container run-page">
+				<div className="page-content run-page">
 					<RunList {...this.props} addDeviceName={this.addDeviceName} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
 				</div>
 			</div>
