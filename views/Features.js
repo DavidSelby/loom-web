@@ -142,7 +142,6 @@ export default React.createClass({
 		}
 		return (
 			<div className="feature-block">
-				<h2 className="page-subtitle feature-title">Feature List</h2>
 				{features}
 		    </div>
 		);

@@ -22,10 +22,10 @@ export default React.createClass ({
 		return (
 			<div>
 				<div className="page-header">
-					<h1>Devices</h1>
+					<h2>Devices</h2>
 					<p>View all of the devices currently connected to arachne host machines.</p>
 				</div>
-				<div className="container">
+				<div className="page-content">
 				<DeviceBlock
 					getDevices={this.getDevices}
 					devices={this.state.devices}

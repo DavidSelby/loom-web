@@ -20,10 +20,10 @@ export default React.createClass ({
 		return (
 			<div>
 				<div className="page-header">
-					<h1>Features</h1>
+					<h2>Features</h2>
 					<p>View all of the features and scenarios from the selected project.</p>
 				</div>
-				<div className="container">
+				<div className="page-content">
 					<FeatureBlock
 						getFeatures={this.getFeatures}
 						features={this.state.features}

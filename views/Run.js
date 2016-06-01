@@ -363,64 +363,54 @@ export default React.createClass ({
 			switch (this.state.step) {
 				case 1:
 				return (
-					<div className="paginated">
-						<FavouriteBlock
-							favourites={this.state.favourites}
-							getFavourites={this.getFavourites}
-							selectFavourite={this.selectFavourite} />
-					</div>
+					<FavouriteBlock
+						favourites={this.state.favourites}
+						getFavourites={this.getFavourites}
+						selectFavourite={this.selectFavourite} />
 				);
 				case 2:
 				return (
-					<div className="paginated">
-						<BranchBlock handleBranch={this.handleBranch} />
-					</div>
+					<BranchBlock handleBranch={this.handleBranch} />
 				);
 				case 3:
 				return (
-					<div className="paginated">
-						<FeatureBlock
-							allChecked={this.state.allChecked}
-							handleCheckAllFeatures={this.handleCheckAllFeatures}
-							handleScenarioCheck={this.handleScenarioCheck} 
-							handleFeatureCheck={this.handleFeatureCheck}
-							getFeatures={this.getFeatures}
-							features={this.state.features}
-							selectedScenarios={this.state.selectedScenarios}
-							selectedFeatures={this.state.selectedFeatures}
-							selectable={true}
-							handleBranch={this.handleBranch}>
-						</FeatureBlock>
-					</div>
+					<FeatureBlock
+						allChecked={this.state.allChecked}
+						handleCheckAllFeatures={this.handleCheckAllFeatures}
+						handleScenarioCheck={this.handleScenarioCheck} 
+						handleFeatureCheck={this.handleFeatureCheck}
+						getFeatures={this.getFeatures}
+						features={this.state.features}
+						selectedScenarios={this.state.selectedScenarios}
+						selectedFeatures={this.state.selectedFeatures}
+						selectable={true}
+						handleBranch={this.handleBranch}>
+					</FeatureBlock>
 				);
 				case 4:
 				return (
-					<div className="paginated">
-						<TagBlock
-							setTagsString={this.setTagsString}
-							getTags={this.getTags}
-							tags={this.state.tags}
-							includedTags={this.state.includedTags}
-							excludedTags={this.state.excludedTags}
-							tagsString={this.state.tagsString}
-							includeTag={this.includeTag}
-							excludeTag={this.excludeTag}>
-						</TagBlock>
-					</div>
+					<TagBlock
+						setTagsString={this.setTagsString}
+						getTags={this.getTags}
+						tags={this.state.tags}
+						includedTags={this.state.includedTags}
+						excludedTags={this.state.excludedTags}
+						tagsString={this.state.tagsString}
+						includeTag={this.includeTag}
+						excludeTag={this.excludeTag}>
+					</TagBlock>
 				)
 				case 5:
 				return (
-					<div className="paginated">
-						<DeviceBlock
-							getDevices={this.getDevices}
-							devices={this.state.devices}
-							selectedDevices={this.state.selectedDevices}
-							handleDeviceCheck={this.handleDeviceCheck}
-							selectable={true}
-							warnDevice={this.warnDevice}
-							deviceWarning={this.state.deviceWarning}>
-						</DeviceBlock>
-					</div>
+					<DeviceBlock
+						getDevices={this.getDevices}
+						devices={this.state.devices}
+						selectedDevices={this.state.selectedDevices}
+						handleDeviceCheck={this.handleDeviceCheck}
+						selectable={true}
+						warnDevice={this.warnDevice}
+						deviceWarning={this.state.deviceWarning}>
+					</DeviceBlock>
 				);
 
 			}
@@ -450,7 +440,7 @@ export default React.createClass ({
 		return (
 			<div>
 				<div className="page-header">
-					<h1>Run Tests</h1>
+					<h2>Run Tests</h2>
 					<p>Select the tests that you want to run and the devices that you want to run them on.</p>
 				</div>
 				<ul className="tabbed-nav">

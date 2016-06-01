@@ -84,7 +84,6 @@ export default React.createClass({
 	render: function() {
 		return (
 			<div className="tag-block">
-				<h2 className="page-subtitle tag-title">Tag List</h2>
 				<IncludeTags {...this.props} ></IncludeTags>
 				<ExcludeTags {...this.props} ></ExcludeTags>
 				<input className="selected-tags" type="text" name="tags" onChange={this.props.setTagsString} value={this.props.tagsString} />

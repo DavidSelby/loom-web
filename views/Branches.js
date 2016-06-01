@@ -43,7 +43,6 @@ export default React.createClass ({
 	render: function() {
 		return (
 			<div className="branch-block">
-				<h2 className="page-subtitle">Select Branch</h2>
 		        <BranchSelect {...this.props}>
 		        </BranchSelect>
 		     </div>

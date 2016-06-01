@@ -28,6 +28,7 @@ require('./routes/device')(app);
 require('./routes/branch')(app);
 require('./routes/fetch')(app);
 require('./routes/favourite')(app);
+require('./routes/setting')(app);
 
 // Application
 app.get('*', function(req, res) {
