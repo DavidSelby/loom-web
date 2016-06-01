@@ -70,12 +70,11 @@ var RunList = React.createClass({
 		}
 		return(
 			<div className="run-list">
-			<h2>Run List</h2>
-			<table>
-				<tbody>
-				{runs}
-				</tbody>
-			</table>
+				<table>
+					<tbody>
+					{runs}
+					</tbody>
+				</table>
 			</div>
 		);
 	}

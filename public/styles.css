@@ -303,8 +303,8 @@ a.expand-collapse, a.expand-collapse div {
 
 .device.warning p {
 	display: inline-block;
-	background-color: #f2e4a2;
-	border: 1px solid #c9bd86;
+	background-color: #e6d5ac;
+	border: 1px solid #bfb397;
 	border-radius: 3px;
 	padding: 2px;
 	padding-left: 20px;
@@ -326,7 +326,7 @@ a.expand-collapse, a.expand-collapse div {
 .tabbed-nav {
 	padding-top: 25px;
 	margin-left: 0px;
-	border-bottom: 1px solid #a8a8a8;
+	border-bottom: 1px solid #5a9c4a;
 	padding-bottom: 3px;
 }
 
@@ -380,13 +380,13 @@ a.expand-collapse, a.expand-collapse div {
 
 .tab.run-tests.ready a {
 	color: #fff;
-	background: #415a20;
+	background: #5a9c4a;
 	pointer-events: auto;
-	border: 1px solid #415a20;
+	border: 1px solid #5a9c4a;
 }
 
 .tab.run-tests a:hover {
-	background: #5a9c4a;
+	background: #8bcd73;
 	border: 1px solid #5a9c4a;
 }
 
@@ -407,13 +407,13 @@ a.expand-collapse, a.expand-collapse div {
 
 .tab.save-tests.ready a {
 	color: #fff;
-	background: #415a20;
-	border: 1px solid #415a20;
+	background: #5a9c4a;
+	border: 1px solid #5a9c4a;
 	pointer-events: auto;
 }
 
 .tab.save-tests a:hover {
-	background: #5a9c4a;
+	background: #8bcd73;
 	border: 1px solid #5a9c4a;
 }
 
