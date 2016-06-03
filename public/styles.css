@@ -15,7 +15,7 @@ sand - e6d5ac
 
 html, body {
     margin: 0;
-    background-color: #FFF;
+    background-color: #fff;
 }
 
 /*#content, .page, body, html {
@@ -315,10 +315,6 @@ a.expand-collapse, a.expand-collapse div {
 	float: right;
 }
 
-.paginated {
-	background: #FFF;
-}
-
 .tab {
 	display: inline;
 }
@@ -330,7 +326,7 @@ a.expand-collapse, a.expand-collapse div {
 	padding-bottom: 3px;
 }
 
-.tab a {
+.tab>a {
 	color: #fff;
 	font-size: 16px;
 	padding-left: 10px;
@@ -378,19 +374,19 @@ a.expand-collapse, a.expand-collapse div {
 	pointer-events: none;
 }
 
-.tab.run-tests.ready a {
+.tab.run-tests.ready>a {
 	color: #fff;
 	background: #5a9c4a;
 	pointer-events: auto;
 	border: 1px solid #5a9c4a;
 }
 
-.tab.run-tests a:hover {
+.tab.run-tests>a:hover {
 	background: #8bcd73;
 	border: 1px solid #5a9c4a;
 }
 
-.tab.save-tests a {
+.tab.save-tests>a {
 	font-size: 18px;
 	padding-left: 11px;
 	padding-right: 11px;
@@ -405,14 +401,14 @@ a.expand-collapse, a.expand-collapse div {
 	pointer-events: none;
 }
 
-.tab.save-tests.ready a {
+.tab.save-tests.ready>a {
 	color: #fff;
 	background: #5a9c4a;
 	border: 1px solid #5a9c4a;
 	pointer-events: auto;
 }
 
-.tab.save-tests a:hover {
+.tab.save-tests>a:hover {
 	background: #8bcd73;
 	border: 1px solid #5a9c4a;
 }
@@ -581,6 +577,7 @@ a.tag, a.tag:hover, a.tag:focus {
 
 .favourite.expanded td div {
 	text-overflow: initial;
+	word-wrap: break-word;
 }
 
 .favourite.collapsed td div {
