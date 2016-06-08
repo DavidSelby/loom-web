@@ -14,6 +14,16 @@ module.exports = function(app){
 		}).skip(offset).limit(load).sort({'_id': 'desc'});
 	});
 
+	app.get('/api/runs/count', function(req, res) {
+		Run.count({}, function(err, count){
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.json(count);
+		});
+	})
+
 	// Create new run
 	app.post('/api/runs', function(req, res) {
 		Run.create({

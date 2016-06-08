@@ -3,11 +3,42 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Cuke = React.createClass({
+	spinning: function() {
+		var spinning = !this.state.spinning;
+		this.setState({
+			spinning: spinning
+		});
+	},
+	cancel: function() {
+		this.spinning();
+		this.serverRequest = $.post("/api/cukes/" + this.props.cuke._id + "/cancelled", function() {
+			this.spinning();
+		});
+	},
+	stop: function() {
+		this.spinning();
+		this.serverRequest = $.post("/api/cukes/" + this.props.cuke._id + "/stop", function() {
+			this.spinning();
+		});
+	},
+	getInitialState: function() {
+		return {
+			spinning: false
+		}
+	},
 	render: function() {
+		if (this.props.cuke.status == "queued") {
+			var button = <button className="btn btn-default" onClick={this.cancel}>Cancel</button>
+		} else if (this.props.cuke.status == "running") {
+			var button = <button className="btn btn-default" onClick={this.stop}>Stop</button>
+		}
+		var spinning = this.state.spinning ? '' : <div className="spinning" />;
 		return (
 			<td className="cuke-info">
+				{spinning}
 				<p className="cuke-device">{this.props.cuke.device.deviceName}</p>
 				<p className="cuke-status">{this.props.cuke.status}</p>
+				{button}
 			</td>
 		);
 	}

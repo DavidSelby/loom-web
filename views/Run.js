@@ -30,7 +30,7 @@ export default React.createClass ({
 					var device = {};
 					$.get('/api/devices/' + this.state.selectedDevices[i], function(result) {
 						device = result[0];
-						var deviceCommand = command + " BROWSER=" + this.state.selectedDevices[i];
+						var deviceCommand = command + " BROWSER=" + device.udid;
 						deviceCommand = deviceCommand.replace(/\s+/, " ");
 						console.log("DEVICE = " + device.udid);
 						$.post({
