@@ -23,7 +23,8 @@ module.exports = function(app){
 
 	// Create new cuke command
 	app.post('/api/cukes', function(req, res) {
-		var id = req.body.runId + req.body.device;
+		console.log("ROUTE DEVICE: " + req.body.device);
+		var id = req.body.runId + req.body.device.udid;
 		Cuke.create({
 			_id : id,
 			runId : req.body.runId,

@@ -5,5 +5,5 @@ module.exports = mongoose.model('Cuke', {
 	runId : String,
 	command : String,
 	status : String,
-	device : String
+	device : mongoose.Schema.Types.Mixed
 });

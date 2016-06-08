@@ -3,14 +3,10 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 var Cuke = React.createClass({
-	componentDidMount: function() {
-		console.log("WUT");
-		this.props.addDeviceName(this.props.cuke.device);
-	},
 	render: function() {
 		return (
 			<td className="cuke-info">
-				<p className="cuke-device">{this.props.deviceNames[this.props.cuke.device]}</p>
+				<p className="cuke-device">{this.props.cuke.device.deviceName}</p>
 				<p className="cuke-status">{this.props.cuke.status}</p>
 			</td>
 		);
@@ -72,7 +68,11 @@ var RunList = React.createClass({
 			<div className="run-list">
 				<table>
 					<tbody>
-					{runs}
+						<tr>
+							<th>Run Name</th>
+							<th>Devices</th>
+						</tr>
+						{runs}
 					</tbody>
 				</table>
 			</div>
@@ -81,27 +81,24 @@ var RunList = React.createClass({
 });
 
 export default React.createClass({
-	getRuns: function() {
-		this.serverRequest = $.get('/api/runs', function (runs) {
+	refreshRuns: function() {
+		this.serverRequest = $.get('/api/runs?offset=0&load=' + this.state.load, function (runs) {
 			this.setState({
 				runs : runs
 			});
 		}.bind(this));
 	},
-	addDeviceName: function(udid) {
-		var deviceNames = this.state.deviceNames;
-		if (!(udid in deviceNames)) {
-			$.get('/api/devices/' + udid, function(result) {
-				deviceNames[udid] = result[0].deviceName;
-				this.setState({
-					deviceNames: deviceNames
-				});
-			}.bind(this));
-		}
+	getRuns: function(offset) {
+		this.serverRequest = $.get('/api/runs?offset=' + offset + '&load=10', function (runs) {
+			this.setState({
+				runs : this.state.runs.concat(runs),
+				load: offset + 10
+			});
+		}.bind(this));
 	},
 	componentDidMount: function() {
-		this.getRuns();
-		this.interval = setInterval(this.getRuns, 5000);
+		this.getRuns(0);
+		this.interval = setInterval(this.refreshRuns, 5000);
 	},
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
@@ -109,7 +106,8 @@ export default React.createClass({
 	getInitialState: function() {
 		return {
 			deviceNames: {},
-			runs: []
+			runs: [],
+			load: 10
 		}
 	},
 	render: function() {
@@ -120,7 +118,8 @@ export default React.createClass({
 					<p>View past reports and stuff</p>
 				</div>
 				<div className="page-content run-page">
-					<RunList {...this.props} addDeviceName={this.addDeviceName} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
+					<RunList {...this.props} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
+					<button className="btn btn-default" onClick={() => this.getRuns(this.state.load)}>Load more</button>
 				</div>
 			</div>
 		);

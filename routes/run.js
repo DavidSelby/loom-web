@@ -5,11 +5,13 @@ module.exports = function(app){
 
 	// Get run
 	app.get('/api/runs', function(req, res) {
+		var offset = req.query.offset;
+		var load = req.query.load;
 		Run.find(function(err, runs) {
 			if (err)
 				res.send(err);
 			res.json(runs);
-		});
+		}).skip(offset).limit(load).sort({'_id': 'desc'});
 	});
 
 	// Create new run
@@ -27,7 +29,7 @@ module.exports = function(app){
 				if (err)
 					res.send(err);
 				res.json(runs);
-			});
+			}).sort({'_id': 'desc'});
 		});
 	});
 
@@ -48,7 +50,7 @@ module.exports = function(app){
 				if (err)
 					res.send(err);
 				res.json(runs);
-			});
+			}).sort({'_id': 'desc'});
 		});
 	});
 
@@ -61,7 +63,7 @@ module.exports = function(app){
 				if (err)
 					res.send(err)
 				res.json(runs);
-			});
+			}).sort({'_id': 'desc'});
 		});
 	});
 }

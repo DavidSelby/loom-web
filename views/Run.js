@@ -27,18 +27,24 @@ export default React.createClass ({
 			data: {"runId" : runId, "name" : name},
 			success: function() {
 				for (var i = 0; i < this.state.selectedDevices.length; i++) {
-					var deviceCommand = command + " BROWSER=" + this.state.selectedDevices[i];
-					deviceCommand = deviceCommand.replace(/\s+/, " ");
-					$.ajax({
-						url: '/api/cukes',
-						dataType: "json",
-						type: 'POST',
-						data: {"runId" : runId, "command" : deviceCommand, "status" : "pending", "device" : this.state.selectedDevices[i]},
-						success: function() {
-							console.log("CUKE SENT: " + deviceCommand);
-							this.context.router.push('/');
-						}.bind(this)
-					});
+					var device = {};
+					$.get('/api/devices/' + this.state.selectedDevices[i], function(result) {
+						device = result[0];
+						var deviceCommand = command + " BROWSER=" + this.state.selectedDevices[i];
+						deviceCommand = deviceCommand.replace(/\s+/, " ");
+						console.log("DEVICE = " + device.udid);
+						$.post({
+							url: '/api/cukes',
+							dataType: "json",
+							type: 'POST',
+							data: {"runId" : runId, "command" : deviceCommand, "status" : "pending", "device" : device},
+							success: function() {
+								console.log("DEVICE = " + device);
+								console.log("CUKE SENT: " + deviceCommand);
+								this.context.router.push('/');
+							}.bind(this)
+						});
+					}.bind(this));
 				}
 			}.bind(this)
 		});
