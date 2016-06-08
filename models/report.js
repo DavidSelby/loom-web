@@ -6,5 +6,5 @@ module.exports = mongoose.model('Report', {
 	report : mongoose.Schema.Types.Mixed,
 	device : mongoose.Schema.Types.Mixed,
 	environment : String,
-	run : String
+	cuke : String
 })
