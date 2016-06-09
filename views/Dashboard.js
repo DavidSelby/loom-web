@@ -4,22 +4,24 @@ import ReactDom from 'react-dom'
 
 var Cuke = React.createClass({
 	spinning: function() {
-		var spinning = !this.state.spinning;
 		this.setState({
-			spinning: spinning
+			spinning: true
+		});
+	},
+	stopSpinning: function() {
+		this.setState({
+			spinning: false
 		});
 	},
 	cancel: function() {
 		this.spinning();
-		this.serverRequest = $.post("/api/cukes/" + this.props.cuke._id + "/cancelled", function() {
-			this.spinning();
-		});
+		$.post("/api/cukes/" + this.props.cuke._id + "/cancelled", function() {
+			this.props.getCukes(this.stopSpinning);
+		}.bind(this));
 	},
 	stop: function() {
-		this.spinning();
-		this.serverRequest = $.post("/api/cukes/" + this.props.cuke._id + "/stop", function() {
-			this.spinning();
-		});
+		//this.spinning();
+		$.post("/api/cukes/" + this.props.cuke._id + "/stop");
 	},
 	getInitialState: function() {
 		return {
@@ -27,12 +29,12 @@ var Cuke = React.createClass({
 		}
 	},
 	render: function() {
-		if (this.props.cuke.status == "queued") {
+		if (["queued", "pending"].indexOf(this.props.cuke.status) > -1) {
 			var button = <button className="btn btn-default" onClick={this.cancel}>Cancel</button>
 		} else if (this.props.cuke.status == "running") {
 			var button = <button className="btn btn-default" onClick={this.stop}>Stop</button>
 		}
-		var spinning = this.state.spinning ? '' : <div className="spinning" />;
+		var spinning = this.state.spinning ? <div className="spinning" /> : '';
 		return (
 			<td className="cuke-info">
 				{spinning}
@@ -45,11 +47,15 @@ var Cuke = React.createClass({
 });
 
 var Run = React.createClass({
-	getCukes: function() {
+	getCukes: function(done) {
 		var runId = this.props.run._id;
 		$.get('/api/' + runId + '/cukes/', function(result) {
 			this.setState({
 				cukes: result
+			}, function() {
+				if (typeof(done) != "undefined") {
+					done();
+				}
 			});
 		}.bind(this));
 	},
@@ -69,7 +75,7 @@ var Run = React.createClass({
 		if (this.state.cukes.length > 0) {
 			var cukes = this.state.cukes.map(function(cuke, index) {
 				return(
-					<Cuke {...this.props} cuke={cuke} run={this.props.run._id} index={index} key={cuke._id}></Cuke>
+					<Cuke {...this.props} getCukes={this.getCukes} cuke={cuke} run={this.props.run._id} index={index} key={cuke._id}></Cuke>
 				);
 			}.bind(this));
 		} else {
@@ -126,6 +132,11 @@ export default React.createClass({
 				load: offset + 10
 			});
 		}.bind(this));
+		this.serverRequest = $.get('api/runs/count', function (count) {
+			this.setState({
+				runCount: count
+			});
+		}.bind(this));
 	},
 	componentDidMount: function() {
 		this.getRuns(0);
@@ -142,6 +153,11 @@ export default React.createClass({
 		}
 	},
 	render: function() {
+		if (this.state.runCount > this.state.load) {
+			var loadMore = <button className="btn btn-default" onClick={() => this.getRuns(this.state.load)}>Load more</button>;
+		} else {
+			var loadMore = '';
+		}
 		return (
 			<div>
 				<div className="page-header">
@@ -149,8 +165,8 @@ export default React.createClass({
 					<p>View past reports and stuff</p>
 				</div>
 				<div className="page-content run-page">
-					<RunList {...this.props} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
-					<button className="btn btn-default" onClick={() => this.getRuns(this.state.load)}>Load more</button>
+					<RunList {...this.props} refreshRuns={this.refreshRuns} deviceNames={this.state.deviceNames} runs={this.state.runs}></RunList>
+					{loadMore}
 				</div>
 			</div>
 		);

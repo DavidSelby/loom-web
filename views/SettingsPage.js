@@ -3,15 +3,15 @@ import ReactDom from 'react-dom'
 
 var Setting = React.createClass({
 	render: function() {
-		var options = this.props.setting.options.map(function(option, index) {
-			return(
-				<p key={index}>{option}</p>
-			);
-		});
+		if (this.props.setting.options.length > 0) {
+			var options = this.props.setting.options.join(', ');
+		} else {
+			var options = '-';
+		}
 		return(
 			<div>
-			<p>{this.props.setting.name}</p>
-			{options}
+			<p className="setting-name">{this.props.setting.name}</p>
+			<p className="setting-options">{options}</p>
 			</div>
 		);
 	}
@@ -23,7 +23,7 @@ var Opt = React.createClass({
 	},
 	render: function() {
 		return(
-			<input type="text" onChange={this.updateOption} />
+			<input type="text" placeholder="Setting option" value={this.props.option} onChange={this.updateOption} />
 		);
 	}
 });
@@ -51,6 +51,10 @@ var AddSetting = React.createClass({
 			data: {"name" : this.state.name, "options" : this.state.options},
 			success: function() {
 				console.log("SUCCESS");
+				this.setState({
+					name: '',
+					options: []
+				});
 				this.props.loadSettings();
 			}.bind(this)
 		});
@@ -64,11 +68,11 @@ var AddSetting = React.createClass({
 	render: function() {
 		var opts = [];
 		for(var i = 0; i <= this.state.options.length; i++) {
-			opts[i] = <Opt index={i} updateOptions={this.updateOptions} key={i+1}></Opt>;
+			opts[i] = <Opt index={i} option={this.state.options[i] || ''} updateOptions={this.updateOptions} key={i+1}></Opt>;
 		}
 		return (
 			<div>
-			<input className="setting name" onChange={this.updateName} type="text"></input>
+			<input className="setting name" placeholder="Setting name" value={this.state.name} onChange={this.updateName} type="text"></input>
 			{opts}
 			<button onClick={this.submitSetting}>ADD</button>
 			</div>

@@ -7,6 +7,7 @@ import DeviceBlock from './Devices'
 import TagBlock from './Tags'
 import FavouriteBlock from './Favourites'
 import AddFavourite from './AddFavourite'
+import Settings from './Settings'
 
 export default React.createClass ({
 	contextTypes: {
@@ -32,7 +33,6 @@ export default React.createClass ({
 						device = result[0];
 						var deviceCommand = command + " BROWSER=" + device.udid;
 						deviceCommand = deviceCommand.replace(/\s+/, " ");
-						console.log("DEVICE = " + device.udid);
 						$.post({
 							url: '/api/cukes',
 							dataType: "json",
@@ -90,7 +90,7 @@ export default React.createClass ({
 	buildCommand: function() {
 		var scenarios = this.state.lineNums.join(' ');
 		scenarios = scenarios.trim().replace(/\s+/g, ' ');
-		var command = "cucumber " + this.state.tagsString + " " + scenarios;
+		var command = "cucumber " + this.state.tagsString + " " + scenarios + " " + this.state.settings;
 		command = command.trim();
 		this.setState({
 			command: command
@@ -331,6 +331,11 @@ export default React.createClass ({
 			selectedDevices: devices
 		});
 	},
+	getSettings: function(settings) {
+		this.setState({
+			settings: settings
+		});
+	},
 	warnDevice: function() {
 		this.setState({
 			deviceWarning: true
@@ -360,11 +365,12 @@ export default React.createClass ({
 			selectedScenarios: {},
 			allChecked: false,
 			lineNums: [],
+			settings: '',
 			step: 1
 		}
 	},
 	render: function() {
-		var tabs = ['Favourites', 'Branches', 'Features', 'Tags', 'Devices'];
+		var tabs = ['Favourites', 'Settings', 'Features', 'Tags', 'Devices'];
 		var getPage = function() {
 			switch (this.state.step) {
 				case 1:
@@ -376,7 +382,10 @@ export default React.createClass ({
 				);
 				case 2:
 				return (
+					<div>
 					<BranchBlock handleBranch={this.handleBranch} />
+					<Settings sendSettings={this.getSettings} handleSetting={this.handleSetting} />
+					</div>
 				);
 				case 3:
 				return (
