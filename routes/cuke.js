@@ -30,6 +30,7 @@ module.exports = function(app){
 			runId : req.body.runId,
 			command : req.body.command,
 			status : req.body.status,
+			console : req.body.console,
 			device : req.body.device
 		}, function(err, cuke) {
 			if(err) {
@@ -78,6 +79,26 @@ module.exports = function(app){
 			});
 		});
 	});
+
+	// update cuke console
+	app.post('/api/cukes/:cuke_id/log', function(req, res) {
+		Cuke.findByIdAndUpdate(req.params.cuke_id, {
+			$set: {
+				console : req.body.console
+			}
+		}, function(err, cuke) {
+			if(err) {
+				res.send(err);
+				console.log(err);
+				return;
+			}
+			Cuke.find(function(err, cukes) {
+				if (err)
+					res.send(err);
+				res.json(cukes);
+			});
+		});
+	})
 
 	// Delete cuke command
 	app.delete('/api/cukes/:cuke_id', function(req, res) {
