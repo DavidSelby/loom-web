@@ -12,8 +12,8 @@ module.exports = function(app){
 	});
 
 	// Get reports for one run
-	app.get('/api/:run_id/reports', function(req, res) {
-		Report.find({run : req.params.run_id}, function(err, reports) {
+	app.get('/api/:cuke_id/reports', function(req, res) {
+		Report.find({cuke : req.params.cuke_id}, function(err, reports) {
 			if (err) {
 				res.send(err);
 				return;
@@ -23,13 +23,13 @@ module.exports = function(app){
 	});
 
 	// Create new report for run
-	app.post('/api/:run_id/reports', function(req, res) {
+	app.post('/api/:cuke_id/reports', function(req, res) {
 		Report.create({
 			date : Date.now(),
 			report : req.body.report,
 			device : req.body.device,
 			environment : req.body.environment,
-			run : req.params.run_id
+			cuke : req.params.cuke_id
 		}, function(err, report) {
 			if(err) {
 				res.send(err);

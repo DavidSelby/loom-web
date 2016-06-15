@@ -6,6 +6,7 @@ high - 8bcd73
 higher - bde673
 low - 415a20
 sand - e6d5ac
+ERROR - a51818
 */
 
 @font-face {
@@ -177,24 +178,85 @@ html, body {
 }
 
 .run {
+	display: block;
 	margin-top: 3px;
 	margin-bottom: 3px;
-	border-bottom: 1px solid #ededed;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #f4f4f4;
 }
 
 .run-name {
-	display: inline;
 	padding-right: 5px;
+	margin: 0px;
+	font-weight: bold;
 }
 
-.cuke-info {
-	padding-right: 5px;
-	padding-left: 5px;
+.run-name p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cuke {
+	width: 18%;
+	display: inline-block;
 	border-left: 1px solid #ededed;
 	position: relative;
+	margin-left: 3px;
+	margin-right: 3px;
+	border-radius: 4px;
+	border: 2px solid transparent;
+	color: #fff;
+	background: #898989;
 }
 
-.cuke-info>.spinning {
+.cuke:hover {
+	background: #727272;
+}
+
+.cuke.done:hover {
+	background: #517f46;
+}
+
+.cuke.stop:hover, .cuke.error:hover {
+	background: #821d1d;
+}
+
+.cuke.expanded {
+	color: #000;
+	background: #fff;
+	border: 2px solid #898989;
+	border-bottom: 2px solid #fff;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px
+}
+
+.cuke.done {
+	background: #5a9c4a;
+}
+
+.cuke.expanded.done, .cuke-info.done {
+	background: #fff;
+	border: 2px solid #5a9c4a;
+}
+
+.cuke.error, .cuke.stop {
+	background: #a51818;
+}
+
+.cuke.expanded.error, .cuke.expanded.stop, .cuke-info.error, .cuke-info.stop {
+	background: #fff;
+	border: 2px solid #a51818;
+}
+
+.cuke.expanded.done, .cuke.expanded.error, .cuke.expanded.stop {
+	border-bottom: 2px solid #fff;
+}
+
+.cuke>.spinning {
 	content: " ";
 	z-index: 10;
 	display: block;
@@ -208,13 +270,60 @@ html, body {
 	opacity: 0.5;
 }
 
+.cuke-summary, .cuke-summary:hover, .cuke-summary:focus {
+	text-decoration: none;
+	color: #fff;
+}
+
+.expanded .cuke-summary, .expanded .cuke-summary:hover, .expanded .cuke-summary:focus {
+	color: #000;
+}
+
+.cuke-summary {
+}
+
+.cuke-summary ul {
+	list-style-type: none;
+	padding-left: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	z-index: 100;
+}
+
+.cuke-list {
+
+}
+
+.cuke-info {
+	margin-left: 3px;
+	margin-top: -2px;
+	padding-left: 30px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	display: none;
+	border-radius: 4px;
+	border: 2px solid #898989;
+	background: #fff;
+	color: #000;
+}
+
+.cuke-info.expanded {
+	display: block;
+}
+
 .cuke-device {
+	font-size: 15px;
 	display: inline;
 }
 
 .cuke-status {
+	display: inline;
 	margin-bottom: 3px;
 	padding-bottom: 3px;
+}
+
+.cuke-button {
+	display: inline;
 }
 
 .device-status.ready {
@@ -631,6 +740,30 @@ a.tag, a.tag:hover, a.tag:focus {
     border-radius: 3px;
 }
 
+.report-overlay {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.report-modal {
+    background-color: #fff;
+    margin: 15% auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 60%;
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+}
+
 .delete-overlay {
     position: fixed;
     z-index: 1;
@@ -705,18 +838,45 @@ a.tag, a.tag:hover, a.tag:focus {
 	display: inline;
 }
 
-.option-select {
+.option-select, .option-select:focus {
 	display: inline;
 	margin-left: 8px;
+	background: #fff;
 }
 
 .option-select.selected {
-	background: #f345d3;
+	border: 1px solid #415a20;
+	background: #5a9c4a;
+	color: #fff;
 }
 
 .option-free {
 	display: inline;
 	margin-left: 8px;
+}
+
+.scenario-name {
+	font-weight: bold;
+	padding-left: 15px;
+	margin: 0px;
+	padding-bottom: 7px;
+	border-bottom: 1px solid #898989;
+}
+
+.step-name {
+	margin: 0px;
+	padding-bottom: 7px;
+	border-bottom: 1px solid #898989;
+	padding-left: 30px;
+}
+
+.scenario-name.passed, .step-name.passed {
+	background: #bde673;
+}
+
+.scenario-name.failed, .step-name.failed {
+	color: #fff;
+	background: #bf2b2b;
 }
 
 .overlay.refreshing {
