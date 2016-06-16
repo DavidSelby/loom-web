@@ -80,7 +80,6 @@ var Cuke = React.createClass({
 		var displayed = this.props.expanded ? ' expanded' : '';
 		var spinning = this.state.spinning ? <div className="spinning" /> : '';
 		if (this.props.cuke.status == "done") {
-			console.log("RESULT: " + this.props.report);
 			if (this.props.report == undefined) {
 				var result = "Loading results...";
 			} else if (this.props.report.result == undefined) {

@@ -27,6 +27,7 @@ module.exports = function(app){
 		Report.create({
 			date : Date.now(),
 			report : req.body.report,
+			result : req.body.result,
 			device : req.body.device,
 			environment : req.body.environment,
 			cuke : req.params.cuke_id

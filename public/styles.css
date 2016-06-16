@@ -201,7 +201,7 @@ html, body {
 }
 
 .cuke {
-	width: 18%;
+	width: 150px;
 	display: inline-block;
 	border-left: 1px solid #ededed;
 	position: relative;
