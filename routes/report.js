@@ -77,7 +77,7 @@ module.exports = function(app){
 	});
 
 	// Delete all reports
-	app.delete('/api/reports/all', function(req, res) {
+	app.delete('/api/reports', function(req, res) {
 		Report.remove(function(err, reports) {
 			if (err)
 				res.send(err)
