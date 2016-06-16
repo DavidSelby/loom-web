@@ -22,25 +22,10 @@ var Scenario = React.createClass({
 });
 
 export default React.createClass({
-	loadReports: function() {
-		$.get('/api/reports', function(result) {
-			this.setState({
-				report: result[0].report[0]
-			});
-		}.bind(this));
-	},
-	componentDidMount: function() {
-		this.loadReports();
-	},
-	getInitialState: function() {
-		return {
-			report: {}
-		};
-	},
 	render: function() {
-		var report = this.state.report;
+		var report = this.props.report.report[0];
 		if (Object.keys(report).length > 0) {
-			var scenarios = this.state.report.scenarios.map(function(scenario, index) {
+			var scenarios = report.scenarios.map(function(scenario, index) {
 				return (
 					<Scenario {...this.props} scenario={scenario} key={index}></Scenario>
 					);
@@ -51,12 +36,12 @@ export default React.createClass({
 		var visible = this.props.visible ? " displayed" : " hidden";
 		return(
 			<div className="report-overlay">
-			<div className="report-modal">
-			<a className="close-modal" onClick={this.props.close}>Close X</a>
-			<div className="report">
-			{scenarios}
-			</div>
-			</div>
+				<div className="report-modal">
+					<a className="close-modal" onClick={this.props.close}>Close X</a>
+					<div className="report">
+						{scenarios}
+					</div>
+				</div>
 			</div>
 		);
 	}

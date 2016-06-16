@@ -48,7 +48,7 @@ var CukeInfo = React.createClass({
 			} else if (this.props.cuke.status == "running") {
 				var button = <button className="btn btn-default cuke-button" onClick={this.stop}>Stop</button>
 			}
-			var report = this.state.reportVisible ? <Report close={this.closeReport}/> : '';
+			var report = this.state.reportVisible ? <Report close={this.closeReport} report={this.props.reports[this.props.cuke._id]}/> : '';
 			return (
 				<div id={"cuke-info-" + this.props.cuke._id} className={"cuke-info " + this.props.cuke.status + expanded}>
 					<p className="cuke-command"><b>Command: </b>{this.props.cuke.command}</p>
@@ -137,7 +137,6 @@ var Run = React.createClass({
 		}
 	},
 	expandCuke: function(cuke) {
-		console.log("CUKE: " + cuke);
 		if (this.state.selected == cuke) {
 			var selected = null;
 		} else {
@@ -146,7 +145,6 @@ var Run = React.createClass({
 		this.setState({
 			selected: selected
 		}, function() {
-			console.log("SELECTED: " + this.state.selected);
 		});
 	},
 	componentDidMount: function() {
