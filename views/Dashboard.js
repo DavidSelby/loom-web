@@ -129,7 +129,7 @@ var Run = React.createClass({
 			cukes.forEach(function(cuke) {
 				if (cuke.status == "done") {
 					$.get('/api/' + cuke._id + '/reports', function(result) {
-						reports[cuke._id] = result;
+						reports[cuke._id] = result[0];
 					});
 				}
 			}.bind(this));
