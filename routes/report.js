@@ -75,4 +75,17 @@ module.exports = function(app){
 			});
 		});
 	});
+
+	// Delete all reports
+	app.delete('/api/reports/all', function(req, res) {
+		Report.remove(function(err, reports) {
+			if (err)
+				res.send(err)
+			Report.find(function(err, reports) {
+				if (err)
+					res.send(err)
+				res.json(reports);
+			});
+		});
+	});
 }
