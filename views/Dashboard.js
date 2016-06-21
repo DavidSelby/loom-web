@@ -70,6 +70,20 @@ var CukeInfo = React.createClass({
 });
 
 var Cuke = React.createClass({
+	getColour: function() {
+		var r = 90;
+		var g = 90;
+		var b = 74;
+		var perc = parseInt(this.props.report.result.split("Overall: ")[1]);
+		if (perc <= 50) {
+			r = 156;
+			g = Math.round((((156 - 90)/50) * perc) + 90);
+		} else {
+			g = 156
+			r = Math.round((((156 - 74)/50) * (50 - perc)) + 156);
+		}
+		return "rgba("+r+","+g+","+b+",1)";
+	},
 	getInitialState: function() {
 		return {
 			spinning: false,
@@ -85,14 +99,20 @@ var Cuke = React.createClass({
 			} else if (this.props.report.result == undefined) {
 				var result = "Result not found"
 			} else {
-				var result = this.props.report.result;
+				var colour = this.getColour();
+				var result = this.props.report.result.split(' \/ ').map(function(result, index) {
+					return (
+						<p key={index}>{result}</p>
+					);
+				})
+
 			}
 		
 		} else {
 			var result = this.props.cuke.status;
 		}
 		return (
-			<div id={"cuke-" + this.props.cuke._id} className={"cuke " + this.props.cuke.status + displayed}>
+			<div id={"cuke-" + this.props.cuke._id} style={{backgroundColor: colour}} className={"cuke " + this.props.cuke.status + displayed}>
 				<a className="cuke-summary" onClick={() => this.props.expand(this.props.index)}>
 					{spinning}
 					<ul>
@@ -112,10 +132,7 @@ var Run = React.createClass({
 			this.setState({
 				cukes: result
 			}, function() {
-				var reports = this.fetchReports();
-				this.setState({
-					reports: reports
-				});
+				this.fetchReports();
 				if (typeof(done) != "undefined") {
 					done();
 				}
@@ -130,10 +147,12 @@ var Run = React.createClass({
 				if (cuke.status == "done") {
 					$.get('/api/' + cuke._id + '/reports', function(result) {
 						reports[cuke._id] = result[0];
-					});
+						this.setState({
+							reports: reports
+						});
+					}.bind(this));
 				}
 			}.bind(this));
-			return reports;
 		}
 	},
 	expandCuke: function(cuke) {

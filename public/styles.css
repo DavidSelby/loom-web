@@ -227,7 +227,7 @@ html, body {
 
 .cuke.expanded {
 	color: #000;
-	background: #fff;
+	background-color: #fff !important;
 	border: 2px solid #898989;
 	border-bottom: 2px solid #fff;
 	border-bottom-left-radius: 0px;
@@ -238,18 +238,8 @@ html, body {
 	background: #5a9c4a;
 }
 
-.cuke.expanded.done, .cuke-info.done {
-	background: #fff;
-	border: 2px solid #5a9c4a;
-}
-
 .cuke.error, .cuke.stop {
 	background: #a51818;
-}
-
-.cuke.expanded.error, .cuke.expanded.stop, .cuke-info.error, .cuke-info.stop {
-	background: #fff;
-	border: 2px solid #a51818;
 }
 
 .cuke.expanded.done, .cuke.expanded.error, .cuke.expanded.stop {
@@ -276,6 +266,7 @@ html, body {
 }
 
 .expanded .cuke-summary, .expanded .cuke-summary:hover, .expanded .cuke-summary:focus {
+	background-color: #fff;
 	color: #000;
 }
 
@@ -314,6 +305,10 @@ html, body {
 .cuke-device {
 	font-size: 15px;
 	display: inline;
+}
+
+.cuke-result p {
+	margin-bottom: 0px;
 }
 
 .cuke-status {
@@ -753,13 +748,20 @@ a.tag, a.tag:hover, a.tag:focus {
 }
 
 .report-modal {
+	overflow: scroll;
+	position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: #fff;
-    margin: 15% auto;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 30px;
     padding-bottom: 30px;
     width: 60%;
+    height: 85%;
+    margin: auto;
     border: 1px solid #d3d3d3;
     border-radius: 3px;
 }
