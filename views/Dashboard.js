@@ -95,9 +95,11 @@ var Cuke = React.createClass({
 		var spinning = this.state.spinning ? <div className="spinning" /> : '';
 		if (this.props.cuke.status == "done") {
 			if (this.props.report == undefined) {
-				var result = "Loading results...";
-			} else if (this.props.report.result == undefined) {
-				var result = "Result not found"
+				if (this.props.reportLoaded) {
+					var result = "Result not found"
+				} else {
+					var result = "Loading results...";
+				}
 			} else {
 				var colour = this.getColour();
 				var result = this.props.report.result.split(' \/ ').map(function(result, index) {
@@ -173,6 +175,9 @@ var Run = React.createClass({
 	componentWillUnmount: function() {
 		clearInterval(this.interval);
 	},
+	componentWillUnmount: function() {
+		clearInterval(this.interval);
+	},
 	getInitialState: function() {
 		return {
 			cukes: [],
@@ -186,7 +191,7 @@ var Run = React.createClass({
 			var cukes = this.state.cukes.map(function(cuke, index) {
 				var expanded = (this.state.selected == index) ? true : false;
 				return(
-					<Cuke {...this.props} cuke={cuke} report={this.state.reports[cuke._id]} expanded={expanded} expand={this.expandCuke} index={index} key={cuke._id}></Cuke>
+					<Cuke {...this.props} cuke={cuke} report={this.state.reports[cuke._id]} reportLoaded={cuke._id in this.state.reports} expanded={expanded} expand={this.expandCuke} index={index} key={cuke._id}></Cuke>
 				);
 			}.bind(this));
 		} else {
