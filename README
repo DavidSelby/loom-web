@@ -1,3 +1,6 @@
+This is the user facing part of the Loom project, for running mobile automation tests.
+The sister project, Loom Controller (https://github.com/dchelstowski/loom-controller), should run on your tests machine, while Loom Web should be hosted somewhere that your users will be able to reach it.
+
 If you don't already have mongodb, install it with:
 
 'brew install mongodb'
